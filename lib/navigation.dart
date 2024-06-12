@@ -26,43 +26,6 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       body: Column(
         children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 40),
-                  Text(
-                    "สวัสดี, <ชื่อ>",
-                    style: TextStyle(color: Colors.black, fontSize: 30),
-                  ),
-                  Text(
-                    "ภาพรวมสุขภาพ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  SizedBox(height: 50),
-                  CircleAvatar(
-                    maxRadius: 25,
-                    backgroundColor: Colors.blue,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 50,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,
