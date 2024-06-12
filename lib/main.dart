@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+
+import 'package:sato/homepage.dart';
 import 'package:sato/navigation.dart';
 
 void main() {
@@ -14,5 +17,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: NavigationPage(),
     );
+        home: Container(
+      child: Text("s555555555555555555555555555"),
+    ));
   }
 }

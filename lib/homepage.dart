@@ -17,6 +17,7 @@ class _HomePage extends State<HomePage> {
       ),
       child: Column(
         children: [
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,16 +93,29 @@ class _HomePage extends State<HomePage> {
               SizedBox(
                 height: 10,
               ),
+
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 255, 183, 0),
                     minimumSize:
+
                         Size(screenSize.width * .95, screenSize.height * .15),
+
+                        Size(screenSize.width * .46, screenSize.height * .15),
+
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20))),
                 onPressed: () {},
                 child: Text('แตะเพื่อวัด'),
               ),
+
               SizedBox(
                 height: 10,
               ),
@@ -126,6 +140,55 @@ class _HomePage extends State<HomePage> {
               ),
             ],
           ),
+
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 255, 183, 0),
+                    minimumSize:
+                        Size(screenSize.width * .46, screenSize.height * .15),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                onPressed: () {},
+                child: Text('แตะเพื่อวัด'),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 255, 183, 0),
+                minimumSize:
+                    Size(screenSize.width * .95, screenSize.height * .15),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20))),
+            onPressed: () {},
+            child: Text('แตะเพื่อวัด'),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: screenSize.width * .95,
+            height: screenSize.height * .24,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 183, 0),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: screenSize.width * .95,
+            height: screenSize.height * .14,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 183, 0),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+
         ],
       ),
     );
