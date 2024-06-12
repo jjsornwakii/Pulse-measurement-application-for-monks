@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-
 import 'package:sato/homepage.dart';
 import 'package:sato/navigation.dart';
 
@@ -15,10 +13,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: NavigationPage(),
-    );
         home: Container(
-      child: Text("s555555555555555555555555555"),
+      child: NavigationPage(),
     ));
   }
 }
