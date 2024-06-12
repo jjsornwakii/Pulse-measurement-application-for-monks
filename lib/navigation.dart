@@ -26,6 +26,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       body: Column(
         children: [
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +98,9 @@ class _NavigationPageState extends State<NavigationPage> {
 class BusinessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
+    return const Center(
+
     return Center(
       child: Text('This is Business Page'),
     );
@@ -106,7 +110,10 @@ class BusinessPage extends StatelessWidget {
 class SchoolPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return const Center(
+
     return Center(
+ 
       child: Text('This is School Page'),
     );
   }
