@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //coment
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GetStorage box = GetStorage();
@@ -174,8 +175,8 @@ class _LoginPageState extends State<LoginPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 80, vertical: 12),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 80, vertical: 12),
                         textStyle: TextStyle(fontSize: 18),
                       ),
                     ),
