@@ -24,7 +24,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GetStorage box = GetStorage();
   String? userId;
-
   @override
   void initState() {
     super.initState();
