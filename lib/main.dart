@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sato/homepage.dart';
 import 'package:sato/navigation.dart';
 
 void main() {
