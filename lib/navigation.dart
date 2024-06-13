@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sato/homepage.dart';
+import 'package:sato/userPage.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -12,9 +13,9 @@ class _NavigationPageState extends State<NavigationPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _pages = <Widget>[
-    menu(),
+    Menu(),
     HomePage(),
-    person(),
+    UserPage(),
   ];
 
   List<Widget> _drawerPages = <Widget>[
@@ -26,6 +27,12 @@ class _NavigationPageState extends State<NavigationPage> {
   void _onItemTapped(int index) {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
+    } else if (index == 2) {
+      // Navigate to UserPage when "Person" is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UserPage()),
+      );
     } else {
       setState(() {
         _selectedIndex = index;
@@ -117,9 +124,10 @@ class _NavigationPageState extends State<NavigationPage> {
                     Text(
                       "ภาพรวมสุขภาพ",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal),
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ],
                 ),
@@ -148,7 +156,6 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -167,44 +174,21 @@ class _NavigationPageState extends State<NavigationPage> {
         currentIndex: _selectedIndex >= 3 ? 0 : _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-
-      bottomNavigationBar: SizedBox(
-        height: 90,
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Business',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-        ),
-
       ),
     );
   }
 }
 
-class menu extends StatelessWidget {
+class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('This is memu Page'),
+      child: Text('This is menu Page'),
     );
   }
 }
 
-class person extends StatelessWidget {
+class Person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -225,13 +209,8 @@ class OverallHealthPage extends StatelessWidget {
 class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Text('This is Activities Page'),
-
-    return const Center(
-      child: Text('This is Business Page'),
-
     );
   }
 }
@@ -239,13 +218,8 @@ class ActivitiesPage extends StatelessWidget {
 class TipsHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Text('This is Tips Health Page'),
-
-    return const Center(
-      child: Text('This is School Page'),
-
     );
   }
 }

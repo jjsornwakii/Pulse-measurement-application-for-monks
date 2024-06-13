@@ -3,17 +3,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:sato/navigation.dart';
-import 'package:sato/registerpage.dart';
+import 'login.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController passwordCheckController = TextEditingController();
   final GetStorage box = GetStorage();
   bool _obscureText = true;
 
@@ -21,9 +21,30 @@ class _LoginPageState extends State<LoginPage> {
   final port = dotenv.env['port'] ?? '';
   final apipath = dotenv.env['apipath'] ?? '';
 
-  Future<void> loginUser(BuildContext context) async {
-    // API endpoint for user authentication
-    String apiUrl = 'http://$server:$port/$apipath/login.php';
+  Future<void> register(BuildContext context) async {
+    // Validate form fields
+    if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (passwordController.text != passwordCheckController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('รหัสผ่านไม่ตรงกัน'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    // API endpoint for user registration
+    String apiUrl = 'http://$server:$port/$apipath/register.php';
     print(apiUrl);
 
     // Prepare data to send
@@ -32,41 +53,49 @@ class _LoginPageState extends State<LoginPage> {
       'password': passwordController.text,
     };
 
-    // Send POST request to API
-    final http.Response response = await http.post(
-      Uri.parse(apiUrl),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(data),
-    );
+    try {
+      // Send POST request to API
+      final http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data),
+      );
 
-    // Check response status
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      // Check response status
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
 
-      // Check if login was successful
-      if (responseData['message'] == 'success') {
-        box.write('userId', responseData['user_id']);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NavigationPage()),
-        );
+        // Check if registration was successful
+        if (responseData['message'] == 'success') {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LoginPage()),
+          );
+        } else {
+          // Show error message if registration failed
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+            content: Text(responseData['message']),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       } else {
-        // Show error message if login failed
+        // Show error message if request failed
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(responseData['message']),
+            content: Text('เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server'),
             backgroundColor: Colors.red,
           ),
         );
       }
-    } else {
-      // Show error message if request failed
+    } catch (e) {
+      // Show error message if there was an exception
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content:
-              Text('Failed to connect to the server. Please try again later.'),
+          content: Text('เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server'),
           backgroundColor: Colors.red,
         ),
       );
@@ -110,9 +139,8 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'เข้าสู่ระบบ',
-                        style: TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold),
+                        'สมัครสมาชิก',
+                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 40),
                       Column(
@@ -146,9 +174,35 @@ class _LoginPageState extends State<LoginPage> {
                               border: OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
+                                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: _obscureText,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ยืนยันรหัสผ่าน',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          TextField(
+                            controller: passwordCheckController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscureText ? Icons.visibility : Icons.visibility_off,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -163,9 +217,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: () => loginUser(context),
+                        onPressed: () => register(context),
                         child: Text(
-                          'เข้าสู่ระบบ',
+                          'ลงทะเบียน',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -173,8 +227,7 @@ class _LoginPageState extends State<LoginPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 12),
+                          padding: EdgeInsets.symmetric(horizontal: 80, vertical: 12),
                           textStyle: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -183,12 +236,11 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()),
+                            MaterialPageRoute(builder: (context) => LoginPage()),
                           );
                         },
                         child: Text(
-                          'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                          'มีบัญชีใช่หรือไม่? เข้าสู่ระบบ',
                           style: TextStyle(color: Colors.orange, fontSize: 16),
                         ),
                       ),
@@ -208,6 +260,6 @@ void main() async {
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
   runApp(MaterialApp(
-    home: LoginPage(),
+    home: RegisterPage(),
   ));
 }
