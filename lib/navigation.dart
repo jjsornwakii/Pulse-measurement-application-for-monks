@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sato/homepage.dart';
+import 'package:sato/userPage.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -12,9 +13,9 @@ class _NavigationPageState extends State<NavigationPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _pages = <Widget>[
-    menu(),
+    Menu(),
     HomePage(),
-    person(),
+    UserPage(),
   ];
 
   List<Widget> _drawerPages = <Widget>[
@@ -26,6 +27,12 @@ class _NavigationPageState extends State<NavigationPage> {
   void _onItemTapped(int index) {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
+    } else if (index == 2) {
+      // Navigate to UserPage when "Person" is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => UserPage()),
+      );
     } else {
       setState(() {
         _selectedIndex = index;
@@ -117,9 +124,10 @@ class _NavigationPageState extends State<NavigationPage> {
                     Text(
                       "ภาพรวมสุขภาพ",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal),
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ],
                 ),
@@ -171,16 +179,16 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 }
 
-class menu extends StatelessWidget {
+class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('This is memu Page'),
+      child: Text('This is menu Page'),
     );
   }
 }
 
-class person extends StatelessWidget {
+class Person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
