@@ -1,20 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:sato/homepage.dart';
+import 'package:sato/login.dart';
 import 'package:sato/navigation.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await GetStorage.init();
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final GetStorage box = GetStorage();
+  String? userId;
+  @override
+  void initState() {
+    super.initState();
+    CheckLogin();
+  }
+
+  void CheckLogin() {
+    userId = box.read("userId");
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Container(
-      child: Text("s555555555555555555555555555"),
-    ));
+      home: userId == null || userId == '' ? LoginPage() : NavigationPage(),
+    );
   }
 }
