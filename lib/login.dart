@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:sato/registerpage.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
@@ -40,6 +43,9 @@ class LoginPage extends StatelessWidget {
       if (responseData['message'] == 'success') {
         // Navigate to the homepage
         box.write("userId", responseData['user_id']);
+
+        box.write('userId', responseData['user_id']);
+ 
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NavigationPage()),
@@ -47,8 +53,13 @@ class LoginPage extends StatelessWidget {
       } else {
         // Show error message if login failed
         ScaffoldMessenger.of(context).showSnackBar(
+
           const SnackBar(
             content: Text('Login failed. Please check your credentials.'),
+
+          SnackBar(
+            content: Text(responseData['message']),
+
             backgroundColor: Colors.red,
           ),
         );
@@ -71,7 +82,7 @@ class LoginPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Positioned(
-            top: 0,
+            top: -130,
             left: 0,
             right: 0,
             child: Container(
@@ -80,7 +91,7 @@ class LoginPage extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   'assets/logo/sathu.png', // Replace with your logo asset
-                  height: 120,
+                  height: 210,
                 ),
               ),
             ),
@@ -95,6 +106,7 @@ class LoginPage extends StatelessWidget {
                   top: Radius.circular(50),
                 ),
               ),
+
             ),
           ),
           Align(
@@ -179,6 +191,99 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ],
+
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'เข้าสู่ระบบ',
+                        style: TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 40),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ชื่อผู้ใช้',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          TextField(
+                            controller: usernameController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.person),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'รหัสผ่าน',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          TextField(
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: _obscureText,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () => loginUser(context),
+                        child: Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 12),
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage()),
+                          );
+                        },
+                        child: Text(
+                          'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                          style: TextStyle(color: Colors.orange, fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

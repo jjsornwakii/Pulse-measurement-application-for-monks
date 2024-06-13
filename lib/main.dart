@@ -26,17 +26,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   GetStorage box = GetStorage();
   String? userId;
+
   @override
   void initState() {
     super.initState();
+    
     final server = dotenv.env['server'] ?? '';
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
+    box.erase;
 
     CheckLogin();
   }
 
   Future<void> chcekActivity() async {
+    box.erase;
     final server = dotenv.env['server'] ?? '';
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
