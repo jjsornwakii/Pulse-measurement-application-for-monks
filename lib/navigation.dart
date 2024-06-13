@@ -26,42 +26,47 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 40),
-                  Text(
-                    "สวัสดี, <ชื่อ>",
-                    style: TextStyle(color: Colors.black, fontSize: 30),
-                  ),
-                  Text(
-                    "ภาพรวมสุขภาพ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  SizedBox(height: 50),
-                  CircleAvatar(
-                    maxRadius: 25,
-                    backgroundColor: Colors.blue,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 50,
+          Container(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 255, 251, 138),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 40),
+                    Text(
+                      "สวัสดี, <ชื่อ>",
+                      style: TextStyle(color: Colors.black, fontSize: 30),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Text(
+                      "ภาพรวมสุขภาพ",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    SizedBox(height: 50),
+                    CircleAvatar(
+                      maxRadius: 25,
+                      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.orange,
+                        size: 50,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: IndexedStack(
@@ -71,24 +76,27 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+      bottomNavigationBar: SizedBox(
+        height: 90,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Business',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'School',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -97,7 +105,7 @@ class _NavigationPageState extends State<NavigationPage> {
 class BusinessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is Business Page'),
     );
   }
@@ -106,7 +114,7 @@ class BusinessPage extends StatelessWidget {
 class SchoolPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is School Page'),
     );
   }
