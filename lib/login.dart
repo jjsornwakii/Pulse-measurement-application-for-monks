@@ -1,29 +1,21 @@
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final GetStorage box = GetStorage();
-  bool _obscureText = true;
-
-  final server = dotenv.env['server'] ?? '';
-  final port = dotenv.env['port'] ?? '';
-  final apipath = dotenv.env['apipath'] ?? '';
 
   Future<void> loginUser(BuildContext context) async {
+    String? server = dotenv.env['server'];
+    String? port = dotenv.env['port'];
+    GetStorage box = GetStorage();
     // API endpoint for user authentication
-    String apiUrl = 'http://$server:$port/$apipath/login.php';
-    print(apiUrl);
+    final String apiUrl = 'http://$server:$port/api_shatu/login.php';
 
     // Prepare data to send
     final Map<String, dynamic> data = {
@@ -46,15 +38,16 @@ class _LoginPageState extends State<LoginPage> {
 
       // Check if login was successful
       if (responseData['message'] == 'success') {
-        box.write('userId', responseData['user_id']);
-        Navigator.pushReplacement(
+        // Navigate to the homepage
+        box.write("userId", responseData['user_id']);
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => NavigationPage()),
         );
       } else {
         // Show error message if login failed
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Login failed. Please check your credentials.'),
             backgroundColor: Colors.red,
           ),
@@ -108,89 +101,84 @@ class _LoginPageState extends State<LoginPage> {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'เข้าสู่ระบบ',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 40),
+                  // Text above the username TextField
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'ชื่อผู้ใช้',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      TextField(
+                        controller: usernameController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  // Text above the password TextField
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'รหัสผ่าน',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      TextField(
+                        controller: passwordController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          border: OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.visibility),
+                            onPressed: () {
+                              // Add functionality to toggle password visibility
+                            },
+                          ),
+                        ),
+                        obscureText: true,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                  ElevatedButton(
+                    onPressed: () => loginUser(context),
+                    child: Text(
                       'เข้าสู่ระบบ',
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    SizedBox(height: 40),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'ชื่อผู้ใช้',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        TextField(
-                          controller: usernameController,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            border: OutlineInputBorder(),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'รหัสผ่าน',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        TextField(
-                          controller: passwordController,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.lock),
-                            border: OutlineInputBorder(),
-                            suffixIcon: IconButton(
-                              icon: Icon(_obscureText
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
-                              onPressed: () {
-                                setState(() {
-                                  _obscureText = !_obscureText;
-                                });
-                              },
-                            ),
-                          ),
-                          obscureText: _obscureText,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    ElevatedButton(
-                      onPressed: () => loginUser(context),
-                      child: Text(
-                        'เข้าสู่ระบบ',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 80, vertical: 12),
-                        textStyle: TextStyle(fontSize: 18),
-                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 80, vertical: 12),
+                      textStyle: TextStyle(fontSize: 18),
                     ),
-                    SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {
-                        // Add navigation to signup page functionality
-                      },
-                      child: Text(
-                        'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
-                        style: TextStyle(color: Colors.orange, fontSize: 16),
-                      ),
+                  ),
+                  SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {
+                      // Add navigation to signup page functionality
+                    },
+                    child: Text(
+                      'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                      style: TextStyle(color: Colors.orange, fontSize: 16),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -200,10 +188,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-void main() async {
-  await dotenv.load(fileName: ".env");
-  await GetStorage.init();
-  runApp(MaterialApp(
-    home: LoginPage(),
-  ));
-}
+void main() => runApp(MaterialApp(
+      home: LoginPage(),
+    ));

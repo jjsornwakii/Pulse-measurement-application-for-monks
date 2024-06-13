@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/homepage.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -45,28 +46,28 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: Container(
-        margin: EdgeInsets.fromLTRB(0, 130, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 130, 0, 0),
         child: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 70),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 70),
+                      decoration: const BoxDecoration(
                         color: Colors.transparent,
                         border: Border(
                           bottom: BorderSide(width: 2.0, color: Colors.black),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'หน้าหลัก',
                         style: TextStyle(
                           color: Colors.black,
@@ -78,18 +79,18 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.broken_image_outlined),
-                title: Text('สรุปภาพรวมสุขภาพ'),
+                leading: const Icon(Icons.broken_image_outlined),
+                title: const Text('สรุปภาพรวมสุขภาพ'),
                 onTap: () => _onDrawerItemTapped(0),
               ),
               ListTile(
-                leading: Icon(Icons.access_time),
-                title: Text('กิจประจำวัน'),
+                leading: const Icon(Icons.access_time),
+                title: const Text('กิจประจำวัน'),
                 onTap: () => _onDrawerItemTapped(1),
               ),
               ListTile(
-                leading: Icon(Icons.local_library_sharp),
-                title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
+                leading: const Icon(Icons.local_library_sharp),
+                title: const Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
                 onTap: () => _onDrawerItemTapped(2),
               ),
             ],
@@ -174,7 +175,7 @@ class _NavigationPageState extends State<NavigationPage> {
 class menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is memu Page'),
     );
   }
@@ -183,7 +184,7 @@ class menu extends StatelessWidget {
 class person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is person Page'),
     );
   }
@@ -192,7 +193,7 @@ class person extends StatelessWidget {
 class OverallHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is Overall Health Page'),
     );
   }
@@ -201,17 +202,8 @@ class OverallHealthPage extends StatelessWidget {
 class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is Activities Page'),
-    );
-  }
-}
-
-class TipsHealthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('This is Tips Health Page'),
     );
   }
 }

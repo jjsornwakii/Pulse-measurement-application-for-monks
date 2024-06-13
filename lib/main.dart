@@ -5,7 +5,6 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:sato/homepage.dart';
 import 'package:sato/login.dart';
 
 import 'package:sato/navigation.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final GetStorage box = GetStorage();
+  GetStorage box = GetStorage();
   String? userId;
   @override
   void initState() {
@@ -56,8 +55,10 @@ class _MyAppState extends State<MyApp> {
 
   void CheckLogin() {
     userId = box.read("userId");
+    print(userId);
+    print('--------------------------');
     if (userId != null && userId!.isNotEmpty) {
-      //chcekActivity(); // Fetch data if the user is logged in
+      chcekActivity(); // Fetch data if the user is logged in
     }
   }
 
