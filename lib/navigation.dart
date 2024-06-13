@@ -7,107 +7,245 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _pages = <Widget>[
+    menu(),
     HomePage(),
-    BusinessPage(),
-    SchoolPage(),
+    person(),
+  ];
+
+  List<Widget> _drawerPages = <Widget>[
+    OverallHealthPage(),
+    ActivitiesPage(),
+    TipsHealthPage(),
   ];
 
   void _onItemTapped(int index) {
+    if (index == 0) {
+      _scaffoldKey.currentState?.openDrawer();
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+  }
+
+  void _onDrawerItemTapped(int index) {
+    Navigator.pop(context);
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = 3 + index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 40),
-                  Text(
-                    "สวัสดี, <ชื่อ>",
-                    style: TextStyle(color: Colors.black, fontSize: 30),
-                  ),
-                  Text(
-                    "ภาพรวมสุขภาพ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  SizedBox(height: 50),
-                  CircleAvatar(
-                    maxRadius: 25,
-                    backgroundColor: Colors.blue,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 50,
+      key: _scaffoldKey,
+      drawer: Container(
+        margin: EdgeInsets.fromLTRB(0, 130, 0, 0),
+        child: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 70),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border(
+                          bottom: BorderSide(width: 2.0, color: Colors.black),
+                        ),
+                      ),
+                      child: Text(
+                        'หน้าหลัก',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.broken_image_outlined),
+                title: Text('สรุปภาพรวมสุขภาพ'),
+                onTap: () => _onDrawerItemTapped(0),
+              ),
+              ListTile(
+                leading: Icon(Icons.access_time),
+                title: Text('กิจประจำวัน'),
+                onTap: () => _onDrawerItemTapped(1),
+              ),
+              ListTile(
+                leading: Icon(Icons.local_library_sharp),
+                title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
+                onTap: () => _onDrawerItemTapped(2),
               ),
             ],
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 255, 251, 138),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 40),
+                    Text(
+                      "สวัสดี, <ชื่อ>",
+                      style: TextStyle(color: Colors.black, fontSize: 30),
+                    ),
+                    Text(
+                      "ภาพรวมสุขภาพ",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    SizedBox(height: 50),
+                    CircleAvatar(
+                      maxRadius: 25,
+                      backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.orange,
+                        size: 50,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,
-              children: _pages,
+              children: _pages + _drawerPages,
             ),
           ),
         ],
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu),
+            label: 'Menu',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.personal_injury_rounded),
+            label: 'Person',
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex >= 3 ? 0 : _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
+
+      bottomNavigationBar: SizedBox(
+        height: 90,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.business),
+              label: 'Business',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.school),
+              label: 'School',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        ),
+
       ),
     );
   }
 }
 
-class BusinessPage extends StatelessWidget {
+class menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('This is Business Page'),
+      child: Text('This is memu Page'),
     );
   }
 }
 
-class SchoolPage extends StatelessWidget {
+class person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
+      child: Text('This is person Page'),
+    );
+  }
+}
+
+class OverallHealthPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('This is Overall Health Page'),
+    );
+  }
+}
+
+class ActivitiesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    return Center(
+      child: Text('This is Activities Page'),
+
+    return const Center(
+      child: Text('This is Business Page'),
+
+    );
+  }
+}
+
+class TipsHealthPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    return Center(
+      child: Text('This is Tips Health Page'),
+
+    return const Center(
       child: Text('This is School Page'),
+
     );
   }
 }
