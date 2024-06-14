@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+
 import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/login.dart';
 //import 'package:sato/userPage.dart';
+
+import 'package:sato/TipsHealthPage.dart';
+import 'package:sato/homepage.dart';
+import 'package:sato/userPage.dart';
+
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -17,7 +23,8 @@ class _NavigationPageState extends State<NavigationPage> {
   List<Widget> _pages = <Widget>[
     Menu(),
     HomePage(),
-    LoginPage(),
+    UserPage(),
+
   ];
 
   List<Widget> _drawerPages = <Widget>[
@@ -30,9 +37,12 @@ class _NavigationPageState extends State<NavigationPage> {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
     } else if (index == 2) {
+
+      // Navigate to UserPage when "Person" is tapped
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => UserPage()),
+
       );
     } else {
       setState(() {
@@ -53,28 +63,28 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: Container(
-        margin: EdgeInsets.fromLTRB(0, 130, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 130, 0, 0),
         child: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 70),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 70),
+                      decoration: const BoxDecoration(
                         color: Colors.transparent,
                         border: Border(
                           bottom: BorderSide(width: 2.0, color: Colors.black),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'หน้าหลัก',
                         style: TextStyle(
                           color: Colors.black,
@@ -86,6 +96,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
               ),
               ListTile(
+
                 leading: Icon(Icons.broken_image_outlined),
                 title: Text('สรุปภาพรวมสุขภาพ'),
                 onTap: () {
@@ -115,6 +126,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     MaterialPageRoute(builder: (context) => TipsHealthPage()),
                   );
                 },
+
               ),
             ],
           ),
@@ -173,7 +185,6 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -192,29 +203,6 @@ class _NavigationPageState extends State<NavigationPage> {
         currentIndex: _selectedIndex >= 3 ? 0 : _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-
-      bottomNavigationBar: SizedBox(
-        height: 90,
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Business',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-        ),
-
       ),
     );
   }
@@ -225,6 +213,7 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text('This is menu Page'),
+
     );
   }
 }
@@ -232,7 +221,7 @@ class Menu extends StatelessWidget {
 class Person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is person Page'),
     );
   }
@@ -241,38 +230,31 @@ class Person extends StatelessWidget {
 class OverallHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is Overall Health Page'),
     );
   }
 }
 
-<<<<<<< Updated upstream
+
 class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Text('This is Activities Page'),
 
-    return const Center(
-      child: Text('This is Business Page'),
 
     );
   }
 }
 
-=======
->>>>>>> Stashed changes
+
 class TipsHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
     return Center(
       child: Text('This is Tips Health Page'),
-
-    return const Center(
-      child: Text('This is School Page'),
 
     );
   }

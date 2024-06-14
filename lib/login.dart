@@ -1,23 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:sato/registerpage.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> loginUser(BuildContext context) async {
-<<<<<<< Updated upstream
+
+    String? server = dotenv.env['server'];
+    String? port = dotenv.env['port'];
+    GetStorage box = GetStorage();
     // API endpoint for user authentication
-    final String apiUrl =
-        'http://192.168.1.26/Sathu_2/Pulse-measurement-application-for-monks/api/login.php';
-=======
-    String apiUrl = 'http://$server:$port/$apipath/login.php';
-    print(apiUrl);
->>>>>>> Stashed changes
+    final String apiUrl = 'http://$server:$port/api_shatu/login.php';
+
 
     final Map<String, dynamic> data = {
       'username': usernameController.text,
@@ -38,21 +42,30 @@ class LoginPage extends StatelessWidget {
 
       // Check if login was successful
       if (responseData['message'] == 'success') {
-<<<<<<< Updated upstream
         // Navigate to the homepage
-        Navigator.pushReplacement(
-=======
+
         box.write('userId', responseData['user_id']);
         Navigator.push(
->>>>>>> Stashed changes
+
+        box.write("userId", responseData['user_id']);
+
+        box.write('userId', responseData['user_id']);
+ 
+        Navigator.push(
+
           context,
           MaterialPageRoute(builder: (context) => NavigationPage()),
         );
       } else {
         // Show error message if login failed
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+
+          const SnackBar(
             content: Text('Login failed. Please check your credentials.'),
+
+          SnackBar(
+            content: Text(responseData['message']),
+
             backgroundColor: Colors.red,
           ),
         );
@@ -75,12 +88,13 @@ class LoginPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Positioned(
-            top: 0,
+            top: -130,
             left: 0,
             right: 0,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.55,
               color: Color.fromARGB(255, 247, 206, 101),
+
               child: Stack(
                 children: [
                   Positioned(
@@ -108,6 +122,12 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ],
+
+              child: Center(
+                child: Image.asset(
+                  'assets/logo/sathu.png', // Replace with your logo asset
+                  height: 210,
+                ),
               ),
             ),
           ),
@@ -121,7 +141,7 @@ class LoginPage extends StatelessWidget {
                   top: Radius.circular(25),
                 ),
               ),
-<<<<<<< Updated upstream
+
             ),
           ),
           Align(
@@ -189,7 +209,7 @@ class LoginPage extends StatelessWidget {
                       backgroundColor: Colors.orange,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
-=======
+
               padding: const EdgeInsets.all(25.0),
               child: SingleChildScrollView(
                 child: Column(
@@ -327,23 +347,15 @@ class LoginPage extends StatelessWidget {
                         ),
                         padding:
                             EdgeInsets.symmetric(horizontal: 90, vertical: 10),
->>>>>>> Stashed changes
+
                       ),
                       padding:
                           EdgeInsets.symmetric(horizontal: 80, vertical: 12),
                       textStyle: TextStyle(fontSize: 18),
                     ),
-<<<<<<< Updated upstream
+
                   ),
-                  SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
-                      // Add navigation to signup page functionality
-                    },
-                    child: Text(
-                      'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
-                      style: TextStyle(color: Colors.orange, fontSize: 16),
-=======
+
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -365,10 +377,103 @@ class LoginPage extends StatelessWidget {
                           ),
                         )
                       ],
->>>>>>> Stashed changes
+
                     ),
                   ),
                 ],
+
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'เข้าสู่ระบบ',
+                        style: TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 40),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ชื่อผู้ใช้',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          TextField(
+                            controller: usernameController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.person),
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'รหัสผ่าน',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          TextField(
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(Icons.lock),
+                              border: OutlineInputBorder(),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText = !_obscureText;
+                                  });
+                                },
+                              ),
+                            ),
+                            obscureText: _obscureText,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () => loginUser(context),
+                        child: Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 12),
+                          textStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage()),
+                          );
+                        },
+                        child: Text(
+                          'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                          style: TextStyle(color: Colors.orange, fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
