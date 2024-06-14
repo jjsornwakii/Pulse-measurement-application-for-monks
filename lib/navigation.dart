@@ -173,7 +173,6 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -192,29 +191,6 @@ class _NavigationPageState extends State<NavigationPage> {
         currentIndex: _selectedIndex >= 3 ? 0 : _selectedIndex,
         selectedItemColor: Colors.amber[800],
         onTap: _onItemTapped,
-
-      bottomNavigationBar: SizedBox(
-        height: 90,
-        child: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Business',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'School',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _onItemTapped,
-        ),
-
       ),
     );
   }
@@ -247,33 +223,11 @@ class OverallHealthPage extends StatelessWidget {
   }
 }
 
-<<<<<<< Updated upstream
-class ActivitiesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-
-    return Center(
-      child: Text('This is Activities Page'),
-
-    return const Center(
-      child: Text('This is Business Page'),
-
-    );
-  }
-}
-
-=======
->>>>>>> Stashed changes
 class TipsHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: Text('This is Tips Health Page'),
-
-    return const Center(
-      child: Text('This is School Page'),
-
     );
   }
 }
