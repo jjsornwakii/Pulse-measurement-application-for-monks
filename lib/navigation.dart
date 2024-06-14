@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/homepage.dart';
+import 'package:sato/login.dart';
+//import 'package:sato/userPage.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -12,9 +15,9 @@ class _NavigationPageState extends State<NavigationPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _pages = <Widget>[
-    menu(),
+    Menu(),
     HomePage(),
-    person(),
+    LoginPage(),
   ];
 
   List<Widget> _drawerPages = <Widget>[
@@ -26,6 +29,11 @@ class _NavigationPageState extends State<NavigationPage> {
   void _onItemTapped(int index) {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginPage()),
+      );
     } else {
       setState(() {
         _selectedIndex = index;
@@ -80,17 +88,33 @@ class _NavigationPageState extends State<NavigationPage> {
               ListTile(
                 leading: Icon(Icons.broken_image_outlined),
                 title: Text('สรุปภาพรวมสุขภาพ'),
-                onTap: () => _onDrawerItemTapped(0),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OverallHealthPage()),
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.access_time),
                 title: Text('กิจประจำวัน'),
-                onTap: () => _onDrawerItemTapped(1),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ActivitiesPage()),
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.local_library_sharp),
                 title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
-                onTap: () => _onDrawerItemTapped(2),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TipsHealthPage()),
+                  );
+                },
               ),
             ],
           ),
@@ -117,9 +141,10 @@ class _NavigationPageState extends State<NavigationPage> {
                     Text(
                       "ภาพรวมสุขภาพ",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal),
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ],
                 ),
@@ -195,16 +220,16 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 }
 
-class menu extends StatelessWidget {
+class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('This is memu Page'),
+      child: Text('This is menu Page'),
     );
   }
 }
 
-class person extends StatelessWidget {
+class Person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -222,6 +247,7 @@ class OverallHealthPage extends StatelessWidget {
   }
 }
 
+<<<<<<< Updated upstream
 class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -236,6 +262,8 @@ class ActivitiesPage extends StatelessWidget {
   }
 }
 
+=======
+>>>>>>> Stashed changes
 class TipsHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
