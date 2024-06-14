@@ -86,7 +86,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Future<void> _getdisease() async {
-    final url = 'http://$server:$port/$apipath/getDisease.php';
+    final url = 'http://$server:$port/shatu/getDisease.php';
     final response = await http.get(
       Uri.parse(url),
     );
