@@ -9,7 +9,6 @@ import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/userPage.dart';
 
-
 class NavigationPage extends StatefulWidget {
   @override
   _NavigationPageState createState() => _NavigationPageState();
@@ -24,7 +23,6 @@ class _NavigationPageState extends State<NavigationPage> {
     Menu(),
     HomePage(),
     UserPage(),
-
   ];
 
   List<Widget> _drawerPages = <Widget>[
@@ -37,12 +35,10 @@ class _NavigationPageState extends State<NavigationPage> {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
     } else if (index == 2) {
-
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => UserPage()),
-
       );
     } else {
       setState(() {
@@ -96,7 +92,6 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
               ),
               ListTile(
-
                 leading: Icon(Icons.broken_image_outlined),
                 title: Text('สรุปภาพรวมสุขภาพ'),
                 onTap: () {
@@ -126,7 +121,6 @@ class _NavigationPageState extends State<NavigationPage> {
                     MaterialPageRoute(builder: (context) => TipsHealthPage()),
                   );
                 },
-
               ),
             ],
           ),
@@ -213,7 +207,6 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text('This is menu Page'),
-
     );
   }
 }
@@ -236,26 +229,11 @@ class OverallHealthPage extends StatelessWidget {
   }
 }
 
-
 class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Text('This is Activities Page'),
-
-
-    );
-  }
-}
-
-
-class TipsHealthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-
-    return Center(
-      child: Text('This is Tips Health Page'),
-
     );
   }
 }
