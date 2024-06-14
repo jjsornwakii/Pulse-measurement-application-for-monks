@@ -1,34 +1,37 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
 
-import 'package:sato/registerpage.dart';
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-class LoginPage extends StatelessWidget {
+class _LoginPageState extends State<LoginPage> {
+  String? server = dotenv.env['server'];
+  String? port = dotenv.env['port'];
+
+  bool _obscureText = true;
+
+  GetStorage box = GetStorage();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> loginUser(BuildContext context) async {
-<<<<<<< Updated upstream
-    // API endpoint for user authentication
-    final String apiUrl =
-        'http://192.168.1.26/Sathu_2/Pulse-measurement-application-for-monks/api/login.php';
-=======
-    String apiUrl = 'http://$server:$port/$apipath/login.php';
+    String apiUrl = 'http://$server:$port/api_shatu/login.php';
     print(apiUrl);
->>>>>>> Stashed changes
 
+    // Prepare data to send
     final Map<String, dynamic> data = {
       'username': usernameController.text,
       'password': passwordController.text,
     };
 
+    // Send POST request to API
     final http.Response response = await http.post(
       Uri.parse(apiUrl),
       headers: <String, String>{
@@ -43,25 +46,16 @@ class LoginPage extends StatelessWidget {
 
       // Check if login was successful
       if (responseData['message'] == 'success') {
-        // Navigate to the homepage
-        Navigator.pushReplacement(
-=======
         box.write('userId', responseData['user_id']);
         Navigator.push(
->>>>>>> Stashed changes
           context,
           MaterialPageRoute(builder: (context) => NavigationPage()),
         );
       } else {
         // Show error message if login failed
         ScaffoldMessenger.of(context).showSnackBar(
-
-          const SnackBar(
-            content: Text('Login failed. Please check your credentials.'),
-
           SnackBar(
-            content: Text(responseData['message']),
-
+            content: Text('Login failed. Please check your credentials.'),
             backgroundColor: Colors.red,
           ),
         );
@@ -84,13 +78,12 @@ class LoginPage extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Positioned(
-            top: -130,
+            top: 0,
             left: 0,
             right: 0,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.55,
               color: Color.fromARGB(255, 247, 206, 101),
-
               child: Stack(
                 children: [
                   Positioned(
@@ -118,12 +111,6 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ],
-
-              child: Center(
-                child: Image.asset(
-                  'assets/logo/sathu.png', // Replace with your logo asset
-                  height: 210,
-                ),
               ),
             ),
           ),
@@ -137,75 +124,6 @@ class LoginPage extends StatelessWidget {
                   top: Radius.circular(25),
                 ),
               ),
-<<<<<<< Updated upstream
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'เข้าสู่ระบบ',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 40),
-                  // Text above the username TextField
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'ชื่อผู้ใช้',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextField(
-                        controller: usernameController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.person),
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  // Text above the password TextField
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'รหัสผ่าน',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      TextField(
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          border: OutlineInputBorder(),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.visibility),
-                            onPressed: () {
-                              // Add functionality to toggle password visibility
-                            },
-                          ),
-                        ),
-                        obscureText: true,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: () => loginUser(context),
-                    child: Text(
-                      'เข้าสู่ระบบ',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-=======
               padding: const EdgeInsets.all(25.0),
               child: SingleChildScrollView(
                 child: Column(
@@ -342,24 +260,9 @@ class LoginPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding:
-                            EdgeInsets.symmetric(horizontal: 90, vertical: 10),
->>>>>>> Stashed changes
+                            EdgeInsets.symmetric(horizontal: 80, vertical: 12),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 80, vertical: 12),
-                      textStyle: TextStyle(fontSize: 18),
                     ),
-<<<<<<< Updated upstream
-                  ),
-                  SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
-                      // Add navigation to signup page functionality
-                    },
-                    child: Text(
-                      'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
-                      style: TextStyle(color: Colors.orange, fontSize: 16),
-=======
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -371,9 +274,11 @@ class LoginPage extends StatelessWidget {
                         ),
                         TextButton(
                           style: TextButton.styleFrom(
-                            foregroundColor: Colors.white,
+                            foregroundColor: Colors.orange,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            // Add your registration page navigation logic here
+                          },
                           child: Text(
                             'สมัครสมาชิก',
                             style: GoogleFonts.kanit(
@@ -381,102 +286,8 @@ class LoginPage extends StatelessWidget {
                           ),
                         )
                       ],
->>>>>>> Stashed changes
                     ),
-                  ),
-                ],
-
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'เข้าสู่ระบบ',
-                        style: TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 40),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'ชื่อผู้ใช้',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          TextField(
-                            controller: usernameController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'รหัสผ่าน',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          TextField(
-                            controller: passwordController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.lock),
-                              border: OutlineInputBorder(),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _obscureText = !_obscureText;
-                                  });
-                                },
-                              ),
-                            ),
-                            obscureText: _obscureText,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () => loginUser(context),
-                        child: Text(
-                          'เข้าสู่ระบบ',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 12),
-                          textStyle: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()),
-                          );
-                        },
-                        child: Text(
-                          'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
-                          style: TextStyle(color: Colors.orange, fontSize: 16),
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -487,6 +298,10 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-void main() => runApp(MaterialApp(
-      home: LoginPage(),
-    ));
+void main() async {
+  await dotenv.load();
+  await GetStorage.init();
+  runApp(MaterialApp(
+    home: LoginPage(),
+  ));
+}

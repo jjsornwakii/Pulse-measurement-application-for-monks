@@ -77,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
           // Show error message if registration failed
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-            content: Text(responseData['message']),
+              content: Text(responseData['message']),
               backgroundColor: Colors.red,
             ),
           );
@@ -140,7 +140,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: <Widget>[
                       Text(
                         'สมัครสมาชิก',
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 40),
                       Column(
@@ -174,7 +175,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               border: OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                                  _obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -202,7 +205,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               border: OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                                  _obscureText
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -227,7 +232,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 80, vertical: 12),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 80, vertical: 12),
                           textStyle: TextStyle(fontSize: 18),
                         ),
                       ),
@@ -236,7 +242,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()),
                           );
                         },
                         child: Text(
