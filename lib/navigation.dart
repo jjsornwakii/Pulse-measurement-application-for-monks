@@ -229,11 +229,18 @@ class OverallHealthPage extends StatelessWidget {
   }
 }
 
-class ActivitiesPage extends StatelessWidget {
+
+
+
+
+class TipsHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('This is Activities Page'),
+   
+    return const Center(
+      child: Text('This is School Page'),
+
+
     );
   }
 }
