@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+
+import 'package:sato/ActivitiesPage.dart';
+import 'package:sato/homepage.dart';
+import 'package:sato/login.dart';
+//import 'package:sato/userPage.dart';
+
 import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/userPage.dart';
+
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -17,6 +24,7 @@ class _NavigationPageState extends State<NavigationPage> {
     Menu(),
     HomePage(),
     UserPage(),
+
   ];
 
   List<Widget> _drawerPages = <Widget>[
@@ -29,10 +37,12 @@ class _NavigationPageState extends State<NavigationPage> {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
     } else if (index == 2) {
+
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => UserPage()),
+
       );
     } else {
       setState(() {
@@ -86,19 +96,37 @@ class _NavigationPageState extends State<NavigationPage> {
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.broken_image_outlined),
-                title: const Text('สรุปภาพรวมสุขภาพ'),
-                onTap: () => _onDrawerItemTapped(0),
+
+                leading: Icon(Icons.broken_image_outlined),
+                title: Text('สรุปภาพรวมสุขภาพ'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OverallHealthPage()),
+                  );
+                },
               ),
               ListTile(
-                leading: const Icon(Icons.access_time),
-                title: const Text('กิจประจำวัน'),
-                onTap: () => _onDrawerItemTapped(1),
+                leading: Icon(Icons.access_time),
+                title: Text('กิจประจำวัน'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ActivitiesPage()),
+                  );
+                },
               ),
               ListTile(
-                leading: const Icon(Icons.local_library_sharp),
-                title: const Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
-                onTap: () => _onDrawerItemTapped(2),
+                leading: Icon(Icons.local_library_sharp),
+                title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TipsHealthPage()),
+                  );
+                },
+
               ),
             ],
           ),
@@ -183,9 +211,9 @@ class _NavigationPageState extends State<NavigationPage> {
 class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return Center(
+      child: Text('This is menu Page'),
 
-    return const Center(
-      child: Text('This is memu Page'),
     );
   }
 }
@@ -208,11 +236,26 @@ class OverallHealthPage extends StatelessWidget {
   }
 }
 
+
 class ActivitiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Text('This is Activities Page'),
+
+
+    );
+  }
+}
+
+
+class TipsHealthPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    return Center(
+      child: Text('This is Tips Health Page'),
+
     );
   }
 }
