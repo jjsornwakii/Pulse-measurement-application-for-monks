@@ -37,9 +37,16 @@ dependencies:
   cupertino_icons: ^1.0.6
   http: ^1.2.1
   get_storage: ^2.1.1
-  flutter_dotenv: ^5.1.0
-  google_fonts: ^6.2.1
+<<<<<<< Updated upstream
 
+=======
+  flutter_dotenv: ^5.1.0
+
+
+
+
+  google_fonts: ^6.2.1
+  shared_preferences: ^2.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -66,9 +73,6 @@ flutter:
   assets:
     - assets/logo/
     - .env
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
-
     - assets/
     - assets/icon/
     - assets/decoration/
