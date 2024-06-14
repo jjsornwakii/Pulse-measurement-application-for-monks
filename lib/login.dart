@@ -25,14 +25,10 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final GetStorage box = GetStorage();
-  bool _obscureText = true;
-
 
   Future<void> loginUser(BuildContext context) async {
     String apiUrl = 'http://$server:$port/api_shatu/login.php';
     print(apiUrl);
-
 
     // Prepare data to send
     final Map<String, dynamic> data = {
@@ -64,9 +60,7 @@ class _LoginPageState extends State<LoginPage> {
         // Show error message if login failed
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-
             content: Text(responseData['message']),
-
             backgroundColor: Colors.red,
           ),
         );
@@ -95,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
             child: Container(
               height: MediaQuery.of(context).size.height * 0.55,
               color: Color.fromARGB(255, 247, 206, 101),
-
               child: Stack(
                 children: [
                   Positioned(
@@ -123,7 +116,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ],
-
               ),
             ),
           ),
@@ -137,7 +129,6 @@ class _LoginPageState extends State<LoginPage> {
                   top: Radius.circular(50),
                 ),
               ),
-
               padding: const EdgeInsets.all(25.0),
               child: SingleChildScrollView(
                 child: Column(
@@ -302,7 +293,6 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ],
-
                 ),
               ),
             ),
@@ -314,7 +304,6 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 void main() async {
-
   await dotenv.load(fileName: ".env");
 
   await GetStorage.init();
