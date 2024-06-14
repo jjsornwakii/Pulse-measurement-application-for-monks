@@ -1,7 +1,11 @@
 import 'dart:convert';
+
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,12 +22,17 @@ class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
 
   GetStorage box = GetStorage();
+
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final GetStorage box = GetStorage();
+  bool _obscureText = true;
+
 
   Future<void> loginUser(BuildContext context) async {
     String apiUrl = 'http://$server:$port/api_shatu/login.php';
     print(apiUrl);
+
 
     // Prepare data to send
     final Map<String, dynamic> data = {
@@ -55,7 +64,9 @@ class _LoginPageState extends State<LoginPage> {
         // Show error message if login failed
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Login failed. Please check your credentials.'),
+
+            content: Text(responseData['message']),
+
             backgroundColor: Colors.red,
           ),
         );
@@ -84,6 +95,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Container(
               height: MediaQuery.of(context).size.height * 0.55,
               color: Color.fromARGB(255, 247, 206, 101),
+
               child: Stack(
                 children: [
                   Positioned(
@@ -111,19 +123,21 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ],
+
               ),
             ),
           ),
-          Container(
+          Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.73,
+              height: MediaQuery.of(context).size.height * 0.75,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25),
+                  top: Radius.circular(50),
                 ),
               ),
+
               padding: const EdgeInsets.all(25.0),
               child: SingleChildScrollView(
                 child: Column(
@@ -288,6 +302,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ],
+
                 ),
               ),
             ),
@@ -299,7 +314,9 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 void main() async {
-  await dotenv.load();
+
+  await dotenv.load(fileName: ".env");
+
   await GetStorage.init();
   runApp(MaterialApp(
     home: LoginPage(),

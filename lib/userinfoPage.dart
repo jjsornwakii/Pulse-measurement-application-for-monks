@@ -86,7 +86,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Future<void> _getdisease() async {
-    final url = 'http://$server:$port/$apipath/getDisease.php';
+    final url = 'http://$server:$port/shatu/getDisease.php';
     final response = await http.get(
       Uri.parse(url),
     );
@@ -131,28 +131,28 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: <Widget>[
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'ชื่อ',
                 ),
               ),
               TextFormField(
                 controller: _surnameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'นามสกุล',
                 ),
               ),
               TextFormField(
                 controller: _birthdateController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'ว/ด/ป เกิด',
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
@@ -175,35 +175,35 @@ class _UserInfoPageState extends State<UserInfoPage> {
               ),
               TextFormField(
                 controller: _ageController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'อายุ',
                 ),
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'ที่อยู่/ชื่อวัด',
                 ),
               ),
               TextFormField(
                 controller: _weightController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'น้ำหนัก (กก.)',
                 ),
                 keyboardType: TextInputType.number,
               ),
               TextFormField(
                 controller: _heightController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'ส่วนสูง (ซม.)',
                 ),
                 keyboardType: TextInputType.number,
               ),
               Row(
                 children: <Widget>[
-                  Text('โรคประจำตัว:'),
-                  SizedBox(width: 10),
+                  const Text('โรคประจำตัว:'),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Row(
                       children: <Widget>[
@@ -221,7 +221,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             });
                           },
                         ),
-                        Text('มี'),
+                        const Text('มี'),
                       ],
                     ),
                   ),
@@ -238,7 +238,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             });
                           },
                         ),
-                        Text('ไม่มี'),
+                        const Text('ไม่มี'),
                       ],
                     ),
                   ),
@@ -262,7 +262,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     );
                   }).toList(),
                 ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -270,7 +270,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text('ยกเลิก'),
+                    child: const Text(
+                      'ยกเลิก',
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
                     ),
@@ -281,7 +283,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         _updateUserData();
                       }
                     },
-                    child: Text('ยืนยัน'),
+                    child: const Text(
+                      'ยืนยัน',
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.yellow,
                     ),

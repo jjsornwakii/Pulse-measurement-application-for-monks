@@ -47,24 +47,24 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _userInfo,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No user information available'));
+            return const Center(child: Text('No user information available'));
           } else {
             final userInfo = snapshot.data!;
             return Padding(
@@ -72,14 +72,14 @@ class _UserPageState extends State<UserPage> {
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
                           backgroundColor: Colors.white,
                           child: Icon(
@@ -88,19 +88,20 @@ class _UserPageState extends State<UserPage> {
                             color: Colors.orange,
                           ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Text(
                           '${userInfo['user_fname']}   ${userInfo['user_lname']}',
-                          style: TextStyle(fontSize: 20, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.white),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ListTile(
-                    leading: Icon(Icons.person_outline),
-                    title: Text('ข้อมูลส่วนตัว'),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.person_outline),
+                    title: const Text('ข้อมูลส่วนตัว'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -108,20 +109,20 @@ class _UserPageState extends State<UserPage> {
                       );
                     },
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.edit),
-                    title: Text('แก้ไขข้อมูลส่วนตัว'),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.edit),
+                    title: const Text('แก้ไขข้อมูลส่วนตัว'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       // Navigate to edit personal info page
                     },
                   ),
-                  Divider(),
+                  const Divider(),
                   ListTile(
-                    leading: Icon(Icons.calendar_today),
-                    title: Text('กิจวัตรประจำวัน'),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.calendar_today),
+                    title: const Text('กิจวัตรประจำวัน'),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       // Navigate to daily routine page
                     },
@@ -130,8 +131,8 @@ class _UserPageState extends State<UserPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 16),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -144,7 +145,7 @@ class _UserPageState extends State<UserPage> {
                                   builder: (context) => LoginPage()),
                             );
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.logout),
                               SizedBox(width: 8),
