@@ -35,9 +35,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                children: [],
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'กิจประจำวัน',
@@ -57,7 +58,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                   Icon(Icons.notifications_active_outlined,
                       size: 30, color: Colors.orange),
-                  SizedBox(width: 0)
                 ],
               )
             ],
@@ -170,7 +170,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                 int taskId = int.parse(task['task_id']);
                 submitData(taskId, index);
               }
-            }, // อนุญาตให้มีการโต้ตอบ
+            },
             isExpanded: isExpandedList[index],
             onExpansionChanged: (bool expanded) {
               setState(() {
@@ -198,8 +198,10 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                         },
                   child: Text(
                     'Submit',
-                    style: GoogleFonts.kanit(),
+                    style: GoogleFonts.kanit(fontSize: 20, color: Colors.grey[800]),
                   ),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange[300]),
                 ),
               ),
             ],
@@ -210,76 +212,73 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
     );
   }
 
- Widget _buildExpansionTile({
-  required String title,
-  required String iconPath,
-  required bool isChecked,
-  required ValueChanged<bool?>? onCheckboxChanged,
-  required bool isExpanded,
-  required ValueChanged<bool> onExpansionChanged,
-  required List<Widget> children,
-  required int activityStatus,
-}) {
-  bool isDisabled = activityStatus == 0;
-
-  return Container(
-    decoration: BoxDecoration(
-      border: Border(
-        bottom: BorderSide(color: Colors.black, width: 1),
+  Widget _buildExpansionTile({
+    required String title,
+    required String iconPath,
+    required bool isChecked,
+    required ValueChanged<bool?>? onCheckboxChanged,
+    required bool isExpanded,
+    required ValueChanged<bool> onExpansionChanged,
+    required List<Widget> children,
+    required int activityStatus,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.black, width: 1),
+        ),
+        color: Colors.grey[50],
       ),
-      color: Colors.grey[50],
-    ),
-    child: ExpansionTile(
-      tilePadding: EdgeInsets.all(15),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(90),
-            child: Transform.scale(
-              scale: 2,
-              child: Checkbox(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+      child: ExpansionTile(
+        tilePadding: EdgeInsets.all(15),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(90),
+              child: Transform.scale(
+                scale: 2,
+                child: Checkbox(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  side: BorderSide(
+                    width: 1.5,
+                    color: Colors.orange[700]!,
+                  ),
+                  activeColor: Colors.white,
+                  checkColor: Colors.greenAccent[400],
+                  value: isChecked,
+                  onChanged: onCheckboxChanged,
                 ),
-                side: BorderSide(
-                  width: 1.5,
-                  color: Colors.orange[700]!,
-                ),
-                activeColor: Colors.green,
-                checkColor: Colors.greenAccent[400],
-                value: isChecked,
-                onChanged: isDisabled ? null : onCheckboxChanged,
               ),
             ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            title,
-            style: GoogleFonts.kanit(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
+            const SizedBox(width: 10),
+            Text(
+              title,
+              style: GoogleFonts.kanit(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          const Spacer(),
-          Image.asset(
-            iconPath,
-            height: 45,
-            width: 45,
-            fit: BoxFit.cover,
-          ),
-        ],
+            const Spacer(),
+            Image.asset(
+              iconPath,
+              height: 45,
+              width: 45,
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
+        trailing: Icon(
+          isExpanded
+              ? Icons.keyboard_arrow_down
+              : Icons.arrow_forward_ios_rounded,
+          color: Colors.orange,
+        ),
+        onExpansionChanged: onExpansionChanged,
+        children: children,
       ),
-      trailing: Icon(
-        isExpanded
-            ? Icons.keyboard_arrow_down
-            : Icons.arrow_forward_ios_rounded,
-        color: Colors.orange,
-      ),
-      onExpansionChanged: onExpansionChanged,
-      children: isDisabled ? [] : children,
-    ),
-  );
-}
-
+    );
+  }
 }
