@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+
+import 'package:sato/ActivitiesPage.dart';
+import 'package:sato/homepage.dart';
+import 'package:sato/login.dart';
+//import 'package:sato/userPage.dart';
+
+import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/userPage.dart';
 import 'package:sato/healthPage.dart';
@@ -57,28 +64,28 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: Container(
-        margin: EdgeInsets.fromLTRB(0, 130, 0, 0),
+        margin: const EdgeInsets.fromLTRB(0, 130, 0, 0),
         child: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 70),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 70),
+                      decoration: const BoxDecoration(
                         color: Colors.transparent,
                         border: Border(
                           bottom: BorderSide(width: 2.0, color: Colors.black),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'หน้าหลัก',
                         style: TextStyle(
                           color: Colors.black,
@@ -92,17 +99,33 @@ class _NavigationPageState extends State<NavigationPage> {
               ListTile(
                 leading: Icon(Icons.broken_image_outlined),
                 title: Text('สรุปภาพรวมสุขภาพ'),
-                onTap: () => _onDrawerItemTapped(0),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => OverallHealthPage()),
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.access_time),
                 title: Text('กิจประจำวัน'),
-                onTap: () => _onDrawerItemTapped(1),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ActivitiesPage()),
+                  );
+                },
               ),
               ListTile(
                 leading: Icon(Icons.local_library_sharp),
                 title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
-                onTap: () => _onDrawerItemTapped(2),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TipsHealthPage()),
+                  );
+                },
               ),
             ],
           ),
@@ -196,35 +219,26 @@ class Menu extends StatelessWidget {
 class Person extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('This is person Page'),
     );
   }
 }
 
-// class OverallHealthPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('This is Overall Health Page'),
-//     );
-//   }
-// }
 
-class ActivitiesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('This is Activities Page'),
-    );
-  }
-}
+
+
+
+
 
 class TipsHealthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('This is Tips Health Page'),
+   
+    return const Center(
+      child: Text('This is School Page'),
+
+
     );
   }
 }
