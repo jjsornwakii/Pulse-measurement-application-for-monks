@@ -257,10 +257,20 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 30,
                             fontWeight: FontWeight.w400),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange[700],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage()),
+                          );
+                        },
+                        child: Text(
+                          'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                          style: TextStyle(color: Colors.orange, fontSize: 16),
+
                         ),
                         padding:
                             EdgeInsets.symmetric(horizontal: 80, vertical: 12),

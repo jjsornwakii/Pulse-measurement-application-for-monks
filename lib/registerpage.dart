@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         // Check if registration was successful
         if (responseData['message'] == 'success') {
-          Navigator.pushReplacement(
+          Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => LoginPage()),
           );
@@ -241,7 +241,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(height: 20),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => LoginPage()),
