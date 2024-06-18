@@ -1,4 +1,11 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:sato/measureBpm.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -6,20 +13,65 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  String? server = dotenv.env['server'];
+  String? port = dotenv.env['port'];
+  String? apipath = dotenv.env['apipath'];
+  GetStorage box = GetStorage();
+  List<dynamic> imagePaths = ['src/fish.jpg', 'src/fish.jpg'];
+
+  Map<String, dynamic> newestData = {};
+
+  PageController tipPage = PageController();
+
+  int _currentPage = 0;
+  Timer? _timer;
+
+  String user_id = '';
+  double _sliderValue = 0.5;
+
+  @override
+  void initState() {
+    super.initState();
+    user_id = box.read("userId");
+    _startAutoScroll();
+    getNewestHealthData();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    tipPage.dispose();
+    super.dispose();
+  }
+
+  void _startAutoScroll() {
+    _timer = Timer.periodic(const Duration(seconds: 15), (Timer timer) {
+      if (_currentPage < imagePaths.length - 1) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      tipPage.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    double _sliderValue = 0.5;
     double fontSize = 17;
     final screenSize = MediaQuery.of(context).size;
     return Container(
       width: screenSize.width,
       height: screenSize.height,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromARGB(255, 255, 251, 138),
       ),
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -27,7 +79,7 @@ class _HomePage extends State<HomePage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 217, 29),
+                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
                     minimumSize:
                         Size(screenSize.width * .46, screenSize.height * .15),
                     shape: RoundedRectangleBorder(
@@ -43,13 +95,13 @@ class _HomePage extends State<HomePage> {
                           'assets/icon/blood_presure.png', // ใส่ path ของรูปภาพที่ต้องการใช้
                           height: 50,
                         ),
-                        SizedBox(width: 2),
+                        const SizedBox(width: 2),
                         Text(
                           'แตะเพื่อวัด',
                           style: TextStyle(
                             fontSize: fontSize,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 50, 52, 62),
+                            color: const Color.fromARGB(255, 50, 52, 62),
                           ),
                         ),
                       ],
@@ -67,7 +119,7 @@ class _HomePage extends State<HomePage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 217, 29),
+                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
                     minimumSize:
                         Size(screenSize.width * .46, screenSize.height * .15),
                     shape: RoundedRectangleBorder(
@@ -83,13 +135,13 @@ class _HomePage extends State<HomePage> {
                           'assets/icon/blood_glucose.png', // ใส่ path ของรูปภาพที่ต้องการใช้
                           height: 50,
                         ),
-                        SizedBox(width: 2),
+                        const SizedBox(width: 2),
                         Text(
                           'แตะเพื่อวัด',
                           style: TextStyle(
                             fontSize: fontSize,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 50, 52, 62),
+                            color: const Color.fromARGB(255, 50, 52, 62),
                           ),
                         ),
                       ],
@@ -107,19 +159,23 @@ class _HomePage extends State<HomePage> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 255, 217, 29),
-                minimumSize:
-                    Size(screenSize.width * .95, screenSize.height * .15),
-                maximumSize:
-                    Size(screenSize.width * .95, screenSize.height * .15),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-            onPressed: () {},
+              backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+              minimumSize:
+                  Size(screenSize.width * .95, screenSize.height * .15),
+              maximumSize:
+                  Size(screenSize.width * .95, screenSize.height * .15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+            onPressed: () {
+              gotoMeasureBPM();
+            },
             child: Column(
               children: [
                 Text(
@@ -127,7 +183,7 @@ class _HomePage extends State<HomePage> {
                   style: TextStyle(
                     fontSize: fontSize,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 50, 52, 62),
+                    color: const Color.fromARGB(255, 50, 52, 62),
                   ),
                 ),
                 Row(
@@ -152,7 +208,7 @@ class _HomePage extends State<HomePage> {
                         )
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Column(
@@ -167,25 +223,25 @@ class _HomePage extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
             width: screenSize.width * .95,
-            height: screenSize.height * .26,
+            height: screenSize.height * .30,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 217, 29),
+              color: const Color.fromARGB(255, 255, 217, 29),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         "สาระน่ารู้",
                         style: TextStyle(
                             color: Colors.black,
@@ -193,49 +249,69 @@ class _HomePage extends State<HomePage> {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "หน้า 2 / 3",
-                        style: TextStyle(
+                        "หน้า ${_currentPage + 1} / ${imagePaths.length}",
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Expanded(
-                      child: Container(
-                    decoration: BoxDecoration(
+                    child: Container(
+                      decoration: BoxDecoration(
                         color: Colors.black38,
-                        borderRadius: BorderRadius.circular(20)),
-                  ))
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: PageView.builder(
+                        controller: tipPage,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: imagePaths.length,
+                        onPageChanged: (int page) {
+                          setState(() {
+                            _currentPage = page;
+                          });
+                        },
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                              "http://$server:$port/api_shatu/${imagePaths[index]}",
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
             width: screenSize.width * .95,
             height: screenSize.height * .11,
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 255, 217, 29),
+              color: const Color.fromARGB(255, 255, 217, 29),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("ระดับความเสี่ยง"),
                       Text("รอประเมิน"),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Row(
@@ -246,7 +322,7 @@ class _HomePage extends State<HomePage> {
                         height: 23,
                         decoration: BoxDecoration(
                           border: Border.all(width: 2),
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [
                               Colors.green,
                               Colors.yellow,
@@ -290,4 +366,36 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
+
+  void gotoMeasureBPM() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MeasureBpmPage()),
+    );
+  }
+
+  Future<void> getNewestHealthData() async {
+    String url = "http://$server:$port/api_shatu/getHealthData.php";
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {"content-type": "application/json"},
+      body: json.encode(
+        {"user_id": user_id},
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        newestData = json.decode(response.body);
+      });
+
+      print(newestData);
+    } else {
+      print("get data failed.");
+    }
+  }
+
+  void riskMeasure(int sugar, int blood_pressure_min, int blood_pressure_max,
+      int heart_rate) {}
 }

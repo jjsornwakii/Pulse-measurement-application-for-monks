@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get_storage/get_storage.dart';
-
+import 'package:sato/registerpage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -257,13 +257,19 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 30,
                             fontWeight: FontWeight.w400),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange[700],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 80, vertical: 12),
+                    ),
+                    SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()),
+                        );
+                      },
+                      child: Text(
+                        'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                        style: TextStyle(color: Colors.orange, fontSize: 16),
                       ),
                     ),
                     SizedBox(height: 20),
