@@ -90,8 +90,9 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
   final server = dotenv.env['server'] ?? '';
   final port = dotenv.env['port'] ?? '';
   final apipath = dotenv.env['apipath'] ?? '';
+  final GetStorage box = GetStorage();
 
-  List<dynamic> tasks = [];
+  List<Map<String, dynamic>> tasks = [];
   List<bool> isCheckedList = [];
   List<bool> isExpandedList = [];
 
@@ -103,11 +104,17 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
 
   Future<void> fetchTasks() async {
     String apiUrl = 'http://$server:$port/$apipath/getTasks.php';
-    final response = await http.get(Uri.parse(apiUrl));
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'user_id': box.read("userId").toString()}),
+    );
     if (response.statusCode == 200) {
       setState(() {
-        tasks = jsonDecode(response.body);
-        isCheckedList = List.filled(tasks.length, false);
+        Iterable taskList = jsonDecode(response.body);
+        tasks = taskList.map((task) => task as Map<String, dynamic>).toList();
+        isCheckedList =
+            tasks.map((task) => task['activity_status'] == 1).toList();
         isExpandedList = List.filled(tasks.length, false);
       });
     } else {
@@ -115,17 +122,24 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
     }
   }
 
-  Future<void> submitData(int taskId) async {
+  Future<void> submitData(int taskId, int index) async {
     String apiUrl = 'http://$server:$port/$apipath/updateActivity.php';
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'task_id': taskId}),
+      body: jsonEncode({
+        'task_id': taskId,
+        'user_id': box.read("userId").toString(),
+      }),
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
       if (responseData.containsKey('message')) {
         print(responseData['message']);
+        setState(() {
+          isCheckedList[index] = true;
+          tasks[index]['activity_status'] = 1;
+        });
       } else if (responseData.containsKey('error')) {
         print(responseData['error']);
       }
@@ -141,9 +155,8 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
         children: tasks.asMap().entries.map((entry) {
           int index = entry.key;
           var task = entry.value;
-          String iconPath = 'assets/icon/default_icon.png';
 
-         
+          String iconPath = 'assets/icon/default_icon.png';
           if (task['task_img'] != null && task['task_img'].isNotEmpty) {
             iconPath = 'assets/icon/${task['task_img']}';
           }
@@ -152,11 +165,12 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
             title: task['task_name'],
             iconPath: iconPath,
             isChecked: isCheckedList[index],
-            onCheckboxChanged: (bool? value) {
-              setState(() {
-                isCheckedList[index] = value!;
-              });
-            },
+            onCheckboxChanged: (bool? newValue) {
+              if (newValue == true) {
+                int taskId = int.parse(task['task_id']);
+                submitData(taskId, index);
+              }
+            }, // อนุญาตให้มีการโต้ตอบ
             isExpanded: isExpandedList[index],
             onExpansionChanged: (bool expanded) {
               setState(() {
@@ -176,9 +190,12 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await submitData(task['task_id']);
-                  },
+                  onPressed: task['activity_status'] == 1
+                      ? null
+                      : () async {
+                          int taskId = int.parse(task['task_id']);
+                          await submitData(taskId, index);
+                        },
                   child: Text(
                     'Submit',
                     style: GoogleFonts.kanit(),
@@ -186,79 +203,83 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                 ),
               ),
             ],
+            activityStatus: int.parse(task['activity_status'].toString()),
           );
         }).toList(),
       ),
     );
   }
 
-  Widget _buildExpansionTile({
-    required String title,
-    required String iconPath,
-    required bool isChecked,
-    required ValueChanged<bool?> onCheckboxChanged,
-    required bool isExpanded,
-    required ValueChanged<bool> onExpansionChanged,
-    required List<Widget> children,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.black, width: 1),
-        ),
-        color: Colors.grey[50],
+ Widget _buildExpansionTile({
+  required String title,
+  required String iconPath,
+  required bool isChecked,
+  required ValueChanged<bool?>? onCheckboxChanged,
+  required bool isExpanded,
+  required ValueChanged<bool> onExpansionChanged,
+  required List<Widget> children,
+  required int activityStatus,
+}) {
+  bool isDisabled = activityStatus == 0;
+
+  return Container(
+    decoration: BoxDecoration(
+      border: Border(
+        bottom: BorderSide(color: Colors.black, width: 1),
       ),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.all(15),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(90),
-              child: Transform.scale(
-                scale: 2,
-                child: Checkbox(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  side: MaterialStateBorderSide.resolveWith(
-                    (states) {
-                      return BorderSide(width: 1.5, color: Colors.orange[700]!);
-                    },
-                  ),
-                  activeColor: Colors.white,
-                  checkColor: Colors.greenAccent[400],
-                  value: isChecked,
-                  onChanged: onCheckboxChanged,
+      color: Colors.grey[50],
+    ),
+    child: ExpansionTile(
+      tilePadding: EdgeInsets.all(15),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(90),
+            child: Transform.scale(
+              scale: 2,
+              child: Checkbox(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
+                side: BorderSide(
+                  width: 1.5,
+                  color: Colors.orange[700]!,
+                ),
+                activeColor: Colors.green,
+                checkColor: Colors.greenAccent[400],
+                value: isChecked,
+                onChanged: isDisabled ? null : onCheckboxChanged,
               ),
             ),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: GoogleFonts.kanit(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: GoogleFonts.kanit(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
             ),
-            const Spacer(),
-            Image.asset(
-              iconPath,
-              height: 45,
-              width: 45,
-              fit: BoxFit.cover,
-            ),
-          ],
-        ),
-        trailing: Icon(
-          isExpanded
-              ? Icons.keyboard_arrow_down
-              : Icons.arrow_forward_ios_rounded,
-          color: Colors.orange,
-        ),
-        onExpansionChanged: onExpansionChanged,
-        children: children,
+          ),
+          const Spacer(),
+          Image.asset(
+            iconPath,
+            height: 45,
+            width: 45,
+            fit: BoxFit.cover,
+          ),
+        ],
       ),
-    );
-  }
+      trailing: Icon(
+        isExpanded
+            ? Icons.keyboard_arrow_down
+            : Icons.arrow_forward_ios_rounded,
+        color: Colors.orange,
+      ),
+      onExpansionChanged: onExpansionChanged,
+      children: isDisabled ? [] : children,
+    ),
+  );
+}
+
 }

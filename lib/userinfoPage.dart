@@ -63,7 +63,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       },
       body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
     );
-
+  
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       setState(() {
