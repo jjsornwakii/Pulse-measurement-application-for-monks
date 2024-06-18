@@ -34,13 +34,11 @@ class _MyAppState extends State<MyApp> {
     final server = dotenv.env['server'] ?? '';
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
-    box.erase;
-
+    chcekActivity();
     CheckLogin();
   }
 
   Future<void> chcekActivity() async {
-    box.erase;
     final server = dotenv.env['server'] ?? '';
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
