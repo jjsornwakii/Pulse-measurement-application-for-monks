@@ -1,14 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/homepage.dart';
-import 'package:sato/login.dart';
-//import 'package:sato/userPage.dart';
-
 import 'package:sato/TipsHealthPage.dart';
-import 'package:sato/homepage.dart';
 import 'package:sato/userPage.dart';
 import 'package:sato/healthPage.dart';
+
+void main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: NavigationPage(),
+    );
+  }
+}
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -17,7 +35,11 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 1;
-
+  String? server = dotenv.env['server'];
+  String? port = dotenv.env['port'];
+  String? apipath = dotenv.env['apipath'];
+  GetStorage box = GetStorage();
+  Map<String, dynamic>? userData;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _pages = <Widget>[
@@ -35,6 +57,13 @@ class _NavigationPageState extends State<NavigationPage> {
     TipsHealthPage(),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    print(box.read("userId"));
+    _getUserData();
+  }
+
   void _onItemTapped(int index) {
    
     if (index == 0) {
@@ -49,6 +78,25 @@ class _NavigationPageState extends State<NavigationPage> {
       setState(() {
         _selectedIndex = index;
       });
+    }
+  }
+
+  Future<void> _getUserData() async {
+    final url = 'http://$server:$port/api_shatu/userinfo.php';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        userData = jsonDecode(response.body);
+      });
+    } else {
+      print('Failed to load user data');
     }
   }
 
@@ -103,7 +151,8 @@ class _NavigationPageState extends State<NavigationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => OverallHealthPage()),
+                      builder: (context) => OverallHealthPage(),
+                    ),
                   );
                 },
               ),
@@ -137,7 +186,7 @@ class _NavigationPageState extends State<NavigationPage> {
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 255, 251, 138),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -146,7 +195,9 @@ class _NavigationPageState extends State<NavigationPage> {
                   children: [
                     SizedBox(height: 40),
                     Text(
-                      "สวัสดี, <ชื่อ>",
+                      userData != null
+                          ? "สวัสดี ${userData!['user_fname']}"
+                          : 'Loading...',
                       style: TextStyle(color: Colors.black, fontSize: 30),
                     ),
                     Text(
@@ -216,29 +267,40 @@ class Menu extends StatelessWidget {
   }
 }
 
-class Person extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('This is person Page'),
-    );
-  }
-}
 
 
+// class HomePage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('This is Home Page'),
+//     );
+//   }
+// }
 
+// class UserPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Center(
+//       child: Text('This is User Page'),
+//     );
+//   }
+// }
 
+// class ActivitiesPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Center(
+//       child: Text('This is Activities Page'),
+//     );
+//   }
+// }
 
-
-
-class TipsHealthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-   
-    return const Center(
-      child: Text('This is School Page'),
-
-
-    );
-  }
-}
+// class TipsHealthPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Center(
+//       child: Text('This is Tips Health Page'),
+//     );
+//   }
+// }

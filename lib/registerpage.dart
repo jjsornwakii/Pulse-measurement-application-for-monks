@@ -26,7 +26,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // Validate form fields
     if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('กรุณากรอกชื่อผู้ใช้และรหัสผ่าน'),
           backgroundColor: Colors.red,
         ),
@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (passwordController.text != passwordCheckController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('รหัสผ่านไม่ตรงกัน'),
           backgroundColor: Colors.red,
         ),
@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
       } else {
         // Show error message if request failed
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server'),
             backgroundColor: Colors.red,
           ),
@@ -95,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
     } catch (e) {
       // Show error message if there was an exception
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('เกิดข้อผิดพลาดในการเชื่อมต่อกับ Server'),
           backgroundColor: Colors.red,
         ),
@@ -114,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
             right: 0,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.55,
-              color: Color.fromARGB(255, 247, 206, 101),
+              color: const Color.fromARGB(255, 247, 206, 101),
               child: Center(
                 child: Image.asset(
                   'assets/logo/sathu.png', // Replace with your logo asset
@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.75,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(50),
@@ -139,41 +139,41 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'สมัครสมาชิก',
                         style: TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'ชื่อผู้ใช้',
                             style: TextStyle(fontSize: 16),
                           ),
                           TextField(
                             controller: usernameController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.person),
                               border: OutlineInputBorder(),
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'รหัสผ่าน',
                             style: TextStyle(fontSize: 16),
                           ),
                           TextField(
                             controller: passwordController,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.lock),
-                              border: OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.lock),
+                              border: const OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
@@ -191,19 +191,19 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'ยืนยันรหัสผ่าน',
                             style: TextStyle(fontSize: 16),
                           ),
                           TextField(
                             controller: passwordCheckController,
                             decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.lock),
-                              border: OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.lock),
+                              border: const OutlineInputBorder(),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
@@ -221,24 +221,24 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () => register(context),
-                        child: Text(
-                          'ลงทะเบียน',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                               horizontal: 80, vertical: 12),
-                          textStyle: TextStyle(fontSize: 18),
+                          textStyle: const TextStyle(fontSize: 18),
+                        ),
+                        child: const Text(
+                          'ลงทะเบียน',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
@@ -247,7 +247,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 builder: (context) => LoginPage()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'มีบัญชีใช่หรือไม่? เข้าสู่ระบบ',
                           style: TextStyle(color: Colors.orange, fontSize: 16),
                         ),

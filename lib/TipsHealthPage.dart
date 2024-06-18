@@ -19,9 +19,6 @@ class _TipsHealthPage extends State<TipsHealthPage> {
   @override
   void initState() {
     super.initState();
-    print("***************************************");
-    print(server);
-    print(port);
     getAllTips();
   }
 
@@ -32,7 +29,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
     return Container(
       width: screenSize.width,
       height: screenSize.height,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color.fromARGB(255, 255, 251, 138),
       ),
       child: Padding(
@@ -69,14 +66,16 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 Image.asset(
                   'assets/icon/knowledge.png',
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Text(
+                const Text(
                   "เกร็ดน่ารู้คู่สุขภาพ",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    decoration: TextDecoration.none, // Ensure no decoration
                   ),
                 ),
               ],
@@ -87,7 +86,9 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                   child: Text(
                     "การให้ความรู้และคำแนะนำด้านการดูแลสุขภาพ",
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 17,
+                      color: Colors.black,
+                      decoration: TextDecoration.none, // Ensure no decoration
                     ),
                     softWrap: true,
                     overflow: TextOverflow.visible,
@@ -123,10 +124,28 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: Image.network(
-                              "http://$server:$port/api_shatu/${data[index]['tip_image']}",
+                              'http://$server:$port/api_shatu/${data[index]['tip_image']}',
                             ),
                           ),
-                          Text(data[index]['tip_text']),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                data[index]['tip_topic'],
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  decoration: TextDecoration
+                                      .none, // Ensure no decoration
+                                  overflow:
+                                      TextOverflow.ellipsis, // Handle overflow
+                                ),
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
