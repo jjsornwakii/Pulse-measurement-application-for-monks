@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    
+
     final server = dotenv.env['server'] ?? '';
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
 
-    String apiUrl = 'http://$server:$port/$apipath/setActiviy.php';
+    String apiUrl = 'http://$server:$port/shatu/setActiviy.php';
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: <String, String>{
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
     print(userId);
     print('--------------------------');
     if (userId != null && userId!.isNotEmpty) {
-      chcekActivity(); // Fetch data if the user is logged in
+      //chcekActivity(); // Fetch data if the user is logged in
     }
   }
 

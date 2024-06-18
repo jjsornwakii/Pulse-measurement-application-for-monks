@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LoginPage extends StatefulWidget {
