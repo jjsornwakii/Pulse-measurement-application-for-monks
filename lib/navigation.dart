@@ -151,7 +151,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OverallHealthPage(),
+                      builder: (context) => HealthPage(),
                     ),
                   );
                 },
