@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/navigation.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get_storage/get_storage.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -258,10 +257,20 @@ class _LoginPageState extends State<LoginPage> {
                             fontSize: 30,
                             fontWeight: FontWeight.w400),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange[700],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage()),
+                          );
+                        },
+                        child: Text(
+                          'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
+                          style: TextStyle(color: Colors.orange, fontSize: 16),
+
                         ),
                         padding:
                             EdgeInsets.symmetric(horizontal: 80, vertical: 12),

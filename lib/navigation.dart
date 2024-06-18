@@ -8,6 +8,7 @@ import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/userPage.dart';
+import 'package:sato/healthPage.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -45,10 +46,13 @@ class _NavigationPageState extends State<NavigationPage> {
     Menu(),
     HomePage(),
     UserPage(),
+    HealthPage(),
+    ActivitiesPage(),
+    TipsHealthPage(),
   ];
 
   List<Widget> _drawerPages = <Widget>[
-    OverallHealthPage(),
+    HealthPage(),
     ActivitiesPage(),
     TipsHealthPage(),
   ];
@@ -61,8 +65,9 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   void _onItemTapped(int index) {
+   
     if (index == 0) {
-      _scaffoldKey.currentState?.openDrawer();
+      _scaffoldKey.currentState?.openDrawer(); 
     } else if (index == 2) {
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
@@ -262,14 +267,7 @@ class Menu extends StatelessWidget {
   }
 }
 
-class OverallHealthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('This is Overall Health Page'),
-    );
-  }
-}
+
 
 // class HomePage extends StatelessWidget {
 //   @override
