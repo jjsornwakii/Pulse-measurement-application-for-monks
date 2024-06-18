@@ -65,9 +65,8 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 
   void _onItemTapped(int index) {
-   
     if (index == 0) {
-      _scaffoldKey.currentState?.openDrawer(); 
+      _scaffoldKey.currentState?.openDrawer();
     } else if (index == 2) {
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
@@ -151,7 +150,7 @@ class _NavigationPageState extends State<NavigationPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OverallHealthPage(),
+                      builder: (context) => HealthPage(),
                     ),
                   );
                 },
@@ -200,7 +199,7 @@ class _NavigationPageState extends State<NavigationPage> {
                           : 'Loading...',
                       style: TextStyle(color: Colors.black, fontSize: 30),
                     ),
-                    Text(
+                    const Text(
                       "ภาพรวมสุขภาพ",
                       style: TextStyle(
                         color: Colors.black,
@@ -210,7 +209,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     ),
                   ],
                 ),
-                Column(
+                const Column(
                   children: [
                     SizedBox(height: 50),
                     CircleAvatar(
