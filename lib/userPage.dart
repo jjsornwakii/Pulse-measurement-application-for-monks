@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sato/edituserinfo.dart';
 import 'package:sato/login.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -114,7 +115,11 @@ class _UserPageState extends State<UserPage> {
                     title: Text('แก้ไขข้อมูลส่วนตัว'),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      // Navigate to edit personal info page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EdituserinfoPage()),
+                      );
                     },
                   ),
                   Divider(),
@@ -123,7 +128,10 @@ class _UserPageState extends State<UserPage> {
                     title: Text('กิจวัตรประจำวัน'),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () {
-                      // Navigate to daily routine page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => UserInfoApp()),
+                      );
                     },
                   ),
                   Row(
@@ -138,7 +146,7 @@ class _UserPageState extends State<UserPage> {
                         child: TextButton(
                           onPressed: () {
                             box.erase();
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => LoginPage()),

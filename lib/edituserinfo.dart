@@ -7,12 +7,13 @@ import 'dart:convert';
 import 'package:sato/userPage.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   await GetStorage.init();
-  runApp(UserInfoApp());
+  runApp(Edituserinfo());
 }
 
-class UserInfoApp extends StatelessWidget {
+class Edituserinfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,22 +21,23 @@ class UserInfoApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home: UserInfoPage(),
+      home: EdituserinfoPage(),
     );
   }
 }
 
-class UserInfoPage extends StatefulWidget {
+class EdituserinfoPage extends StatefulWidget {
   @override
-  _UserInfoPageState createState() => _UserInfoPageState();
+  _EdituserinfoPageState createState() => _EdituserinfoPageState();
 }
 
-class _UserInfoPageState extends State<UserInfoPage> {
+class _EdituserinfoPageState extends State<EdituserinfoPage> {
   final GetStorage box = GetStorage();
   final String server = dotenv.env['server'] ?? '';
   final String port = dotenv.env['port'] ?? '';
   final String apipath = dotenv.env['apipath'] ?? '';
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _userIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _birthdateController = TextEditingController();
@@ -46,12 +48,13 @@ class _UserInfoPageState extends State<UserInfoPage> {
   late DateTime birthday;
   bool _hasChronicDisease = false;
   List<String> _diseaseList = [];
+  List<String> _selectedDiseases = [];
 
   @override
   void initState() {
     super.initState();
     _getUserData();
-    _getdisease();
+    _getDisease();
   }
 
   Future<void> _getUserData() async {
@@ -75,24 +78,22 @@ class _UserInfoPageState extends State<UserInfoPage> {
         _addressController.text = data['user_address'];
         _weightController.text = data['user_weight'].toString();
         _heightController.text = data['user_height'].toString();
-        _hasChronicDisease = data['hasChronicDisease'] == "1";
+        _hasChronicDisease = data['hasChronicDisease'] ?? false;
+        _selectedDiseases = data['diseaseDetails'] != null
+            ? List<String>.from(data['diseaseDetails'])
+            : [];
       });
     } else {
       print('Failed to load user data');
     }
   }
 
-  Future<void> _getdisease() async {
-    String apiUrl = 'http://$server:$port/$apipath/getUserdisease.php';
-    final url = apiUrl;
-    final response = await http.post(
+  Future<void> _getDisease() async {
+    final url = 'http://$server:$port/$apipath/getDisease.php';
+    final response = await http.get(
       Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
     );
-    print(apiUrl);
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List;
       setState(() {
@@ -100,6 +101,33 @@ class _UserInfoPageState extends State<UserInfoPage> {
       });
     } else {
       print('Failed to load disease data');
+    }
+  }
+
+  Future<void> _updateUserData() async {
+    final url = 'http://$server:$port/$apipath/update_userinfo.php';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'user_id': box.read('userId'),
+        'user_fname': _nameController.text,
+        'user_lname': _surnameController.text,
+        'user_birthday': _birthdateController.text,
+        'user_address': _addressController.text,
+        'user_weight': _weightController.text,
+        'user_height': _heightController.text,
+        'hasChronicDisease': _hasChronicDisease,
+        'diseaseDetails': _selectedDiseases,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      print('User data updated successfully');
+    } else {
+      print(response.body);
     }
   }
 
@@ -117,115 +145,123 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 controller: _nameController,
                 decoration: InputDecoration(
                   labelText: 'ชื่อ',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                 ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               TextFormField(
                 controller: _surnameController,
                 decoration: InputDecoration(
                   labelText: 'นามสกุล',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                 ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               TextFormField(
                 controller: _birthdateController,
                 decoration: InputDecoration(
                   labelText: 'ว/ด/ป เกิด',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
+                onTap: () async {
+                  DateTime? date = await showDatePicker(
+                    context: context,
+                    initialDate: birthday,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+                  if (date != null) {
+                    setState(() {
+                      birthday = date;
+                      _birthdateController.text =
+                          "${birthday.toLocal()}".split(' ')[0];
+                    });
+                  }
+                },
                 readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               TextFormField(
                 controller: _ageController,
                 decoration: InputDecoration(
                   labelText: 'อายุ',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixText: 'ปี',
                 ),
                 keyboardType: TextInputType.number,
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               TextFormField(
                 controller: _addressController,
                 decoration: InputDecoration(
                   labelText: 'ที่อยู่/ชื่อวัด',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                 ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               TextFormField(
                 controller: _weightController,
                 decoration: InputDecoration(
-                  labelText: 'น้ำหนัก',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixText: 'กก.',
+                  labelText: 'น้ำหนัก (กก.)',
                 ),
                 keyboardType: TextInputType.number,
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               TextFormField(
                 controller: _heightController,
                 decoration: InputDecoration(
-                  labelText: 'ส่วนสูง',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixText: 'ซม.',
+                  labelText: 'ส่วนสูง (ซม.)',
                 ),
                 keyboardType: TextInputType.number,
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 10),
               Row(
                 children: <Widget>[
-                  Text('โรคประจำตัว:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text('โรคประจำตัว:'),
                   SizedBox(width: 10),
-                  Text(_hasChronicDisease ? 'มี' : 'ไม่มี',
-                      style: TextStyle(fontSize: 16)),
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        Radio(
+                          value: true,
+                          groupValue: _hasChronicDisease,
+                          onChanged: (value) {
+                            setState(() {
+                              _hasChronicDisease = value!;
+                              if (_hasChronicDisease) {
+                                _getDisease();
+                              } else {
+                                _selectedDiseases.clear();
+                              }
+                            });
+                          },
+                        ),
+                        Text('มี'),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        Radio(
+                          value: false,
+                          groupValue: _hasChronicDisease,
+                          onChanged: (value) {
+                            setState(() {
+                              _hasChronicDisease = value!;
+                              _selectedDiseases.clear();
+                            });
+                          },
+                        ),
+                        Text('ไม่มี'),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               if (_hasChronicDisease)
                 Column(
                   children: _diseaseList.map((disease) {
-                    return ListTile(
-                      title: Text(disease, style: TextStyle(fontSize: 16)),
+                    return CheckboxListTile(
+                      title: Text(disease),
+                      value: _selectedDiseases.contains(disease),
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true) {
+                            _selectedDiseases.add(disease);
+                          } else {
+                            _selectedDiseases.remove(disease);
+                          }
+                        });
+                      },
                     );
                   }).toList(),
                 ),
@@ -240,9 +276,24 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         MaterialPageRoute(builder: (context) => UserPage()),
                       );
                     },
-                    child: Text('กลับ', style: TextStyle(fontSize: 16)),
+                    child: Text('ยกเลิก'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _updateUserData();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => UserPage()),
+                        );
+                      }
+                    },
+                    child: Text('ยืนยัน'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.yellow,
                     ),
                   ),
                 ],

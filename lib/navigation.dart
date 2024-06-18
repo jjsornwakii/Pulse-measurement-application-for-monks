@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/userPage.dart';
+import 'package:sato/healthPage.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -16,17 +17,21 @@ class _NavigationPageState extends State<NavigationPage> {
     Menu(),
     HomePage(),
     UserPage(),
+    HealthPage(),
+    ActivitiesPage(),
+    TipsHealthPage(),
   ];
 
   List<Widget> _drawerPages = <Widget>[
-    OverallHealthPage(),
+    HealthPage(),
     ActivitiesPage(),
     TipsHealthPage(),
   ];
 
   void _onItemTapped(int index) {
+   
     if (index == 0) {
-      _scaffoldKey.currentState?.openDrawer();
+      _scaffoldKey.currentState?.openDrawer(); 
     } else if (index == 2) {
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
@@ -197,14 +202,14 @@ class Person extends StatelessWidget {
   }
 }
 
-class OverallHealthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('This is Overall Health Page'),
-    );
-  }
-}
+// class OverallHealthPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('This is Overall Health Page'),
+//     );
+//   }
+// }
 
 class ActivitiesPage extends StatelessWidget {
   @override
