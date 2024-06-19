@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sato/measureBpm.dart';
 import 'package:http/http.dart' as http;
+import 'package:sato/tipdetailPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,9 +18,12 @@ class _HomePage extends State<HomePage> {
   String? port = dotenv.env['port'];
   String? apipath = dotenv.env['apipath'];
   GetStorage box = GetStorage();
-  List<dynamic> imagePaths = ['src/fish.jpg', 'src/fish.jpg'];
+  //List<dynamic> imagePaths = ['src/fish.jpg', 'src/fish.jpg'];
+  List<dynamic> imagePaths = [];
+  List<dynamic> topic = [];
 
   Map<String, dynamic> newestData = {};
+  List<dynamic> tipList = [];
 
   PageController tipPage = PageController();
 
@@ -34,7 +38,27 @@ class _HomePage extends State<HomePage> {
     super.initState();
     user_id = box.read("userId");
     _startAutoScroll();
+
+    getTipImg();
     getNewestHealthData();
+
+    // print(newestData['age']);
+    // print(newestData['height']);
+    // print(newestData['diabetes_status']);
+    // print(newestData['sugar']);
+    // print(newestData['blood_pressure_min']);
+    // print(newestData['blood_pressure_max']);
+    // print(newestData['heart_rate']);
+
+    // riskMeasure(
+    //     newestData['age'],
+    //     newestData['height'],
+    //     newestData['weight'],
+    //     newestData['diabetes_status'],
+    //     newestData['sugar'],
+    //     newestData['blood_pressure_min'],
+    //     newestData['blood_pressure_max'],
+    //     newestData['heart_rate']);
   }
 
   @override
@@ -195,7 +219,7 @@ class _HomePage extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Image.asset(
-                          'assets/icon/blood_glucose.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                          'assets/icon/heartrate.png', // ใส่ path ของรูปภาพที่ต้องการใช้
                           height: 50,
                         ),
                         Text(
@@ -263,23 +287,60 @@ class _HomePage extends State<HomePage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.black38,
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: PageView.builder(
                         controller: tipPage,
                         scrollDirection: Axis.horizontal,
-                        itemCount: imagePaths.length,
+                        itemCount: tipList.length,
                         onPageChanged: (int page) {
                           setState(() {
                             _currentPage = page;
                           });
                         },
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.network(
-                              "http://$server:$port/api_shatu/${imagePaths[index]}",
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailPage(
+                                    data: tipList[index],
+                                    key: null,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: screenSize.height * .17,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          16), // กำหนดความโค้งของขอบ
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          "http://$server:$port/api_shatu/${tipList[index]['tip_image']}",
+                                        ),
+                                        fit: BoxFit
+                                            .cover, // ให้รูปภาพพอดีกับ container
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(tipList[index]['tip_topic']),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -336,9 +397,9 @@ class _HomePage extends State<HomePage> {
                         child: Stack(
                           children: [
                             Positioned(
-                              left: _sliderValue *
-                                  screenSize.width *
-                                  .80, // Adjust the left position
+                              left: (_sliderValue / 100) *
+                                  ((screenSize.width * .80) -
+                                      (24)), // Adjust the left position
                               top: 0,
                               bottom: 0,
                               child: Container(
@@ -397,6 +458,82 @@ class _HomePage extends State<HomePage> {
     }
   }
 
-  void riskMeasure(int sugar, int blood_pressure_min, int blood_pressure_max,
-      int heart_rate) {}
+  Future<void> getTipImg() async {
+    String url = "http://$server:$port/api_shatu/getalltip.php";
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {"Content-Type": "Application/Json"},
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      print(responseData["data"]);
+      setState(() {
+        tipList = responseData["data"];
+        // print("************************");
+        //print(tipList[0]['tip_image']);
+        // imagePaths = List<String>.from(
+        //     responseData['data'].map((tip) => tip['tip_image']));
+
+        // topic = List<String>.from(
+        //     responseData['data'].map((top) => top['tip_topic']));
+      });
+      //print("************************");
+      //print(imagePaths);
+      //print(tipList[1]['tip_id']);
+    }
+  }
+
+  void riskMeasure(
+      int age,
+      double height,
+      double weight,
+      int diabetes_status,
+      int sugar,
+      int blood_pressure_min,
+      int blood_pressure_max,
+      int heart_rate) {
+    int score = 0;
+
+    /////////////////
+    if (age < 45) {
+      score += 1;
+    } else if (age < 50) {
+      score += 2;
+    } else if (age < 60) {
+      score += 2;
+    } else {
+      score += 4;
+    }
+    /////////////////
+
+    double ibm = (weight) / (height * height);
+    if (ibm < 23) {
+      score += 1;
+    } else if (ibm < 27.49) {
+      score += 2;
+    } else {
+      score += 3;
+    }
+    ///////////////////
+    if (blood_pressure_max < 120) {
+      score += 1;
+    } else if (blood_pressure_max < 140) {
+      score += 2;
+    } else {
+      score += 4;
+    }
+    ////////////////
+    if (diabetes_status == 1) {
+      score += 2;
+    }
+    ///////////////
+    if (sugar > 100) {
+      score += 5;
+    }
+    setState(() {
+      _sliderValue = (score / 18) * 100;
+    });
+  }
 }

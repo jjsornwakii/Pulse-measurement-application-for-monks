@@ -68,13 +68,15 @@ class _NavigationPageState extends State<NavigationPage> {
   void _onItemTapped(int index) {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
-    } else if (index == 2) {
+    } 
+    else if (index == 2) {
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => UserPage()),
       );
-    } else {
+    }
+    else {
       setState(() {
         _selectedIndex = index;
       });
@@ -148,12 +150,13 @@ class _NavigationPageState extends State<NavigationPage> {
                 leading: Icon(Icons.broken_image_outlined),
                 title: Text('สรุปภาพรวมสุขภาพ'),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HealthPage(),
-                    ),
-                  );
+                  _onDrawerItemTapped(0);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => HealthPage(),
+                  //   ),
+                  // );
                 },
               ),
               ListTile(
@@ -170,10 +173,11 @@ class _NavigationPageState extends State<NavigationPage> {
                 leading: Icon(Icons.local_library_sharp),
                 title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TipsHealthPage()),
-                  );
+                  _onDrawerItemTapped(2);
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => TipsHealthPage()),
+                  // );
                 },
               ),
             ],
