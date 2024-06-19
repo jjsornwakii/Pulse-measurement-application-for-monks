@@ -2,6 +2,6 @@
     "java.compile.nullAnalysis.mode": "disabled",
 
     "java.configuration.updateBuildConfiguration": "interactive"
-    "dart.flutterSdkPath": "C:\\flutter"
 
+ 
 }
