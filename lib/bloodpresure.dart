@@ -1,8 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sato/detailbloodpresure/bloodpresureday.dart';
+import 'package:sato/detailbloodpresure/bloodpresuremonth.dart';
+import 'package:sato/detailbloodpresure/bloodpresureweek.dart';
+import 'package:http/http.dart' as http;
 
 void main() async {
+  // Ensure WidgetsBinding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Load environment variables
   await dotenv.load(fileName: ".env");
 
@@ -30,56 +40,156 @@ class BloodPressurePage extends StatefulWidget {
   _BloodPressurePageState createState() => _BloodPressurePageState();
 }
 
-class _BloodPressurePageState extends State<BloodPressurePage> {
+class _BloodPressurePageState extends State<BloodPressurePage>
+    with SingleTickerProviderStateMixin {
   final GetStorage box = GetStorage();
-  final server = dotenv.env['server'] ?? '';
-  final port = dotenv.env['port'] ?? '';
-  final apipath = dotenv.env['apipath'] ?? '';
+  final String server = dotenv.env['server'] ?? '';
+  final String port = dotenv.env['port'] ?? '';
+  final String apipath = dotenv.env['apipath'] ?? '';
   Map<String, dynamic> userData = {};
+  late final TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    // Load initial data or perform initialization tasks
+    // Initialize the TabController
+    _tabController = TabController(length: 3, vsync: this);
     fetchData();
   }
 
-  Future<void> fetchData() async {
-    // Example function to fetch data from storage or API
-    setState(() {
-      userData = box.read('userData') ?? {};
-    });
+  @override
+  void dispose() {
+    // Dispose of the TabController when the widget is disposed
+    _tabController.dispose();
+    super.dispose();
+  }
 
-    // If you need to fetch data from a server
-    // final response = await http.get(Uri.parse('$server:$port/$apipath'));
-    // if (response.statusCode == 200) {
-    //   setState(() {
-    //     userData = json.decode(response.body);
-    //     box.write('userData', userData);
-    //   });
-    // }
+  Future<void> fetchData() async {
+    final url = 'http://$server:$port/api_shatu/userinfo.php';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        userData = jsonDecode(response.body);
+      });
+    } else {
+      print('Failed to load user data');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 251, 138),
       appBar: AppBar(
-        title: Text('Blood Pressure Page'),
+        toolbarHeight: 80,
+        backgroundColor: Color.fromARGB(255, 255, 251, 138),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Text(
+                  userData != null
+                      ? "สวัสดี ${userData!['user_fname']}"
+                      : 'Loading...',
+                  style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
+                ),
+                Text(
+                  "ภาพรวมสุขภาพ",
+                  style: GoogleFonts.kanit(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.orange,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.orange,
+                      size: 45,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
-      body: Center(
-        child: userData.isEmpty
-            ? Text('No data available')
-            : Text('User Data: ${userData.toString()}'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Example of updating data
-          setState(() {
-            userData['bloodPressure'] = '120/80';
-            box.write('userData', userData);
-          });
-        },
-        child: Icon(Icons.add),
+      body: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            color: Colors.white),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(),
+              margin: EdgeInsets.symmetric(horizontal: 35),
+              child: TabBar(
+                dividerColor: Colors.transparent,
+                labelColor: Colors.orange,
+                unselectedLabelColor: Colors.black,
+                controller: _tabController,
+                tabs: const <Widget>[
+                  Tab(
+                    child: Text(
+                      'Day',
+                      style: TextStyle(fontSize: 18.0), // Increased font size
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'Week',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'Month',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const <Widget>[
+                  // chartColumn(),
+                  // Chartjah(),
+                  // Monthchart(),
+                  // Yearschart()
+                  Bloodpresureday(),
+                  Bloodpresureweek(),
+                  Bloodpresuremonth(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -249,6 +249,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 30),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange[600]),
                       onPressed: () => loginUser(context),
                       child: Text(
                         'เข้าสู่ระบบ',
@@ -258,21 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w400),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RegisterPage()),
-                        );
-                      },
-                      child: Text(
-                        'ยังไม่มีบัญชีใช่หรือไม่? สมัครสมาชิก',
-                        style: TextStyle(color: Colors.orange, fontSize: 16),
-                      ),
-                    ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 40),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -198,7 +198,8 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
                         },
                   child: Text(
                     'Submit',
-                    style: GoogleFonts.kanit(fontSize: 20, color: Colors.grey[800]),
+                    style: GoogleFonts.kanit(
+                        fontSize: 20, color: Colors.grey[800]),
                   ),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange[300]),

@@ -49,7 +49,8 @@ class _MyAppState extends State<MyApp> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8'
       },
-      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+      body: jsonEncode(
+          <String, String>{'user_id': box.read('userId').toString()}),
     );
 
     // Handle the response appropriately here

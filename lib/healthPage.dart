@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/bloodpresure.dart';
 import 'package:sato/heartrate.dart';
@@ -80,7 +81,7 @@ class _HealthPage extends State<HealthPage> {
               children: [
                 Text(
                   'แตะเพื่อวัด',
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontSize: fontSize,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 50, 52, 62),
@@ -100,7 +101,7 @@ class _HealthPage extends State<HealthPage> {
                         ),
                         Text(
                           "อัตตราการเต้นของหัวใจ",
-                          style: TextStyle(
+                          style: GoogleFonts.kanit(
                             fontSize: fontSize,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -138,7 +139,7 @@ class _HealthPage extends State<HealthPage> {
               children: [
                 Text(
                   'แตะเพื่อวัด',
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontSize: fontSize,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 50, 52, 62),
@@ -158,7 +159,7 @@ class _HealthPage extends State<HealthPage> {
                         ),
                         Text(
                           "ความดันโลหิต",
-                          style: TextStyle(
+                          style: GoogleFonts.kanit(
                             fontSize: fontSize,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -196,7 +197,7 @@ class _HealthPage extends State<HealthPage> {
               children: [
                 Text(
                   'แตะเพื่อวัด',
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontSize: fontSize,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 50, 52, 62),
@@ -216,7 +217,7 @@ class _HealthPage extends State<HealthPage> {
                         ),
                         Text(
                           "ระดับน้ำตาลในเลือด",
-                          style: TextStyle(
+                          style: GoogleFonts.kanit(
                             fontSize: fontSize,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
