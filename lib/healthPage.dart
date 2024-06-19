@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:sato/bloodpresure.dart';
+import 'package:sato/heartrate.dart';
 import 'dart:convert';
+
+import 'package:sato/sugarblood.dart';
 
 class HealthPage extends StatefulWidget {
   @override
@@ -66,7 +70,12 @@ class _HealthPage extends State<HealthPage> {
                     Size(screenSize.width * .95, screenSize.height * .15),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20))),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HeartRatePage()),
+              );
+            },
             child: Column(
               children: [
                 Text(
@@ -90,7 +99,7 @@ class _HealthPage extends State<HealthPage> {
                           height: 50,
                         ),
                         Text(
-                          "ชีพจร",
+                          "อัตตราการเต้นของหัวใจ",
                           style: TextStyle(
                             fontSize: fontSize,
                             color: Colors.white,
@@ -101,13 +110,6 @@ class _HealthPage extends State<HealthPage> {
                     ),
                     SizedBox(
                       width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Image.asset(
-                          'assets/decoration/graph.png',
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -126,7 +128,12 @@ class _HealthPage extends State<HealthPage> {
                     Size(screenSize.width * .95, screenSize.height * .15),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20))),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BloodPressurePage()),
+              );
+            },
             child: Column(
               children: [
                 Text(
@@ -150,7 +157,7 @@ class _HealthPage extends State<HealthPage> {
                           height: 50,
                         ),
                         Text(
-                          "ชีพจร",
+                          "ความดันโลหิต",
                           style: TextStyle(
                             fontSize: fontSize,
                             color: Colors.white,
@@ -161,13 +168,6 @@ class _HealthPage extends State<HealthPage> {
                     ),
                     SizedBox(
                       width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Image.asset(
-                          'assets/decoration/graph.png',
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -186,7 +186,12 @@ class _HealthPage extends State<HealthPage> {
                     Size(screenSize.width * .95, screenSize.height * .15),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20))),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SugarbloodPage()),
+              );
+            },
             child: Column(
               children: [
                 Text(
@@ -210,7 +215,7 @@ class _HealthPage extends State<HealthPage> {
                           height: 50,
                         ),
                         Text(
-                          "ชีพจร",
+                          "ระดับน้ำตาลในเลือด",
                           style: TextStyle(
                             fontSize: fontSize,
                             color: Colors.white,
@@ -221,13 +226,6 @@ class _HealthPage extends State<HealthPage> {
                     ),
                     SizedBox(
                       width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Image.asset(
-                          'assets/decoration/graph.png',
-                        ),
-                      ],
                     ),
                   ],
                 ),

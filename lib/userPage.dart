@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/edituserinfo.dart';
 import 'package:sato/login.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:sato/navigation.dart';
 import 'dart:convert';
 
 import 'package:sato/userinfoPage.dart';
@@ -52,7 +54,10 @@ class _UserPageState extends State<UserPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NavigationPage()),
+            );
           },
         ),
       ),
@@ -131,7 +136,8 @@ class _UserPageState extends State<UserPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => UserInfoApp()),
+                        MaterialPageRoute(
+                            builder: (context) => ActivitiesPage()),
                       );
                     },
                   ),
