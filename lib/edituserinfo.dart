@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sato/userPage.dart';
+import 'package:sato/userinfoPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

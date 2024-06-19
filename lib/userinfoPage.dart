@@ -63,7 +63,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       },
       body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
     );
-  
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       setState(() {
@@ -83,13 +83,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Future<void> _getdisease() async {
-
-
     String apiUrl = 'http://$server:$port/$apipath/getUserdisease.php';
     final url = apiUrl;
 
     final response = await http.post(
-
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -187,7 +184,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
               SizedBox(height: 10),
               TextFormField(
                 controller: _weightController,
-
                 decoration: InputDecoration(
                   labelText: 'น้ำหนัก',
                   labelStyle:
@@ -195,7 +191,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   suffixText: 'กก.',
-
                 ),
                 keyboardType: TextInputType.number,
                 readOnly: true,
@@ -204,7 +199,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
               SizedBox(height: 10),
               TextFormField(
                 controller: _heightController,
-
                 decoration: InputDecoration(
                   labelText: 'ส่วนสูง',
                   labelStyle:
@@ -212,7 +206,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   suffixText: 'ซม.',
-
                 ),
                 keyboardType: TextInputType.number,
                 readOnly: true,
@@ -221,14 +214,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
               SizedBox(height: 10),
               Row(
                 children: <Widget>[
-
                   Text('โรคประจำตัว:',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   SizedBox(width: 10),
                   Text(_hasChronicDisease ? 'มี' : 'ไม่มี',
                       style: TextStyle(fontSize: 16)),
-
                 ],
               ),
               if (_hasChronicDisease)
@@ -250,14 +241,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         MaterialPageRoute(builder: (context) => UserPage()),
                       );
                     },
-
                     child: Text('กลับ', style: TextStyle(fontSize: 16)),
-
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
                     ),
                   ),
-
                 ],
               ),
             ],
