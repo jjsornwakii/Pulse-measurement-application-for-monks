@@ -337,7 +337,8 @@ class _HomePage extends State<HomePage> {
                           children: [
                             Positioned(
                               left: _sliderValue *
-                                  280, // Adjust the left position
+                                  screenSize.width *
+                                  .80, // Adjust the left position
                               top: 0,
                               bottom: 0,
                               child: Container(
