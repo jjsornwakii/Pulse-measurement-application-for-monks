@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sato/ActivitiesPage.dart';
+import 'package:sato/OverallHealthPage.dart';
 import 'package:sato/homepage.dart';
 import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/userPage.dart';
@@ -270,34 +271,23 @@ class Menu extends StatelessWidget {
   }
 }
 
+class Person extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('This is person Page'),
+    );
+  }
+}
 
-
-// class HomePage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Text('This is Home Page'),
-//     );
-//   }
-// }
-
-// class UserPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('This is User Page'),
-//     );
-//   }
-// }
-
-// class ActivitiesPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('This is Activities Page'),
-//     );
-//   }
-// }
+class OverallHealthPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('This is Overall Health Page'),
+    );
+  }
+}
 
 // class TipsHealthPage extends StatelessWidget {
 //   @override
