@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 import 'package:sato/userPage.dart';
@@ -46,6 +47,34 @@ class _UserInfoPageState extends State<UserInfoPage> {
   late DateTime? birthday;
   bool _hasChronicDisease = false;
   List<String> _diseaseList = [];
+
+  InputDecoration textboxDecoration = InputDecoration(
+    hintText: 'กรอกชื่อของคุณ',
+    fillColor: Colors.white,
+    filled: true,
+    contentPadding: const EdgeInsets.symmetric(vertical: 5),
+    enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+      borderRadius: BorderRadius.circular(30.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+      borderRadius: BorderRadius.circular(30.0),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.red, width: 2.0),
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.red, width: 2.0),
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+  );
+
+  TextStyle labelTextStyle = const TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
 
   @override
   void initState() {
@@ -122,109 +151,379 @@ class _UserInfoPageState extends State<UserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "ข้อมูลส่วนตัว",
+          style: TextStyle(
+            color: Color.fromARGB(255, 250, 196, 0),
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        toolbarHeight: 120,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      ),
       backgroundColor: const Color.fromARGB(255, 255, 251, 138),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
-            children: <Widget>[
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'ชื่อ',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "ชื่อ",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 40,
+                      child: TextFormField(
+                        readOnly: true,
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          hintText: 'กรอกชื่อของคุณ',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _surnameController,
-                decoration: const InputDecoration(
-                  labelText: 'นามสกุล',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+              const SizedBox(
+                height: 5,
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _birthdateController,
-                decoration: const InputDecoration(
-                  labelText: 'ว/ด/ป เกิด',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "นามสกุล",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      child: TextFormField(
+                        readOnly: true,
+                        controller: _surnameController,
+                        decoration: InputDecoration(
+                          hintText: 'กรอกชื่อของคุณ',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _ageController,
-                decoration: const InputDecoration(
-                  labelText: 'อายุ',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixText: 'ปี',
-                ),
-                keyboardType: TextInputType.number,
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+              const SizedBox(
+                height: 5,
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _addressController,
-                decoration: const InputDecoration(
-                  labelText: 'ที่อยู่/ชื่อวัด',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                ),
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "ว/ด/ป เกิด",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      child: TextFormField(
+                        controller: _birthdateController,
+                        decoration: InputDecoration(
+                          hintText: 'ว/ด/ป เกิด',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        readOnly: true,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _weightController,
-                decoration: InputDecoration(
-                  labelText: 'น้ำหนัก',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixText: 'กก.',
-                ),
-                keyboardType: TextInputType.number,
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "ที่อยู่/ชื่อวัด",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      child: TextFormField(
+                        controller: _addressController,
+                        decoration: InputDecoration(
+                          hintText: 'ที่อยู่/ชื่อวัด',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              TextFormField(
-                controller: _heightController,
-                decoration: InputDecoration(
-                  labelText: 'ส่วนสูง',
-                  labelStyle:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  suffixText: 'ซม.',
-                ),
-                keyboardType: TextInputType.number,
-                readOnly: true,
-                style: TextStyle(fontSize: 16),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "น้ำหนัก",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    width: 100,
+                    child: TextFormField(
+                      controller: _weightController,
+                      decoration: InputDecoration(
+                        hintText: 'ที่อยู่/ชื่อวัด',
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "กก.",
+                    style: labelTextStyle,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "ส่วนสูง",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    width: 100,
+                    child: TextFormField(
+                      controller: _heightController,
+                      decoration: InputDecoration(
+                        hintText: 'ที่อยู่/ชื่อวัด',
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "ซม.",
+                    style: labelTextStyle,
+                  ),
+                ],
               ),
               SizedBox(height: 10),
               Row(
@@ -249,7 +548,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -257,8 +556,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       );
                     },
                     child: Text('กลับ', style: TextStyle(fontSize: 16)),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      side: BorderSide(
+                          color: const Color.fromARGB(255, 168, 153, 25)),
+                      backgroundColor: Colors.white,
+                      minimumSize: Size(150, 40),
                     ),
                   ),
                 ],
