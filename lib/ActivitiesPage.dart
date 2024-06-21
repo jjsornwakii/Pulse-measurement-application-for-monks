@@ -103,7 +103,7 @@ class _ExpansionTileExampleState extends State<ExpansionTileExample> {
   }
 
   Future<void> fetchTasks() async {
-    String apiUrl = 'http://$server:$port/$apipath/getTasks.php';
+    String apiUrl = 'http://$server:$port/shatu/getTasks.php';
     final response = await http.post(
       Uri.parse(apiUrl),
       headers: {'Content-Type': 'application/json'},
