@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:sato/userPage.dart';
 import 'package:sato/userinfoPage.dart';
@@ -77,6 +80,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
         if (data['user_birthday'] != null) {
           birthday = DateTime.parse(data['user_birthday']);
           _birthdateController.text = "${birthday?.toLocal()}".split(' ')[0];
+          
         }
         // if (data['user_age'] != null) {
         //   _ageController.text = data['user_age'].toString();
@@ -143,174 +147,538 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
     }
   }
 
+  InputDecoration textboxDecoration = InputDecoration(
+    hintText: 'กรอกชื่อของคุณ',
+    fillColor: Colors.white,
+    filled: true,
+    contentPadding: const EdgeInsets.symmetric(vertical: 5),
+    enabledBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+      borderRadius: BorderRadius.circular(30.0),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+      borderRadius: BorderRadius.circular(30.0),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.red, width: 2.0),
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.red, width: 2.0),
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+  );
+
+  TextStyle labelTextStyle = const TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      appBar: AppBar(
+        title: const Text(
+          "ข้อมูลส่วนตัว",
+          style: TextStyle(
+            color: Color.fromARGB(255, 250, 196, 0),
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        toolbarHeight: 120,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      ),
+      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: <Widget>[
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  labelText: 'ชื่อ',
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "ชื่อ",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: TextFormField(
+                          controller: _nameController,
+                          decoration: InputDecoration(
+                            hintText: 'กรอกชื่อของคุณ',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              TextFormField(
-                controller: _surnameController,
-                decoration: InputDecoration(
-                  labelText: 'นามสกุล',
+                const SizedBox(
+                  height: 5,
                 ),
-              ),
-              TextFormField(
-                controller: _birthdateController,
-                decoration: InputDecoration(
-                  labelText: 'ว/ด/ป เกิด',
-                  suffixIcon: Icon(Icons.calendar_today),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "นามสกุล",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 40,
+                        child: TextFormField(
+                          controller: _surnameController,
+                          decoration: InputDecoration(
+                            hintText: 'กรอกชื่อของคุณ',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                onTap: () async {
-                  DateTime? date = await showDatePicker(
-                    context: context,
-                    initialDate: birthday,
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (date != null) {
-                    setState(() {
-                      birthday = date;
-                      _birthdateController.text =
-                          "${birthday?.toLocal()}".split(' ')[0];
-                    });
-                  }
-                },
-                readOnly: true,
-              ),
-              // TextFormField(
-              //   controller: _ageController,
-              //   decoration: InputDecoration(
-              //     labelText: 'อายุ',
-              //   ),
-              //   keyboardType: TextInputType.number,
-              // ),
-              TextFormField(
-                controller: _addressController,
-                decoration: InputDecoration(
-                  labelText: 'ที่อยู่/ชื่อวัด',
+                const SizedBox(
+                  height: 5,
                 ),
-              ),
-              TextFormField(
-                controller: _weightController,
-                decoration: InputDecoration(
-                  labelText: 'น้ำหนัก (กก.)',
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "ว/ด/ป เกิด",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 40,
+                        child: TextFormField(
+                          controller: _birthdateController,
+                          decoration: InputDecoration(
+                            suffixIcon: const Icon(Icons.calendar_today),
+                            hintText: 'ว/ด/ป เกิด',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          onTap: () async {
+                            DateTime? date = await showDatePicker(
+                              context: context,
+                              initialDate: birthday,
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime.now(),
+                            );
+                            if (date != null) {
+                              setState(() {
+                                birthday = date;
+
+                                _birthdateController.text =
+                                    DateFormat('dd-MM-yyyy').format(birthday);
+                              });
+                            }
+                          },
+                          readOnly: true,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              TextFormField(
-                controller: _heightController,
-                decoration: InputDecoration(
-                  labelText: 'ส่วนสูง (ซม.)',
+                // TextFormField(
+                //   controller: _ageController,
+                //   decoration: InputDecoration(
+                //     labelText: 'อายุ',
+                //   ),
+                //   keyboardType: TextInputType.number,
+                // ),
+                const SizedBox(
+                  height: 5,
                 ),
-                keyboardType: TextInputType.number,
-              ),
-              Row(
-                children: <Widget>[
-                  Text('โรคประจำตัว:'),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Radio(
-                          value: true,
-                          groupValue: _hasChronicDisease,
-                          onChanged: (value) {
-                            setState(() {
-                              _hasChronicDisease = value!;
-                              if (_hasChronicDisease) {
-                                _getDisease();
-                              } else {
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "ที่อยู่/ชื่อวัด",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        height: 40,
+                        child: TextFormField(
+                          controller: _addressController,
+                          decoration: InputDecoration(
+                            hintText: 'ที่อยู่/ชื่อวัด',
+                            fillColor: Colors.white,
+                            filled: true,
+                            contentPadding:
+                                const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.grey, width: 1.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2.0),
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.red, width: 2.0),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "น้ำหนัก",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 100,
+                      child: TextFormField(
+                        controller: _weightController,
+                        decoration: InputDecoration(
+                          hintText: 'ที่อยู่/ชื่อวัด',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    const Text("กก."),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "ส่วนสูง",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 100,
+                      child: TextFormField(
+                        controller: _heightController,
+                        decoration: InputDecoration(
+                          hintText: 'ที่อยู่/ชื่อวัด',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    const Text("ซม."),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      'โรคประจำตัว:',
+                      style: labelTextStyle,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Radio(
+                            value: true,
+                            groupValue: _hasChronicDisease,
+                            onChanged: (value) {
+                              setState(() {
+                                _hasChronicDisease = value!;
+                                if (_hasChronicDisease) {
+                                  _getDisease();
+                                } else {
+                                  _selectedDiseases.clear();
+                                }
+                              });
+                            },
+                          ),
+                          const Text('มี'),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Radio(
+                            value: false,
+                            groupValue: _hasChronicDisease,
+                            onChanged: (value) {
+                              setState(() {
+                                _hasChronicDisease = value!;
                                 _selectedDiseases.clear();
-                              }
-                            });
-                          },
-                        ),
-                        Text('มี'),
-                      ],
+                              });
+                            },
+                          ),
+                          const Text('ไม่มี'),
+                        ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Radio(
-                          value: false,
-                          groupValue: _hasChronicDisease,
-                          onChanged: (value) {
-                            setState(() {
-                              _hasChronicDisease = value!;
-                              _selectedDiseases.clear();
-                            });
-                          },
-                        ),
-                        Text('ไม่มี'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              if (_hasChronicDisease)
-                Column(
-                  children: _diseaseList.map((disease) {
-                    return CheckboxListTile(
-                      title: Text(disease),
-                      value: _selectedDiseases.contains(disease),
-                      onChanged: (bool? value) {
-                        setState(() {
-                          if (value == true) {
-                            _selectedDiseases.add(disease);
-                          } else {
-                            _selectedDiseases.remove(disease);
-                          }
-                        });
-                      },
-                    );
-                  }).toList(),
+                  ],
                 ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => UserPage()),
+                if (_hasChronicDisease)
+                  Column(
+                    children: _diseaseList.map((disease) {
+                      return CheckboxListTile(
+                        title: Text(disease),
+                        value: _selectedDiseases.contains(disease),
+                        onChanged: (bool? value) {
+                          setState(() {
+                            if (value == true) {
+                              _selectedDiseases.add(disease);
+                            } else {
+                              _selectedDiseases.remove(disease);
+                            }
+                          });
+                        },
                       );
-                    },
-                    child: Text('ยกเลิก'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                    ),
+                    }).toList(),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _updateUserData();
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    OutlinedButton(
+                      onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => UserPage()),
                         );
-                      }
-                    },
-                    child: Text('ยืนยัน'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.yellow,
+                      },
+                      child: const Text('ยกเลิก'),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        side: BorderSide(
+                            color: const Color.fromARGB(255, 168, 153, 25)),
+                        backgroundColor: Colors.white,
+                        minimumSize: Size(150, 40),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    OutlinedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _updateUserData();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => UserPage()),
+                          );
+                        }
+                      },
+                      child: const Text('ยืนยัน'),
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                        side: BorderSide(
+                            color: const Color.fromARGB(255, 168, 153, 25)),
+                        backgroundColor: Colors.yellow,
+                        minimumSize: Size(150, 40),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
