@@ -135,7 +135,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
                   height: 212,
                   child: Visibility(
                     visible: isBPMEnabled,
-                    child: CircularProgressIndicator(
+                    child: const CircularProgressIndicator(
                       color: Color.fromARGB(255, 223, 56, 44),
                       strokeWidth: 12.0,
                     ),
