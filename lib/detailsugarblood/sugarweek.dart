@@ -8,25 +8,21 @@ import 'package:get_storage/get_storage.dart';
 
 // Define the ChartColumnData class
 class ChartColumnData {
-  final String x; // month name
-  final double y; // min
-  final double y1; // max
+  final String dayName; // day name
+  final double bloodSugar; // blood sugar value
 
-  ChartColumnData(this.x, this.y, this.y1);
+  ChartColumnData(this.dayName, this.bloodSugar);
 }
 
-class Bloodpresuremonth extends StatefulWidget {
-  const Bloodpresuremonth({super.key});
+class Sugarweek extends StatefulWidget {
+  const Sugarweek({Key? key}) : super(key: key);
 
   @override
-  _Bloodpresuremonth createState() => _Bloodpresuremonth();
+  _SugarweekState createState() => _SugarweekState();
 }
 
-class _Bloodpresuremonth extends State<Bloodpresuremonth> {
+class _SugarweekState extends State<Sugarweek> {
   List<ChartColumnData> chartData = [];
-  double maxvalue = 0;
-  double minvalue = 0;
-  double avgMinValue = 0;
   double avgMaxValue = 0;
   String statusText = 'ปกติ';
   final String server = dotenv.env['server'] ?? '';
@@ -41,7 +37,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
   }
 
   Future<void> fetchChartData() async {
-    final url = 'http://$server:$port/$apipath/chartpressuremonth.php';
+    final url = 'http://$server:$port/$apipath/chartsugarweek.php';
 
     try {
       final response = await http.post(
@@ -54,28 +50,22 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        final monthlyStats = data['monthly_stats'] as List<dynamic>?;
+        final dailyStats = data['daily_stats'] as List<dynamic>?;
         final overallAvg = data['overall_avg'];
 
-        if (monthlyStats != null) {
+        if (dailyStats != null) {
           setState(() {
-            maxvalue = 0;
-            avgMinValue = double.parse(overallAvg['avg_blood_pressure_min']);
-            avgMaxValue = double.parse(overallAvg['avg_blood_pressure_max']);
+            avgMaxValue = double.parse(overallAvg['avg_blood_sugar']);
             statusText = avgMaxValue > 129 ? 'สูงกว่าปกติ' : 'ปกติ';
-            chartData = monthlyStats.map((item) {
-              String month = item['month_year'];
-              double min = double.parse(item['min_blood_pressure_min']);
-              double max = double.parse(item['max_blood_pressure_max']);
-              double avg_min = double.parse(item['avg_blood_pressure_min']);
-              double avg_max = double.parse(item['avg_blood_pressure_max']);
-              if (max > maxvalue) maxvalue = max;
-              return ChartColumnData(month, min, max);
+            chartData = dailyStats.map((item) {
+              String dayName = item['day_name'];
+              double bloodSugar = double.parse(item['blood_sugar']);
+              return ChartColumnData(dayName, bloodSugar);
             }).toList();
           });
         } else {
-          // Handle the case where monthlyStats is null
-          throw Exception('No monthly stats data available');
+          // Handle the case where dailyStats is null
+          throw Exception('No daily stats data available');
         }
       } else {
         throw Exception('Failed to load chart data: ${response.reasonPhrase}');
@@ -84,7 +74,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching chart data: $e')),
+        SnackBar(content: Text('ไม่มีข้อมูลของวันนี้กรุณาไปวัด')),
       );
     }
   }
@@ -116,13 +106,13 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                                'assets/icon/blood_presure.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(width: 15),
                               Text(
-                                'ความดันโลหิต',
+                                'Brown Sugar',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 64, 63, 63),
                                   fontSize: 33,
@@ -142,7 +132,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMinValue mmHg',
+                                ' mmHg',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -187,67 +177,55 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                       ),
                     ],
                   ),
-                  Container(
-                    child: SfCartesianChart(
-                      plotAreaBackgroundColor: Colors.transparent,
-                      margin: const EdgeInsets.symmetric(vertical: 32.0),
-                      borderColor: Colors.transparent,
-                      borderWidth: 0,
-                      plotAreaBorderWidth: 0,
-                      enableSideBySideSeriesPlacement: false,
-                      primaryXAxis: CategoryAxis(
-                        axisLine: AxisLine(color: Colors.transparent),
-                        isVisible: true,
-                        majorGridLines: MajorGridLines(width: 0),
-                        majorTickLines: MajorTickLines(width: 0),
-                      ),
-                      primaryYAxis: NumericAxis(
-                        isVisible: true,
-                        axisLine: AxisLine(color: Colors.transparent),
-                        majorGridLines: MajorGridLines(width: 0),
-                        majorTickLines: MajorTickLines(width: 0),
-                        minimum: 0,
-                        maximum: 180,
-                        interval: 20,
-                      ),
-                      series: <CartesianSeries>[
-                        ColumnSeries<ChartColumnData, String>(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                          ),
-                          dataSource: chartData,
-                          width: 0.5,
-                          color: Color.fromARGB(255, 240, 238, 238),
-                          xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y1,
-                        ),
-                        ColumnSeries<ChartColumnData, String>(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                          ),
-                          dataSource: chartData,
-                          width: 0.5,
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(255, 225, 222, 222),
-                              Colors.deepPurple.shade300,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.center,
-                          ),
-                          xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y,
-                        ),
-                      ],
+                  SfCartesianChart(
+                    plotAreaBackgroundColor: Colors.transparent,
+                    margin: const EdgeInsets.symmetric(vertical: 32.0),
+                    borderColor: Colors.transparent,
+                    borderWidth: 0,
+                    plotAreaBorderWidth: 0,
+                    enableSideBySideSeriesPlacement: false,
+                    primaryXAxis: CategoryAxis(
+                      axisLine: AxisLine(color: Colors.transparent),
+                      isVisible: true,
+                      majorGridLines: MajorGridLines(width: 0),
+                      majorTickLines: MajorTickLines(width: 0),
                     ),
+                    primaryYAxis: NumericAxis(
+                      isVisible: true,
+                      axisLine: AxisLine(color: Colors.transparent),
+                      majorGridLines: MajorGridLines(width: 0),
+                      majorTickLines: MajorTickLines(width: 0),
+                      minimum: 0,
+                      maximum: 180,
+                      interval: 20,
+                    ),
+                    series: <CartesianSeries>[
+                      ColumnSeries<ChartColumnData, String>(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          topRight: Radius.circular(5),
+                        ),
+                        dataSource: chartData,
+                        width: 0.5,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 225, 222, 222),
+                            Colors.deepPurple.shade300,
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.center,
+                        ),
+                        xValueMapper: (ChartColumnData data, _) => data.dayName,
+                        yValueMapper: (ChartColumnData data, _) =>
+                            data.bloodSugar,
+                      ),
+                    ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "สรุปความดันโลหิตรายเดือน",
+                        "สรุประดับน้ำตาลในวันนี้",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,

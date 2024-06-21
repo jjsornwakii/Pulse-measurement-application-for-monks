@@ -480,9 +480,9 @@ class _HomePage extends State<HomePage> {
         // topic = List<String>.from(
         //     responseData['data'].map((top) => top['tip_topic']));
       });
-      //print("************************");
-      //print(imagePaths);
-      //print(tipList[1]['tip_id']);
+      // print("************************");
+      // print(imagePaths);
+      // print(tipList[1]['tip_id']);
     }
   }
 

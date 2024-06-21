@@ -8,26 +8,25 @@ import 'package:get_storage/get_storage.dart';
 
 // Define the ChartColumnData class
 class ChartColumnData {
-  final String x; // month name
-  final double y; // min
-  final double y1; // max
+  final String time; // time
+  final double heartRate; // heart rate
 
-  ChartColumnData(this.x, this.y, this.y1);
+  ChartColumnData(this.time, this.heartRate);
 }
 
-class Bloodpresuremonth extends StatefulWidget {
-  const Bloodpresuremonth({super.key});
+class Chartheartday extends StatefulWidget {
+  const Chartheartday({super.key});
 
   @override
-  _Bloodpresuremonth createState() => _Bloodpresuremonth();
+  _ChartheartdayState createState() => _ChartheartdayState();
 }
 
-class _Bloodpresuremonth extends State<Bloodpresuremonth> {
+class _ChartheartdayState extends State<Chartheartday> {
   List<ChartColumnData> chartData = [];
-  double maxvalue = 0;
-  double minvalue = 0;
-  double avgMinValue = 0;
-  double avgMaxValue = 0;
+  double maxHeartRate = 0;
+  double minHeartRate = 0;
+  double avgMinHeartRate = 0;
+  double avgMaxHeartRate = 0;
   String statusText = 'ปกติ';
   final String server = dotenv.env['server'] ?? '';
   final String port = dotenv.env['port'] ?? '';
@@ -41,7 +40,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
   }
 
   Future<void> fetchChartData() async {
-    final url = 'http://$server:$port/$apipath/chartpressuremonth.php';
+    final url = 'http://$server:$port/$apipath/chartHeartDay.php';
 
     try {
       final response = await http.post(
@@ -54,28 +53,28 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        final monthlyStats = data['monthly_stats'] as List<dynamic>?;
+        final dailyStats = data['daily_stats'] as List<dynamic>?;
         final overallAvg = data['overall_avg'];
 
-        if (monthlyStats != null) {
+        if (dailyStats != null) {
           setState(() {
-            maxvalue = 0;
-            avgMinValue = double.parse(overallAvg['avg_blood_pressure_min']);
-            avgMaxValue = double.parse(overallAvg['avg_blood_pressure_max']);
-            statusText = avgMaxValue > 129 ? 'สูงกว่าปกติ' : 'ปกติ';
-            chartData = monthlyStats.map((item) {
-              String month = item['month_year'];
-              double min = double.parse(item['min_blood_pressure_min']);
-              double max = double.parse(item['max_blood_pressure_max']);
-              double avg_min = double.parse(item['avg_blood_pressure_min']);
-              double avg_max = double.parse(item['avg_blood_pressure_max']);
-              if (max > maxvalue) maxvalue = max;
-              return ChartColumnData(month, min, max);
+            maxHeartRate = 0;
+            minHeartRate = 0;
+            avgMinHeartRate = double.parse(overallAvg['min_heart_rate']);
+            avgMaxHeartRate = double.parse(overallAvg['max_heart_rate']);
+            statusText = avgMaxHeartRate > 144 ? 'สูงกว่าปกติ' : 'ปกติ';
+            chartData = dailyStats.map((item) {
+              String time = item['time'];
+              double heartRate = double.parse(item['heart_rate']);
+              if (heartRate > maxHeartRate) maxHeartRate = heartRate;
+              if (heartRate < minHeartRate || minHeartRate == 0)
+                minHeartRate = heartRate;
+              return ChartColumnData(time, heartRate);
             }).toList();
           });
         } else {
-          // Handle the case where monthlyStats is null
-          throw Exception('No monthly stats data available');
+          // Handle the case where dailyStats is null
+          throw Exception('No daily stats data available');
         }
       } else {
         throw Exception('Failed to load chart data: ${response.reasonPhrase}');
@@ -84,7 +83,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching chart data: $e')),
+        SnackBar(content: Text('ไม่มีข้อมูลของวันนี้กรุณาไปวัด')),
       );
     }
   }
@@ -116,16 +115,16 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                                'assets/icon/blood_presure.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(width: 15),
                               Text(
-                                'ความดันโลหิต',
+                                'อัตราการเต้นของหัวใจ',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 64, 63, 63),
-                                  fontSize: 33,
+                                  fontSize: 28,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -134,7 +133,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           Row(
                             children: [
                               Text(
-                                'เฉลี่ย : $avgMaxValue',
+                                'เฉลี่ย : $avgMaxHeartRate',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 56, 55, 55),
                                   fontSize: 30,
@@ -142,7 +141,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMinValue mmHg',
+                                ' / $avgMinHeartRate bpm',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -155,7 +154,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: avgMaxValue > 129
+                              color: avgMaxHeartRate > 144
                                   ? Colors.red[900]
                                   : Colors.green[900],
                               border: Border.all(width: 1),
@@ -178,7 +177,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "มิลลิเมตรปรอท (mmHg.)",
+                        "Heart Rate (bpm)",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -218,17 +217,6 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           ),
                           dataSource: chartData,
                           width: 0.5,
-                          color: Color.fromARGB(255, 240, 238, 238),
-                          xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y1,
-                        ),
-                        ColumnSeries<ChartColumnData, String>(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                          ),
-                          dataSource: chartData,
-                          width: 0.5,
                           gradient: LinearGradient(
                             colors: [
                               Color.fromARGB(255, 225, 222, 222),
@@ -237,8 +225,9 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             begin: Alignment.topCenter,
                             end: Alignment.center,
                           ),
-                          xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y,
+                          xValueMapper: (ChartColumnData data, _) => data.time,
+                          yValueMapper: (ChartColumnData data, _) =>
+                              data.heartRate,
                         ),
                       ],
                     ),
@@ -247,7 +236,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "สรุปความดันโลหิตรายเดือน",
+                        "สรุปอัตราการเต้นของหัวใจวันนี้",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,

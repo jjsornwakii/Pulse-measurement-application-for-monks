@@ -8,7 +8,7 @@ import 'package:get_storage/get_storage.dart';
 
 // Define the ChartColumnData class
 class ChartColumnData {
-  final String x; // day name
+  final String x; // time
   final double y; // min
   final double y1; // max
 
@@ -19,13 +19,12 @@ class Bloodpresureday extends StatefulWidget {
   const Bloodpresureday({super.key});
 
   @override
-  _Bloodpresureday createState() => _Bloodpresureday();
+  _BloodpresuredayState createState() => _BloodpresuredayState();
 }
 
-class _Bloodpresureday extends State<Bloodpresureday> {
+class _BloodpresuredayState extends State<Bloodpresureday> {
   List<ChartColumnData> chartData = [];
   double maxvalue = 0;
-  double minvalue = 0;
   double avgMinValue = 0;
   double avgMaxValue = 0;
   String statusText = 'ปกติ';
@@ -64,11 +63,11 @@ class _Bloodpresureday extends State<Bloodpresureday> {
             avgMaxValue = double.parse(overallAvg['avg_blood_pressure_max']);
             statusText = avgMaxValue > 129 ? 'สูงกว่าปกติ' : 'ปกติ';
             chartData = dailyStats.map((item) {
-              String day = item['day_name'];
-              double min = double.parse(item['min_blood_pressure_min']);
-              double max = double.parse(item['max_blood_pressure_max']);
+              String time = item['time'];
+              double min = double.parse(item['blood_pressure_min']);
+              double max = double.parse(item['blood_pressure_max']);
               if (max > maxvalue) maxvalue = max;
-              return ChartColumnData(day, min, max);
+              return ChartColumnData(time, min, max);
             }).toList();
           });
         } else {
@@ -82,7 +81,7 @@ class _Bloodpresureday extends State<Bloodpresureday> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching chart data: $e')),
+        SnackBar(content: Text('ไม่มีข้อมูลของวันนี้กรุณาไปวัด')),
       );
     }
   }
@@ -140,7 +139,7 @@ class _Bloodpresureday extends State<Bloodpresureday> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMaxValue mmHg',
+                                ' / $avgMinValue mmHg',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -186,8 +185,6 @@ class _Bloodpresureday extends State<Bloodpresureday> {
                     ],
                   ),
                   Container(
-                    width: 100,
-                
                     child: SfCartesianChart(
                       plotAreaBackgroundColor: Colors.transparent,
                       margin: const EdgeInsets.symmetric(vertical: 32.0),
