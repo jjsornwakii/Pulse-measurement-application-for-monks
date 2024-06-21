@@ -142,7 +142,7 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMaxValue mmHg',
+                                ' / $avgMinValue mmHg',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,

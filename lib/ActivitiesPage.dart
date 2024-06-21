@@ -15,6 +15,32 @@ class ActivitiesPage extends StatefulWidget {
 class _ActivitiesPageState extends State<ActivitiesPage> {
   final GetStorage box = GetStorage();
 
+  final List<String> activities = [
+    'กินข้าว',
+    'เดินเล่น',
+    'นอน',
+    'ดูหนัง',
+    'ฟังเพลง',
+    'ดำน้ำ'
+  ];
+
+  Map<String, String> riskLevels = {};
+
+  final List<String> riskOptions = ['ไม่เคย', 'บางครั้ง', 'ทำเป็นประจำ'];
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (var activity in activities) {
+      riskLevels[activity] = '';
+    }
+  }
+
+  void _submitData() {
+    print(riskLevels);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,221 +90,91 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(child: const ExpansionTileExample()),
-          Image.asset(
-            'assets/background/bg.png',
-            height: 220,
-            fit: BoxFit.cover,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ExpansionTileExample extends StatefulWidget {
-  const ExpansionTileExample({Key? key}) : super(key: key);
-
-  @override
-  State<ExpansionTileExample> createState() => _ExpansionTileExampleState();
-}
-
-class _ExpansionTileExampleState extends State<ExpansionTileExample> {
-  final server = dotenv.env['server'] ?? '';
-  final port = dotenv.env['port'] ?? '';
-  final apipath = dotenv.env['apipath'] ?? '';
-  final GetStorage box = GetStorage();
-
-  List<Map<String, dynamic>> tasks = [];
-  List<bool> isCheckedList = [];
-  List<bool> isExpandedList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    fetchTasks();
-  }
-
-  Future<void> fetchTasks() async {
-    String apiUrl = 'http://$server:$port/$apipath/getTasks.php';
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'user_id': box.read("userId").toString()}),
-    );
-    if (response.statusCode == 200) {
-      setState(() {
-        Iterable taskList = jsonDecode(response.body);
-        tasks = taskList.map((task) => task as Map<String, dynamic>).toList();
-        isCheckedList =
-            tasks.map((task) => task['activity_status'] == 1).toList();
-        isExpandedList = List.filled(tasks.length, false);
-      });
-    } else {
-      print('Error: ${response.statusCode}');
-    }
-  }
-
-  Future<void> submitData(int taskId, int index) async {
-    String apiUrl = 'http://$server:$port/$apipath/updateActivity.php';
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'task_id': taskId,
-        'user_id': box.read("userId").toString(),
-      }),
-    );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      if (responseData.containsKey('message')) {
-        print(responseData['message']);
-        setState(() {
-          isCheckedList[index] = true;
-          tasks[index]['activity_status'] = 1;
-        });
-      } else if (responseData.containsKey('error')) {
-        print(responseData['error']);
-      }
-    } else {
-      print('Error: ${response.statusCode}');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: tasks.asMap().entries.map((entry) {
-          int index = entry.key;
-          var task = entry.value;
-
-          String iconPath = 'assets/icon/default_icon.png';
-          if (task['task_img'] != null && task['task_img'].isNotEmpty) {
-            iconPath = 'assets/icon/${task['task_img']}';
-          }
-
-          return _buildExpansionTile(
-            title: task['task_name'],
-            iconPath: iconPath,
-            isChecked: isCheckedList[index],
-            onCheckboxChanged: (bool? newValue) {
-              if (newValue == true) {
-                int taskId = int.parse(task['task_id']);
-                submitData(taskId, index);
-              }
-            },
-            isExpanded: isExpandedList[index],
-            onExpansionChanged: (bool expanded) {
-              setState(() {
-                isExpandedList[index] = expanded;
-              });
-            },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              ListTile(
-                title: Text(
-                  'ระยะเวลา : ${task['task_duration']} นาที',
-                  style: GoogleFonts.kanit(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
+              ...activities.map((activity) {
+                return Card(
+                  color: Color.fromARGB(255, 250, 205, 101),
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(40),
+                        child: Image.asset(
+                          'assets/background/bkkakak.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              activity,
+                              style: GoogleFonts.kanit(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: riskOptions.map((String value) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Radio<String>(
+                                      value: value,
+                                      groupValue: riskLevels[activity],
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          riskLevels[activity] = newValue!;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                      value,
+                                      style: GoogleFonts.kanit(
+                                        color: const Color.fromARGB(
+                                            255, 20, 19, 18),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
+                );
+              }).toList(),
+              SizedBox(height: 20), // Add some spacing before the button
+              TextButton(
+                onPressed: _submitData,
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.orange[500],
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: ElevatedButton(
-                  onPressed: task['activity_status'] == 1
-                      ? null
-                      : () async {
-                          int taskId = int.parse(task['task_id']);
-                          await submitData(taskId, index);
-                        },
-                  child: Text(
-                    'Submit',
-                    style: GoogleFonts.kanit(
-                        fontSize: 20, color: Colors.grey[800]),
+                child: Text(
+                  "ยืนยันคำตอบ",
+                  style: GoogleFonts.kanit(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange[300]),
                 ),
               ),
             ],
-            activityStatus: int.parse(task['activity_status'].toString()),
-          );
-        }).toList(),
-      ),
-    );
-  }
-
-  Widget _buildExpansionTile({
-    required String title,
-    required String iconPath,
-    required bool isChecked,
-    required ValueChanged<bool?>? onCheckboxChanged,
-    required bool isExpanded,
-    required ValueChanged<bool> onExpansionChanged,
-    required List<Widget> children,
-    required int activityStatus,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.black, width: 1),
+          ),
         ),
-        color: Colors.grey[50],
-      ),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.all(15),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(90),
-              child: Transform.scale(
-                scale: 2,
-                child: Checkbox(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  side: BorderSide(
-                    width: 1.5,
-                    color: Colors.orange[700]!,
-                  ),
-                  activeColor: Colors.white,
-                  checkColor: Colors.greenAccent[400],
-                  value: isChecked,
-                  onChanged: onCheckboxChanged,
-                ),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Text(
-              title,
-              style: GoogleFonts.kanit(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const Spacer(),
-            Image.asset(
-              iconPath,
-              height: 45,
-              width: 45,
-              fit: BoxFit.cover,
-            ),
-          ],
-        ),
-        trailing: Icon(
-          isExpanded
-              ? Icons.keyboard_arrow_down
-              : Icons.arrow_forward_ios_rounded,
-          color: Colors.orange,
-        ),
-        onExpansionChanged: onExpansionChanged,
-        children: children,
       ),
     );
   }

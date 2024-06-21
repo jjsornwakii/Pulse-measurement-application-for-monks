@@ -273,7 +273,7 @@ class _HomePage extends State<HomePage> {
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        "หน้า ${_currentPage + 1} / ${imagePaths.length}",
+                        "หน้า ${_currentPage + 1} / ${tipList.length}",
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -479,9 +479,9 @@ class _HomePage extends State<HomePage> {
         // topic = List<String>.from(
         //     responseData['data'].map((top) => top['tip_topic']));
       });
-      //print("************************");
-      //print(imagePaths);
-      //print(tipList[1]['tip_id']);
+      // print("************************");
+      // print(imagePaths);
+      // print(tipList[1]['tip_id']);
     }
   }
 

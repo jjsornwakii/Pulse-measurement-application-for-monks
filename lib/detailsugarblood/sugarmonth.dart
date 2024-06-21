@@ -8,25 +8,22 @@ import 'package:get_storage/get_storage.dart';
 
 // Define the ChartColumnData class
 class ChartColumnData {
-  final String x; // month name
-  final double y; // min
-  final double y1; // max
+  final String monthYear; // month and year
 
-  ChartColumnData(this.x, this.y, this.y1);
+  final double bloodSugar; // blood sugar value
+
+  ChartColumnData(this.monthYear, this.bloodSugar);
 }
 
-class Bloodpresuremonth extends StatefulWidget {
-  const Bloodpresuremonth({super.key});
+class sugarmonth extends StatefulWidget {
+  const sugarmonth({super.key});
 
   @override
-  _Bloodpresuremonth createState() => _Bloodpresuremonth();
+  _sugarmonthState createState() => _sugarmonthState();
 }
 
-class _Bloodpresuremonth extends State<Bloodpresuremonth> {
+class _sugarmonthState extends State<sugarmonth> {
   List<ChartColumnData> chartData = [];
-  double maxvalue = 0;
-  double minvalue = 0;
-  double avgMinValue = 0;
   double avgMaxValue = 0;
   String statusText = 'ปกติ';
   final String server = dotenv.env['server'] ?? '';
@@ -41,7 +38,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
   }
 
   Future<void> fetchChartData() async {
-    final url = 'http://$server:$port/$apipath/chartpressuremonth.php';
+    final url = 'http://$server:$port/$apipath/chartsugarmonth.php';
 
     try {
       final response = await http.post(
@@ -59,18 +56,12 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
 
         if (monthlyStats != null) {
           setState(() {
-            maxvalue = 0;
-            avgMinValue = double.parse(overallAvg['avg_blood_pressure_min']);
-            avgMaxValue = double.parse(overallAvg['avg_blood_pressure_max']);
+            avgMaxValue = double.parse(overallAvg['blood_sugar']);
             statusText = avgMaxValue > 129 ? 'สูงกว่าปกติ' : 'ปกติ';
             chartData = monthlyStats.map((item) {
-              String month = item['month_year'];
-              double min = double.parse(item['min_blood_pressure_min']);
-              double max = double.parse(item['max_blood_pressure_max']);
-              double avg_min = double.parse(item['avg_blood_pressure_min']);
-              double avg_max = double.parse(item['avg_blood_pressure_max']);
-              if (max > maxvalue) maxvalue = max;
-              return ChartColumnData(month, min, max);
+              String monthYear = item['month_year'];
+              double bloodSugar = double.parse(item['blood_sugar']);
+              return ChartColumnData(monthYear, bloodSugar);
             }).toList();
           });
         } else {
@@ -84,7 +75,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching chart data: $e')),
+        SnackBar(content: Text('ไม่มีข้อมูลของวันนี้กรุณาไปวัด')),
       );
     }
   }
@@ -116,13 +107,13 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                                'assets/icon/blood_presure.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(width: 15),
                               Text(
-                                'ความดันโลหิต',
+                                'Brown Sugar',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 64, 63, 63),
                                   fontSize: 33,
@@ -142,7 +133,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMinValue mmHg',
+                                ' mmHg',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -218,17 +209,6 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           ),
                           dataSource: chartData,
                           width: 0.5,
-                          color: Color.fromARGB(255, 240, 238, 238),
-                          xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y1,
-                        ),
-                        ColumnSeries<ChartColumnData, String>(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                          ),
-                          dataSource: chartData,
-                          width: 0.5,
                           gradient: LinearGradient(
                             colors: [
                               Color.fromARGB(255, 225, 222, 222),
@@ -237,8 +217,10 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             begin: Alignment.topCenter,
                             end: Alignment.center,
                           ),
-                          xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y,
+                          xValueMapper: (ChartColumnData data, _) =>
+                              data.monthYear,
+                          yValueMapper: (ChartColumnData data, _) =>
+                              data.bloodSugar,
                         ),
                       ],
                     ),
@@ -247,7 +229,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "สรุปความดันโลหิตรายเดือน",
+                        "สรุประดับน้ำตาลในวันนี้",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
