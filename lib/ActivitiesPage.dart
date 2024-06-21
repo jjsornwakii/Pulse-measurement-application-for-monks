@@ -90,10 +90,12 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           ),
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+
             children: [
               ...activities.map((activity) {
                 return Card(

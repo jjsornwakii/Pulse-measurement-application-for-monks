@@ -41,24 +41,15 @@ class _HomePage extends State<HomePage> {
 
     getTipImg();
     getNewestHealthData();
-
-    // print(newestData['age']);
-    // print(newestData['height']);
-    // print(newestData['diabetes_status']);
-    // print(newestData['sugar']);
-    // print(newestData['blood_pressure_min']);
-    // print(newestData['blood_pressure_max']);
-    // print(newestData['heart_rate']);
-
-    // riskMeasure(
-    //     newestData['age'],
-    //     newestData['height'],
-    //     newestData['weight'],
-    //     newestData['diabetes_status'],
-    //     newestData['sugar'],
-    //     newestData['blood_pressure_min'],
-    //     newestData['blood_pressure_max'],
-    //     newestData['heart_rate']);
+    print('**************************************');
+    print(newestData['age']);
+    print(newestData['height']);
+    print(newestData['ChronicDisease']);
+    print(newestData['blood_sugar']);
+    print(newestData['blood_pressure_min']);
+    print(newestData['blood_pressure_max']);
+    print(newestData['heart_rate']);
+    print('**************************************');
   }
 
   @override
@@ -368,7 +359,7 @@ class _HomePage extends State<HomePage> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("ระดับความเสี่ยง"),
+                      Text("ระดับความเสี่ยงเป็นโรคเบาหวาน"),
                       Text("รอประเมิน"),
                     ],
                   ),
@@ -451,8 +442,18 @@ class _HomePage extends State<HomePage> {
       setState(() {
         newestData = json.decode(response.body);
       });
-
+      print('GET NEW DATA');
       print(newestData);
+      riskMeasure(
+        newestData['age'] ?? 0,
+        double.parse((newestData['user_height'] ?? '0').toString()),
+        double.parse((newestData['user_weight'] ?? '0').toString()),
+        int.parse((newestData['ChronicDisease'] ?? '0').toString()),
+        int.parse((newestData['blood_sugar'] ?? '0').toString()),
+        int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
+        int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
+        int.parse((newestData['heart_rate'] ?? '0').toString()),
+      );
     } else {
       print("get data failed.");
     }
@@ -489,12 +490,21 @@ class _HomePage extends State<HomePage> {
       int age,
       double height,
       double weight,
-      int diabetes_status,
+      int ChronicDisease,
       int sugar,
       int blood_pressure_min,
       int blood_pressure_max,
       int heart_rate) {
     int score = 0;
+
+    print(age);
+    print(height);
+    print(weight);
+    print(ChronicDisease);
+    print(sugar);
+    print(blood_pressure_min);
+    print(blood_pressure_max);
+    print(heart_rate);
 
     /////////////////
     if (age < 45) {
@@ -525,7 +535,7 @@ class _HomePage extends State<HomePage> {
       score += 4;
     }
     ////////////////
-    if (diabetes_status == 1) {
+    if (ChronicDisease == 1) {
       score += 2;
     }
     ///////////////

@@ -43,7 +43,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
-  late DateTime birthday;
+  late DateTime? birthday;
   bool _hasChronicDisease = false;
   List<String> _diseaseList = [];
 
@@ -67,14 +67,29 @@ class _UserInfoPageState extends State<UserInfoPage> {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       setState(() {
-        _nameController.text = data['user_fname'];
-        _surnameController.text = data['user_lname'];
-        birthday = DateTime.parse(data['user_birthday']);
-        _birthdateController.text = "${birthday.toLocal()}".split(' ')[0];
-        _ageController.text = data['user_age'].toString();
-        _addressController.text = data['user_address'];
-        _weightController.text = data['user_weight'].toString();
-        _heightController.text = data['user_height'].toString();
+        _nameController.text = data['user_fname'] ?? '';
+        _surnameController.text = data['user_lname'] ?? "";
+        if (data['user_birthday'] != null) {
+          birthday = DateTime.parse(data['user_birthday']);
+          _birthdateController.text = "${birthday?.toLocal()}".split(' ')[0];
+        }
+
+        if (data['user_age'] != null) {
+          _ageController.text = data['user_age'].toString();
+        }
+
+        if (data['user_address'] != null) {
+          _addressController.text = data['user_address'];
+        }
+
+        if (data['user_weight'] != null) {
+          _weightController.text = data['user_weight'].toString();
+        }
+
+        if (data['user_height'] != null) {
+          _heightController.text = data['user_height'].toString();
+        }
+
         _hasChronicDisease = data['hasChronicDisease'] == "1";
       });
     } else {

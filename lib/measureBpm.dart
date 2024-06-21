@@ -20,19 +20,30 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
 
   List<SensorValue> data = [];
   List<SensorValue> bpmValues = [];
-
   List<double> bpmList = [];
 
   //  Widget chart = BPMChart(data);
   Timer? measureTimer;
+  Timer? countdownTimer;
+
   bool isBPMEnabled = false;
   int bpm = 0;
   String user_id = '';
+
+  int measureTime = 15;
+  int remainingTime = 0;
 
   @override
   void initState() {
     user_id = box.read('userId').toString();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    measureTimer?.cancel();
+    countdownTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -51,12 +62,12 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 255, 217, 29),
+                  backgroundColor: const Color.fromARGB(255, 255, 217, 29),
                 ),
                 onPressed: () => {
                   Navigator.pop(context),
                 },
-                child: Text(
+                child: const Text(
                   'กลับ',
                   style: TextStyle(fontSize: 22, color: Colors.black),
                 ),
@@ -72,49 +83,65 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-              decoration:
-                  BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-              height: 200,
-              width: 200,
-              child: isBPMEnabled
-                  ? HeartBPMDialog(
-                      cameraWidgetHeight: 200,
-                      cameraWidgetWidth: 200,
-                      context: context,
-                      showTextValues: false,
-                      borderRadius: 100,
-                      alpha: BorderSide.strokeAlignCenter,
-                      onRawData: (value) {
-                        setState(() {
-                          if (data.length >= 100) data.removeAt(0);
-                          data.add(value);
+            padding: const EdgeInsets.all(10),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white, shape: BoxShape.circle),
+                  height: 200,
+                  width: 200,
+                  child: isBPMEnabled
+                      ? HeartBPMDialog(
+                          cameraWidgetHeight: 200,
+                          cameraWidgetWidth: 200,
+                          context: context,
+                          showTextValues: false,
+                          borderRadius: 100,
+                          alpha: BorderSide.strokeAlignCenter,
+                          onRawData: (value) {
+                            setState(() {
+                              if (data.length >= 100) data.removeAt(0);
+                              data.add(value);
 
-                          if (bpmList.length >= 100) bpmList.removeAt(0);
-                          bpmList.add(value.value.toDouble());
+                              if (bpmList.length >= 100) bpmList.removeAt(0);
+                              bpmList.add(value.value.toDouble());
 
-                          double sum = bpmList.reduce((a, b) => a + b);
-                          print(sum);
+                              double sum = bpmList.reduce((a, b) => a + b);
+                              print(sum);
 
-                          bpm = (sum / (bpmList.length).toDouble()).toInt();
-                        });
-                      },
-                      onBPM: (value) => setState(
-                        () {
-                          if (bpmValues.length >= 100) {
-                            bpmValues.removeAt(0);
-                          }
-                          bpmValues.add(
-                            SensorValue(
-                              value: value.toDouble(),
-                              time: DateTime.now(),
-                            ),
-                          );
-                        },
-                      ),
-                    )
-                  : const SizedBox(),
+                              bpm = (sum / (bpmList.length).toDouble()).toInt();
+                            });
+                          },
+                          onBPM: (value) => setState(
+                            () {
+                              if (bpmValues.length >= 100) {
+                                bpmValues.removeAt(0);
+                              }
+                              bpmValues.add(
+                                SensorValue(
+                                  value: value.toDouble(),
+                                  time: DateTime.now(),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      : const SizedBox(),
+                ),
+                SizedBox(
+                  width: 212,
+                  height: 212,
+                  child: Visibility(
+                    visible: isBPMEnabled,
+                    child: const CircularProgressIndicator(
+                      color: Color.fromARGB(255, 223, 56, 44),
+                      strokeWidth: 12.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           isBPMEnabled && data.isNotEmpty
@@ -133,13 +160,13 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
           //         child: BPMChart(bpmValues),
           //       )
           //     : const SizedBox(),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
 
           Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
               color: Colors.white,
             ),
             child: Text(
@@ -155,13 +182,13 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           ElevatedButton.icon(
             style: ButtonStyle(
                 minimumSize: MaterialStateProperty.all(
-                  Size(150, 150),
+                  const Size(150, 150),
                 ),
                 iconColor: MaterialStateProperty.all(Colors.red)),
             icon: const Icon(
@@ -170,17 +197,45 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             ),
             label: Text(
               isBPMEnabled ? "ยกเลิก" : "เริ่มวัด",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 35,
               ),
             ),
             onPressed: () => setState(() {
               if (isBPMEnabled) {
                 isBPMEnabled = false;
+                measureTimer?.cancel();
                 saveBPM();
                 // dialog.
-              } else
+              } else {
                 isBPMEnabled = true;
+
+                remainingTime = measureTime;
+                measureTimer?.cancel(); // Cancel any existing timer
+                measureTimer = Timer(Duration(seconds: 15), () {
+                  setState(
+                    () {
+                      isBPMEnabled = false;
+                      measureTimer?.cancel();
+                      saveBPM();
+                    },
+                  );
+                });
+
+                countdownTimer?.cancel();
+                countdownTimer =
+                    Timer.periodic(const Duration(seconds: 1), (timer) {
+                  setState(() {
+                    if (remainingTime > 0) {
+                      remainingTime--;
+                    } else {
+                      timer.cancel();
+                    }
+                  });
+
+                  print(remainingTime);
+                });
+              }
             }),
           ),
         ],
