@@ -274,6 +274,13 @@ class _LoginPageState extends State<LoginPage> {
                             foregroundColor: Colors.orange,
                           ),
                           onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      RegisterPage(),
+                                ));
+
                             // Add your registration page navigation logic here
                           },
                           child: Text(
