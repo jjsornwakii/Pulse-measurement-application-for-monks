@@ -32,10 +32,16 @@ class _HomePage extends State<HomePage> {
   TextEditingController bloodSugarVal = TextEditingController();
 
   int _currentPage = 0;
+  int _advicePage = 0;
   Timer? _timer;
 
   String user_id = '';
   double _sliderValue = 0.5;
+
+  TextStyle indicatorLine = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 
   @override
   void initState() {
@@ -162,15 +168,17 @@ class _HomePage extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             ElevatedButton(
                               onPressed: () => {
                                 sentBloodPressure(),
+                                getNewestHealthData(),
+                                updateRiskMeasure(),
                                 Navigator.pop(context),
                               },
-                              child: Text("บันทึก"),
+                              child: const Text("บันทึก"),
                             ),
                           ],
                         );
@@ -228,7 +236,7 @@ class _HomePage extends State<HomePage> {
                               const Color.fromARGB(255, 255, 191, 0),
                           title: const Text("กรุณากรอกระดับน้ำตาลในเลือด"),
                           actions: [
-                            Row(),
+                            const Row(),
                             const SizedBox(
                               height: 10,
                             ),
@@ -252,7 +260,7 @@ class _HomePage extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             ElevatedButton(
@@ -262,7 +270,7 @@ class _HomePage extends State<HomePage> {
                                 updateRiskMeasure(),
                                 Navigator.pop(context),
                               },
-                              child: Text("บันทึก"),
+                              child: const Text("บันทึก"),
                             ),
                           ],
                         );
@@ -370,72 +378,104 @@ class _HomePage extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              width: screenSize.width * .95,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 217, 29),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("ระดับความเสี่ยงเป็นโรคเบาหวาน"),
-                        Text("รอประเมิน"),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: screenSize.width * .80,
-                          height: 15,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 2),
-                            gradient: const LinearGradient(
-                              colors: [
-                                Colors.green,
-                                Colors.yellow,
-                                Colors.red,
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
+            GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: const Color.fromARGB(255, 255, 191, 0),
+                      title: const Text("คำแนะนำ"),
+                      actions: [],
+                    );
+                  },
+                );
+              },
+              child: Container(
+                width: screenSize.width * .95,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 255, 217, 29),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("ระดับความเสี่ยงเป็นโรคเบาหวาน"),
+                          Text("กดเพื่อรับคำแนะนำ"),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: screenSize.width * .80,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Colors.green,
+                                  Colors.yellow,
+                                  Colors.red,
+                                ],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: (_sliderValue / 100) *
-                                    ((screenSize.width * .80) -
-                                        (24)), // Adjust the left position
-                                top: 0,
-                                bottom: 0,
-                                child: Container(
-                                  width: 11,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: Colors.black,
-                                      width: 2,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: (_sliderValue / 100) *
+                                      ((screenSize.width * .80) -
+                                          (24)), // Adjust the left position
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Container(
+                                    width: 11,
+                                    height: 10,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 2,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "|",
+                                      style: indicatorLine,
+                                    ),
+                                    Text(
+                                      "|",
+                                      style: indicatorLine,
+                                    ),
+                                    Text(
+                                      "|",
+                                      style: indicatorLine,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -494,14 +534,75 @@ class _HomePage extends State<HomePage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailPage(
-                                      data: tipList[index],
-                                      key: null,
-                                    ),
-                                  ),
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 255, 191, 0),
+                                      title:
+                                          const Text("กรุณากรอกความดันโลหิต"),
+                                      actions: [
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "SYS",
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              child: TextFormField(
+                                                controller: maxPressureVal,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  filled: true,
+                                                  fillColor: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "DIA",
+                                              style: TextStyle(fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              child: TextFormField(
+                                                decoration:
+                                                    const InputDecoration(
+                                                  filled: true,
+                                                  fillColor: Colors.white,
+                                                ),
+                                                controller: minPressureVal,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () => {
+                                            sentBloodPressure(),
+                                            getNewestHealthData(),
+                                            updateRiskMeasure(),
+                                            Navigator.pop(context),
+                                          },
+                                          child: const Text("บันทึก"),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
                               },
                               child: Padding(
@@ -735,7 +836,17 @@ class _HomePage extends State<HomePage> {
       score += 5;
     }
     setState(() {
-      _sliderValue = (score / 15) * 100;
+      if (score < 3.65) {
+        _advicePage = 0;
+      } else if (score < 7.727) {
+        _advicePage = 1;
+      } else if (score < 11.82) {
+        _advicePage = 2;
+      } else {
+        _advicePage = 3;
+      }
+
+      _sliderValue = (11.82 / 15) * 100;
     });
   }
 }

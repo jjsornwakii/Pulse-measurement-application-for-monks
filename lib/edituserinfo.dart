@@ -80,7 +80,6 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
         if (data['user_birthday'] != null) {
           birthday = DateTime.parse(data['user_birthday']);
           _birthdateController.text = "${birthday?.toLocal()}".split(' ')[0];
-          
         }
         // if (data['user_age'] != null) {
         //   _ageController.text = data['user_age'].toString();
@@ -377,7 +376,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                                 birthday = date;
 
                                 _birthdateController.text =
-                                    DateFormat('dd-MM-yyyy').format(birthday);
+                                    DateFormat('yyyy-MM-dd').format(birthday);
                               });
                             }
                           },
