@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sato/measureBpm.dart';
@@ -26,6 +27,9 @@ class _HomePage extends State<HomePage> {
   List<dynamic> tipList = [];
 
   PageController tipPage = PageController();
+  TextEditingController maxPressureVal = TextEditingController();
+  TextEditingController minPressureVal = TextEditingController();
+  TextEditingController bloodSugarVal = TextEditingController();
 
   int _currentPage = 0;
   Timer? _timer;
@@ -41,6 +45,7 @@ class _HomePage extends State<HomePage> {
 
     getTipImg();
     getNewestHealthData();
+
     print('**************************************');
     print(newestData['age']);
     print(newestData['height']);
@@ -56,6 +61,8 @@ class _HomePage extends State<HomePage> {
   void dispose() {
     _timer?.cancel();
     tipPage.dispose();
+    maxPressureVal.dispose();
+    minPressureVal.dispose();
     super.dispose();
   }
 
@@ -78,344 +85,470 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     double fontSize = 17;
     final screenSize = MediaQuery.of(context).size;
-    return Container(
-      width: screenSize.width,
-      height: screenSize.height,
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 255, 251, 138),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
-                    minimumSize:
-                        Size(screenSize.width * .46, screenSize.height * .15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
-                onPressed: () {},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icon/blood_presure.png', // ใส่ path ของรูปภาพที่ต้องการใช้
-                          height: 50,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          'แตะเพื่อวัด',
-                          style: TextStyle(
-                            fontSize: fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 50, 52, 62),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "ความดันโลหิต",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
-                    minimumSize:
-                        Size(screenSize.width * .46, screenSize.height * .15),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
-                onPressed: () {},
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icon/blood_glucose.png', // ใส่ path ของรูปภาพที่ต้องการใช้
-                          height: 50,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          'แตะเพื่อวัด',
-                          style: TextStyle(
-                            fontSize: fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 50, 52, 62),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "ระดับน้ำตาลในเลือด",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: fontSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 255, 217, 29),
-              minimumSize:
-                  Size(screenSize.width * .95, screenSize.height * .15),
-              maximumSize:
-                  Size(screenSize.width * .95, screenSize.height * .15),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
+    return SingleChildScrollView(
+      child: Container(
+        width: screenSize.width,
+        height: screenSize.height,
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 255, 251, 138),
+        ),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 15,
             ),
-            onPressed: () {
-              gotoMeasureBPM();
-            },
-            child: Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  'แตะเพื่อวัด',
-                  style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 50, 52, 62),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                    minimumSize:
+                        Size(screenSize.width * .46, screenSize.height * .15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: () {
+                    getNewestHealthData();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor:
+                              const Color.fromARGB(255, 255, 191, 0),
+                          title: const Text("กรุณากรอกความดันโลหิต"),
+                          actions: [
+                            Row(
+                              children: [
+                                const Text(
+                                  "SYS",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: maxPressureVal,
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "DIA",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                    controller: minPressureVal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () => {
+                                sentBloodPressure(),
+                                Navigator.pop(context),
+                              },
+                              child: Text("บันทึก"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icon/blood_presure.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                            height: 50,
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Text(
+                            'แตะเพื่อวัด',
+                            style: TextStyle(
+                              fontSize: fontSize,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 50, 52, 62),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "ความดันโลหิต",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Image.asset(
-                          'assets/icon/heartrate.png', // ใส่ path ของรูปภาพที่ต้องการใช้
-                          height: 50,
-                        ),
-                        Text(
-                          "ชีพจร",
-                          style: TextStyle(
-                            fontSize: fontSize,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                      minimumSize:
+                          Size(screenSize.width * .46, screenSize.height * .15),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20))),
+                  onPressed: () {
+                    getNewestHealthData();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor:
+                              const Color.fromARGB(255, 255, 191, 0),
+                          title: const Text("กรุณากรอกระดับน้ำตาลในเลือด"),
+                          actions: [
+                            Row(),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  "ระดับน้ำตาลในเลือด",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextFormField(
+                                    decoration: const InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                    ),
+                                    controller: bloodSugarVal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () => {
+                                sendBloodSugar(),
+                                getNewestHealthData(),
+                                updateRiskMeasure(),
+                                Navigator.pop(context),
+                              },
+                              child: Text("บันทึก"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icon/blood_glucose.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                            height: 50,
                           ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      children: [
-                        Image.asset(
-                          'assets/decoration/graph.png',
+                          const SizedBox(width: 2),
+                          Text(
+                            'แตะเพื่อวัด',
+                            style: TextStyle(
+                              fontSize: fontSize,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 50, 52, 62),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "ระดับน้ำตาลในเลือด",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: fontSize,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: screenSize.width * .95,
-            height: screenSize.height * .30,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 217, 29),
-              borderRadius: BorderRadius.circular(20),
+            const SizedBox(
+              height: 10,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "สาระน่ารู้",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "หน้า ${_currentPage + 1} / ${tipList.length}",
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: PageView.builder(
-                        controller: tipPage,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: tipList.length,
-                        onPageChanged: (int page) {
-                          setState(() {
-                            _currentPage = page;
-                          });
-                        },
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailPage(
-                                    data: tipList[index],
-                                    key: null,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: screenSize.height * .17,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          16), // กำหนดความโค้งของขอบ
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          "http://$server:$port/api_shatu/${tipList[index]['tip_image']}",
-                                        ),
-                                        fit: BoxFit
-                                            .cover, // ให้รูปภาพพอดีกับ container
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(tipList[index]['tip_topic']),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                minimumSize:
+                    Size(screenSize.width * .95, screenSize.height * .15),
+                maximumSize:
+                    Size(screenSize.width * .95, screenSize.height * .15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: screenSize.width * .95,
-            height: screenSize.height * .11,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 217, 29),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
+              onPressed: () {
+                gotoMeasureBPM();
+              },
               child: Column(
                 children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("ระดับความเสี่ยงเป็นโรคเบาหวาน"),
-                      Text("รอประเมิน"),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
+                  Text(
+                    'แตะเพื่อวัด',
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 50, 52, 62),
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: screenSize.width * .80,
-                        height: 23,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Colors.green,
-                              Colors.yellow,
-                              Colors.red,
-                            ],
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            'assets/icon/heartrate.png', // ใส่ path ของรูปภาพที่ต้องการใช้
+                            height: 50,
                           ),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: (_sliderValue / 100) *
-                                  ((screenSize.width * .80) -
-                                      (24)), // Adjust the left position
-                              top: 0,
-                              bottom: 0,
-                              child: Container(
-                                width: 20,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
+                          Text(
+                            "ชีพจร",
+                            style: TextStyle(
+                              fontSize: fontSize,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
-                        ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Image.asset(
+                            'assets/decoration/graph.png',
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: screenSize.width * .95,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 217, 29),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("ระดับความเสี่ยงเป็นโรคเบาหวาน"),
+                        Text("รอประเมิน"),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: screenSize.width * .80,
+                          height: 15,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 2),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Colors.green,
+                                Colors.yellow,
+                                Colors.red,
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: (_sliderValue / 100) *
+                                    ((screenSize.width * .80) -
+                                        (24)), // Adjust the left position
+                                top: 0,
+                                bottom: 0,
+                                child: Container(
+                                  width: 11,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.black,
+                                      width: 2,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: screenSize.width * .95,
+              height: screenSize.height * .33,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 217, 29),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "สาระน่ารู้",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "หน้า ${_currentPage + 1} / ${tipList.length}",
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: PageView.builder(
+                          controller: tipPage,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: tipList.length,
+                          onPageChanged: (int page) {
+                            setState(() {
+                              _currentPage = page;
+                            });
+                          },
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                      data: tipList[index],
+                                      key: null,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        //height: screenSize.height * .17,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              16), // กำหนดความโค้งของขอบ
+                                        ),
+
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          child: Image.network(
+                                            "http://$server:$port/api_shatu/${tipList[index]['tip_image']}",
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // SizedBox(
+                                    //   height: 2,
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.start,
+                                    //   children: [
+                                    //     Text(tipList[index]['tip_topic']),
+                                    //   ],
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -441,19 +574,65 @@ class _HomePage extends State<HomePage> {
     if (response.statusCode == 200) {
       setState(() {
         newestData = json.decode(response.body);
+        maxPressureVal.text = newestData['blood_pressure_max'].toString();
+        minPressureVal.text = newestData['blood_pressure_min'].toString();
+        bloodSugarVal.text = newestData['blood_sugar'].toString();
       });
       print('GET NEW DATA');
       print(newestData);
-      riskMeasure(
-        newestData['age'] ?? 0,
-        double.parse((newestData['user_height'] ?? '0').toString()),
-        double.parse((newestData['user_weight'] ?? '0').toString()),
-        int.parse((newestData['ChronicDisease'] ?? '0').toString()),
-        int.parse((newestData['blood_sugar'] ?? '0').toString()),
-        int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
-        int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
-        int.parse((newestData['heart_rate'] ?? '0').toString()),
-      );
+      updateRiskMeasure();
+    } else {
+      print("get data failed.");
+    }
+  }
+
+  Future<void> sentBloodPressure() async {
+    String url = "http://$server:$port/api_shatu/savebloodPressure.php";
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {"content-type": "application/json"},
+      body: json.encode(
+        {
+          "user_id": user_id,
+          "blood_pressure_min": minPressureVal.text,
+          "blood_pressure_max": maxPressureVal.text
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        newestData = json.decode(response.body);
+      });
+      print('Send NEW Blood Pressure DATA');
+      print(newestData);
+      getNewestHealthData();
+    } else {
+      print("Send data failed.");
+    }
+  }
+
+  Future<void> sendBloodSugar() async {
+    String url = "http://$server:$port/api_shatu/savebloodSugar.php";
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {"content-type": "application/json"},
+      body: json.encode(
+        {
+          "user_id": user_id,
+          "blood_sugar": bloodSugarVal.text,
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        newestData = json.decode(response.body);
+      });
+      print('Send NEW Blood sugar DATA');
+      print(newestData);
     } else {
       print("get data failed.");
     }
@@ -486,6 +665,19 @@ class _HomePage extends State<HomePage> {
     }
   }
 
+  void updateRiskMeasure() {
+    riskMeasure(
+      newestData['age'] ?? 0,
+      double.parse((newestData['user_height'] ?? '0').toString()),
+      double.parse((newestData['user_weight'] ?? '0').toString()),
+      int.parse((newestData['ChronicDisease'] ?? '0').toString()),
+      int.parse((newestData['blood_sugar'] ?? '0').toString()),
+      int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
+      int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
+      int.parse((newestData['heart_rate'] ?? '0').toString()),
+    );
+  }
+
   void riskMeasure(
       int age,
       double height,
@@ -508,31 +700,31 @@ class _HomePage extends State<HomePage> {
 
     /////////////////
     if (age < 45) {
-      score += 1;
+      score += 0;
     } else if (age < 50) {
-      score += 2;
+      score += 1;
     } else if (age < 60) {
       score += 2;
     } else {
-      score += 4;
+      score += 3;
     }
     /////////////////
 
     double ibm = (weight) / (height * height);
     if (ibm < 23) {
-      score += 1;
+      score += 0;
     } else if (ibm < 27.49) {
-      score += 2;
+      score += 1;
     } else {
-      score += 3;
+      score += 2;
     }
     ///////////////////
     if (blood_pressure_max < 120) {
-      score += 1;
+      score += 0;
     } else if (blood_pressure_max < 140) {
-      score += 2;
+      score += 1;
     } else {
-      score += 4;
+      score += 3;
     }
     ////////////////
     if (ChronicDisease == 1) {
@@ -543,7 +735,7 @@ class _HomePage extends State<HomePage> {
       score += 5;
     }
     setState(() {
-      _sliderValue = (score / 18) * 100;
+      _sliderValue = (score / 15) * 100;
     });
   }
 }

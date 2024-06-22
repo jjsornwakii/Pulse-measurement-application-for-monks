@@ -276,11 +276,3 @@ class Menu extends StatelessWidget {
   }
 }
 
-class Person extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('This is person Page'),
-    );
-  }
-}
