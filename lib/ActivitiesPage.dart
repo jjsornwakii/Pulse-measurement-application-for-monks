@@ -91,7 +91,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
             children: [

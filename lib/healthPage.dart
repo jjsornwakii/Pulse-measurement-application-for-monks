@@ -155,6 +155,7 @@ class _HealthPageState extends State<HealthPage> {
                   child: Image.asset(
                     chart,
                     fit: BoxFit.cover,
+                    height: 70,
                   ),
                 ),
               ],

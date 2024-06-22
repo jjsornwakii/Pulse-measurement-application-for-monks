@@ -7,9 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/detailHeartRate/chartHeartDay.dart';
 import 'package:sato/detailHeartRate/chartHeartMonth.dart';
 import 'package:sato/detailHeartRate/chartHeartWeek.dart';
-import 'package:sato/detailbloodpresure/bloodpresureday.dart';
-import 'package:sato/detailbloodpresure/bloodpresuremonth.dart';
-import 'package:sato/detailbloodpresure/bloodpresureweek.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
