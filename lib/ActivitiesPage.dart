@@ -90,12 +90,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           ),
         ),
       ),
-
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(5.0),
         child: SingleChildScrollView(
           child: Column(
-
             children: [
               ...activities.map((activity) {
                 return Card(
@@ -108,13 +106,17 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                         child: Image.asset(
                           'assets/background/bkkakak.jpg',
                           fit: BoxFit.cover,
+                          width: double.infinity,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(
+                              height: 20,
+                            ),
                             Text(
                               activity,
                               style: GoogleFonts.kanit(
@@ -122,12 +124,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            SizedBox(height: 10),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: riskOptions.map((String value) {
                                 return Row(
-                                  mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Radio<String>(
                                       value: value,

@@ -20,6 +20,7 @@ class _HealthPageState extends State<HealthPage> {
   final port = dotenv.env['port'] ?? '';
   final apipath = dotenv.env['apipath'] ?? '';
   Map<String, dynamic> userData = {};
+  String statusText = 'ปกติ';
 
   @override
   void initState() {
@@ -50,65 +51,121 @@ class _HealthPageState extends State<HealthPage> {
   }
 
   Widget buildInfoCard(String title, String value, String unit,
-      String imagePath, Widget targetPage) {
+      String imagePath, String chart, Widget targetPage) {
     final screenSize = MediaQuery.of(context).size;
-    double fontSize = 17;
+    double fontSize = 23;
+
+    int maxval = 127;
+
+    if (title == 'ความดันโลหิต')
+      maxval = 129;
+    else if (title == 'ระดับน้ำตาลในเลือด')
+      maxval = 127;
+    else
+      maxval = 144;
+
+    Color colorStatus = Colors.black;
+
+    if (int.tryParse(value) != null && int.parse(value) > maxval) {
+      colorStatus = Colors.red.shade900;
+      statusText = 'สูงกว่าปกติ';
+    } else {
+      colorStatus = Colors.green.shade900;
+      statusText = 'ปกติ';
+    }
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 255, 217, 29),
-        minimumSize: Size(screenSize.width * .95, screenSize.height * .15),
-        maximumSize: Size(screenSize.width * .95, screenSize.height * .15),
+        backgroundColor: Color.fromARGB(255, 248, 206, 52),
+        shadowColor: Color.fromARGB(255, 10, 10, 10),
+        elevation: 5,
+        maximumSize: Size(screenSize.width * 0.95, screenSize.height * .24),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
       ),
-
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => targetPage),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
+      child: Container(
+        margin: EdgeInsets.all(5),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              imagePath,
-              height: 50,
+            Row(
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.kanit(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 50, 52, 62),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 50, 52, 62),
+            Row(
+              children: [
+                Image.asset(
+                  imagePath,
+                  height: 55,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  '$value ',
+                  style: GoogleFonts.kanit(
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 248, 244, 244),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  '$unit',
+                  style: GoogleFonts.kanit(
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 83, 83, 83),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: colorStatus),
+                  child: Text(
+                    statusText,
+                    style: GoogleFonts.kanit(
+                      color: Color.fromARGB(255, 251, 228, 228),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Text(
-                    '$value $unit',
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                Container(
+                  child: Image.asset(
+                    chart,
+                    fit: BoxFit.cover,
                   ),
-                  Text(
-                    'แตะเพื่อดูรายละเอียดเพิ่มเติม',
-                    style: TextStyle(
-                      fontSize: fontSize * 0.8,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                ),
+              ],
+            ),
+            Text(
+              'แตะเพื่อดูรายละเอียดเพิ่มเติม',
+              style: GoogleFonts.kanit(
+                fontSize: 16,
+                color: Colors.grey[600],
               ),
             ),
-            Icon(Icons.info, color: Colors.white),
           ],
         ),
       ),
@@ -123,7 +180,7 @@ class _HealthPageState extends State<HealthPage> {
         width: screenSize.width,
         height: screenSize.height,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 254, 216),
+          color: Color.fromARGB(255, 255, 251, 138),
         ),
         child: Column(
           children: [
@@ -131,9 +188,10 @@ class _HealthPageState extends State<HealthPage> {
             if (userData.isNotEmpty) ...[
               buildInfoCard(
                 'ความดันโลหิต',
-                '${userData['blood_pressure_min']} / ${userData['blood_pressure_max']}',
+                '${userData['blood_pressure_max']} / ${userData['blood_pressure_min']}',
                 'mmHg',
-                'assets/icon/blood_glucose.png',
+                'assets/icon/blood_presure.png',
+                'assets/decoration/chartpressure.png',
                 BloodPressurePage(),
               ),
               SizedBox(height: 10),
@@ -142,6 +200,7 @@ class _HealthPageState extends State<HealthPage> {
                 '${userData['blood_sugar']}',
                 'mg/dL',
                 'assets/icon/blood_glucose.png',
+                'assets/decoration/chartsugar.png',
                 SugarbloodPage(),
               ),
               SizedBox(height: 10),
@@ -149,11 +208,12 @@ class _HealthPageState extends State<HealthPage> {
                 'อัตราการเต้นของหัวใจ',
                 '${userData['heart_rate']}',
                 'bpm',
-                'assets/icon/blood_glucose.png',
+                'assets/icon/heartrate.png',
+                'assets/decoration/chartheart.png',
                 HeartRatePage(),
               ),
             ] else ...[
-              CircularProgressIndicator(), // Show a loading indicator while fetching data
+              CircularProgressIndicator(),
             ],
           ],
         ),

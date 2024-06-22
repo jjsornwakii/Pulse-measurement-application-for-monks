@@ -56,7 +56,7 @@ class _ChartheartmonthState extends State<Chartheartmonth> {
         if (monthlyStats != null) {
           setState(() {
             avgMaxValue = double.parse(overallAvg['AVG_heart_rate']);
-            statusText = avgMaxValue > 100 ? 'สูงกว่าปกติ' : 'ปกติ';
+            statusText = avgMaxValue > 144 ? 'สูงกว่าปกติ' : 'ปกติ';
             chartData = monthlyStats.map((item) {
               String monthYear = item['month_year'];
               double heartRate = double.parse(item['heart_rate']);
@@ -106,7 +106,7 @@ class _ChartheartmonthState extends State<Chartheartmonth> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png',
+                                'assets/icon/heartrate.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
@@ -145,7 +145,7 @@ class _ChartheartmonthState extends State<Chartheartmonth> {
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: avgMaxValue > 100
+                              color: avgMaxValue > 144
                                   ? Colors.red[900]
                                   : Colors.green[900],
                               border: Border.all(width: 1),
