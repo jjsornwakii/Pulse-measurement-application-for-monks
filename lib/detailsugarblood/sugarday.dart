@@ -60,7 +60,7 @@ class _sugarday extends State<sugarday> {
           setState(() {
             maxvalue = 0;
             avgMaxValue = double.parse(overallAvg['avg_blood_sugar']);
-            statusText = avgMaxValue > 129 ? 'สูงกว่าปกติ' : 'ปกติ';
+            statusText = avgMaxValue > 127 ? 'สูงกว่าปกติ' : 'ปกติ';
             chartData = dailyStats.map((item) {
               String time = item['time'];
               double max = double.parse(item['blood_sugar']);
@@ -111,7 +111,7 @@ class _sugarday extends State<sugarday> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png',
+                                'assets/icon/blood_glucose.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
@@ -150,7 +150,7 @@ class _sugarday extends State<sugarday> {
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: avgMaxValue > 129
+                              color: avgMaxValue > 127
                                   ? Colors.red[900]
                                   : Colors.green[900],
                               border: Border.all(width: 1),

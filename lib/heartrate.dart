@@ -166,10 +166,6 @@ class _HeartRatePageState extends State<HeartRatePage>
               child: TabBarView(
                 controller: _tabController,
                 children: const <Widget>[
-                  // chartColumn(),
-                  // Chartjah(),
-                  // Monthchart(),
-                  // Yearschart()
                   Chartheartday(),
                   Chartheartweek(),
                   Chartheartmonth(),

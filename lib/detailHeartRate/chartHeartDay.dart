@@ -115,7 +115,7 @@ class _ChartheartdayState extends State<Chartheartday> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png',
+                                'assets/icon/heartrate.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
@@ -177,7 +177,7 @@ class _ChartheartdayState extends State<Chartheartday> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Heart Rate (bpm)",
+                        "อัตราการเต้นของหัวใจ (bpm)",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -236,7 +236,7 @@ class _ChartheartdayState extends State<Chartheartday> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "สรุปอัตราการเต้นของหัวใจวันนี้",
+                        "สรุประดับอัตราการเต้นของหัวใจในวันนี้",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,

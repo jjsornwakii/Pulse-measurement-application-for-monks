@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sato/ActivitiesPage.dart';
-import 'package:sato/OverallHealthPage.dart';
+
 import 'package:sato/homepage.dart';
 import 'package:sato/TipsHealthPage.dart';
 import 'package:sato/userPage.dart';
@@ -110,6 +111,7 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 251, 138),
       key: _scaffoldKey,
       drawer: Container(
         margin: const EdgeInsets.fromLTRB(0, 130, 0, 0),
@@ -200,11 +202,12 @@ class _NavigationPageState extends State<NavigationPage> {
                       userData != null
                           ? "สวัสดี ${userData!['user_fname']}"
                           : 'Loading...',
-                      style: TextStyle(color: Colors.black, fontSize: 30),
+                      style:
+                          GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                     ),
-                    const Text(
+                    Text(
                       "ภาพรวมสุขภาพ",
-                      style: TextStyle(
+                      style: GoogleFonts.kanit(
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.normal,
@@ -237,24 +240,28 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.personal_injury_rounded),
-            label: 'Person',
-          ),
-        ],
-        currentIndex: _selectedIndex >= 3 ? 0 : _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+      bottomNavigationBar: ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu),
+              label: 'Menu',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: 'Person',
+            ),
+          ],
+          currentIndex: _selectedIndex >= 3 ? 0 : _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          backgroundColor: Color.fromARGB(255, 250, 235, 235),
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -268,3 +275,4 @@ class Menu extends StatelessWidget {
     );
   }
 }
+

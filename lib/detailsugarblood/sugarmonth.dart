@@ -57,7 +57,7 @@ class _sugarmonthState extends State<sugarmonth> {
         if (monthlyStats != null) {
           setState(() {
             avgMaxValue = double.parse(overallAvg['blood_sugar']);
-            statusText = avgMaxValue > 129 ? 'สูงกว่าปกติ' : 'ปกติ';
+            statusText = avgMaxValue > 127 ? 'สูงกว่าปกติ' : 'ปกติ';
             chartData = monthlyStats.map((item) {
               String monthYear = item['month_year'];
               double bloodSugar = double.parse(item['blood_sugar']);
@@ -107,7 +107,7 @@ class _sugarmonthState extends State<sugarmonth> {
                             children: [
                               SizedBox(width: 15),
                               Image.asset(
-                                'assets/icon/blood_presure.png',
+                                'assets/icon/blood_glucose.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
@@ -146,7 +146,7 @@ class _sugarmonthState extends State<sugarmonth> {
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
-                              color: avgMaxValue > 129
+                              color: avgMaxValue > 127
                                   ? Colors.red[900]
                                   : Colors.green[900],
                               border: Border.all(width: 1),
