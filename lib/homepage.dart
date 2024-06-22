@@ -258,6 +258,8 @@ class _HomePage extends State<HomePage> {
                             ElevatedButton(
                               onPressed: () => {
                                 sendBloodSugar(),
+                                getNewestHealthData(),
+                                updateRiskMeasure(),
                                 Navigator.pop(context),
                               },
                               child: Text("บันทึก"),
@@ -572,21 +574,13 @@ class _HomePage extends State<HomePage> {
     if (response.statusCode == 200) {
       setState(() {
         newestData = json.decode(response.body);
+        maxPressureVal.text = newestData['blood_pressure_max'].toString();
+        minPressureVal.text = newestData['blood_pressure_min'].toString();
+        bloodSugarVal.text = newestData['blood_sugar'].toString();
       });
       print('GET NEW DATA');
       print(newestData);
-      maxPressureVal.text = newestData['blood_pressure_max'].toString();
-      minPressureVal.text = newestData['blood_pressure_min'].toString();
-      riskMeasure(
-        newestData['age'] ?? 0,
-        double.parse((newestData['user_height'] ?? '0').toString()),
-        double.parse((newestData['user_weight'] ?? '0').toString()),
-        int.parse((newestData['ChronicDisease'] ?? '0').toString()),
-        int.parse((newestData['blood_sugar'] ?? '0').toString()),
-        int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
-        int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
-        int.parse((newestData['heart_rate'] ?? '0').toString()),
-      );
+      updateRiskMeasure();
     } else {
       print("get data failed.");
     }
@@ -613,6 +607,7 @@ class _HomePage extends State<HomePage> {
       });
       print('Send NEW Blood Pressure DATA');
       print(newestData);
+      getNewestHealthData();
     } else {
       print("Send data failed.");
     }
@@ -638,18 +633,6 @@ class _HomePage extends State<HomePage> {
       });
       print('Send NEW Blood sugar DATA');
       print(newestData);
-      maxPressureVal.text = newestData['blood_pressure_max'].toString();
-      minPressureVal.text = newestData['blood_pressure_min'].toString();
-      riskMeasure(
-        newestData['age'] ?? 0,
-        double.parse((newestData['user_height'] ?? '0').toString()),
-        double.parse((newestData['user_weight'] ?? '0').toString()),
-        int.parse((newestData['ChronicDisease'] ?? '0').toString()),
-        int.parse((newestData['blood_sugar'] ?? '0').toString()),
-        int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
-        int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
-        int.parse((newestData['heart_rate'] ?? '0').toString()),
-      );
     } else {
       print("get data failed.");
     }
@@ -680,6 +663,19 @@ class _HomePage extends State<HomePage> {
       // print(imagePaths);
       // print(tipList[1]['tip_id']);
     }
+  }
+
+  void updateRiskMeasure() {
+    riskMeasure(
+      newestData['age'] ?? 0,
+      double.parse((newestData['user_height'] ?? '0').toString()),
+      double.parse((newestData['user_weight'] ?? '0').toString()),
+      int.parse((newestData['ChronicDisease'] ?? '0').toString()),
+      int.parse((newestData['blood_sugar'] ?? '0').toString()),
+      int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
+      int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
+      int.parse((newestData['heart_rate'] ?? '0').toString()),
+    );
   }
 
   void riskMeasure(

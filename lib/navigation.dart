@@ -68,15 +68,13 @@ class _NavigationPageState extends State<NavigationPage> {
   void _onItemTapped(int index) {
     if (index == 0) {
       _scaffoldKey.currentState?.openDrawer();
-    } 
-    else if (index == 2) {
+    } else if (index == 2) {
       // Navigate to UserPage when "Person" is tapped
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => UserPage()),
       );
-    }
-    else {
+    } else {
       setState(() {
         _selectedIndex = index;
       });
@@ -270,30 +268,3 @@ class Menu extends StatelessWidget {
     );
   }
 }
-
-class Person extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('This is person Page'),
-    );
-  }
-}
-
-class OverallHealthPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('This is Overall Health Page'),
-    );
-  }
-}
-
-// class TipsHealthPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Center(
-//       child: Text('This is Tips Health Page'),
-//     );
-//   }
-// }
