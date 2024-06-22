@@ -846,7 +846,7 @@ class _HomePage extends State<HomePage> {
         _advicePage = 3;
       }
 
-      _sliderValue = (11.82 / 15) * 100;
+      _sliderValue = (score / 15) * 100;
     });
   }
 }
