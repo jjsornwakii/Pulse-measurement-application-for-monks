@@ -266,7 +266,7 @@ class _HomePage extends State<HomePage> {
                             ElevatedButton(
                               onPressed: () => {
                                 sendBloodSugar(),
-                                getNewestHealthData(),
+                                // getNewestHealthData(),
                                 updateRiskMeasure(),
                                 Navigator.pop(context),
                               },
@@ -594,7 +594,7 @@ class _HomePage extends State<HomePage> {
                                         ElevatedButton(
                                           onPressed: () => {
                                             sentBloodPressure(),
-                                            getNewestHealthData(),
+                                            //getNewestHealthData(),
                                             updateRiskMeasure(),
                                             Navigator.pop(context),
                                           },
@@ -734,6 +734,7 @@ class _HomePage extends State<HomePage> {
       });
       print('Send NEW Blood sugar DATA');
       print(newestData);
+      getNewestHealthData();
     } else {
       print("get data failed.");
     }
@@ -767,6 +768,7 @@ class _HomePage extends State<HomePage> {
   }
 
   void updateRiskMeasure() {
+    print("UPDATE RISK MEASURE");
     riskMeasure(
       newestData['age'] ?? 0,
       double.parse((newestData['user_height'] ?? '0').toString()),
@@ -845,7 +847,6 @@ class _HomePage extends State<HomePage> {
       } else {
         _advicePage = 3;
       }
-
       _sliderValue = (score / 15) * 100;
     });
   }
