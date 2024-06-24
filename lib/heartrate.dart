@@ -82,7 +82,7 @@ class _HeartRatePageState extends State<HeartRatePage>
               children: [
                 Text(
                   userData != null
-                      ? "สวัสดี ${userData!['user_fname']}"
+                      ? "นมัสการ ${userData!['user_fname']}"
                       : 'Loading...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),

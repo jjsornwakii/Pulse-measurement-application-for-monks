@@ -10,6 +10,8 @@ import 'package:sato/login.dart';
 import 'package:sato/navigation.dart';
 import 'package:get_storage/get_storage.dart';
 
+
+
 void main() async {
   await dotenv.load(fileName: ".env");
   await GetStorage.init();

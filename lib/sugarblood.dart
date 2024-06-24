@@ -71,7 +71,7 @@ class _SugarbloodPageState extends State<SugarbloodPage>
               children: [
                 Text(
                   userData.isNotEmpty
-                      ? "สวัสดี ${userData['user_fname']}"
+                      ? "นมัสการ ${userData['user_fname']}"
                       : 'Loading...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),

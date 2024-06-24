@@ -234,7 +234,7 @@ class _NavigationPageState extends State<NavigationPage> {
                     SizedBox(height: 40),
                     Text(
                       userData != null
-                          ? "สวัสดี ${userData!['user_fname']}"
+                          ? "นมัสการ ${userData!['user_fname']}"
                           : 'Loading...',
                       style:
                           GoogleFonts.kanit(color: Colors.black, fontSize: 30),
