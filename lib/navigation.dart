@@ -127,28 +127,46 @@ class _NavigationPageState extends State<NavigationPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 70),
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.transparent,
                         border: Border(
                           bottom: BorderSide(width: 2.0, color: Colors.black),
                         ),
                       ),
-                      child: const Text(
-                        'หน้าหลัก',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                        ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.home,
+                            size: 40,
+                            color: Colors.orange,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'หน้าหลัก                  ',
+                            style: GoogleFonts.kanit(
+                                color: Colors.black,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
               ListTile(
-                leading: Icon(Icons.broken_image_outlined),
-                title: Text('สรุปภาพรวมสุขภาพ'),
+                leading: Icon(
+                  Icons.broken_image_outlined,
+                  size: 30,
+                  color: Color.fromARGB(255, 215, 130, 2),
+                ),
+                title: Text('สรุปภาพรวมสุขภาพ',
+                    style: GoogleFonts.kanit(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400)),
                 onTap: () {
                   _onDrawerItemTapped(0);
                   // Navigator.push(
@@ -160,8 +178,16 @@ class _NavigationPageState extends State<NavigationPage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.access_time),
-                title: Text('กิจประจำวัน'),
+                leading: Icon(
+                  Icons.access_time,
+                  size: 30,
+                  color: Color.fromARGB(255, 215, 130, 2),
+                ),
+                title: Text('กิจประจำวัน',
+                    style: GoogleFonts.kanit(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400)),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -170,8 +196,16 @@ class _NavigationPageState extends State<NavigationPage> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.local_library_sharp),
-                title: Text('เกร็ดน่ารู้เรื่องสุขภาพ'),
+                leading: Icon(
+                  Icons.local_library_sharp,
+                  size: 30,
+                  color: Color.fromARGB(255, 215, 130, 2),
+                ),
+                title: Text('เกร็ดน่ารู้เรื่องสุขภาพ',
+                    style: GoogleFonts.kanit(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400)),
                 onTap: () {
                   _onDrawerItemTapped(2);
                   // Navigator.push(
@@ -275,4 +309,3 @@ class Menu extends StatelessWidget {
     );
   }
 }
-
