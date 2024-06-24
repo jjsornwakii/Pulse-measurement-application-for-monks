@@ -43,6 +43,19 @@ class _HomePage extends State<HomePage> {
     fontWeight: FontWeight.bold,
   );
 
+  List<String> adviceTopic = [
+    "ความเสี่ยงต่ำ",
+    "ความเสี่ยงปานกลาง",
+    "ความเสี่ยงมาก",
+    "ความเสี่ยงระดับอันตราย"
+  ];
+  List<String> adviceText = [
+    "• การออกกำลังกาย: ออกกำลังกายอย่างสม่ำเสมอ เช่น เดินเร็ว ว่ายน้ำ หรือขี่จักรยาน อย่างน้อย 150 นาทีต่อสัปดาห์\n\n• อาหาร: รับประทานอาหารที่มีประโยชน์ เช่น ผักผลไม้ ธัญพืช และโปรตีนไม่มัน หลีกเลี่ยงอาหารที่มีน้ำตาลสูงและไขมันทรานส์\n\n• น้ำหนัก: รักษาน้ำหนักตัวให้อยู่ในเกณฑ์ปกติ โดยเฉพาะหากมีน้ำหนักเกินหรือเป็นโรคอ้วน\n\n• การตรวจสุขภาพ: ตรวจสุขภาพประจำปีและตรวจน้ำตาลในเลือดตามคำแนะนำของแพทย์\n",
+    "• เพิ่มความถี่ในการออกกำลังกาย: ออกกำลังกายเพิ่มขึ้นเป็น 30 นาทีต่อวันอย่างน้อย 5 วันต่อสัปดาห์\n\n• อาหาร: ปรับอาหารให้มีไฟเบอร์สูงและคาร์โบไฮเดรตที่มีค่าดัชนีน้ำตาลต่ำ เช่น ข้าวกล้อง โฮลเกรน และหลีกเลี่ยงน้ำตาลและขนมหวาน\n\n• การควบคุมน้ำหนัก: ลดน้ำหนักหากมีน้ำหนักเกิน โดยควรปรึกษานักโภชนาการหากต้องการคำแนะนำเพิ่มเติม\n\n• การตรวจสุขภาพ: ตรวจน้ำตาลในเลือดทุก 6 เดือน และปรึกษาแพทย์หากมีอาการผิดปกติ\n",
+    "• ออกกำลังกายสม่ำเสมอ: ออกกำลังกายอย่างน้อย 30-60 นาทีต่อวัน รวมทั้งการยกน้ำหนักเพื่อเพิ่มมวลกล้ามเนื้อ\n\n• อาหาร: เลือกรับประทานอาหารที่มีโภชนาการสูง เช่น โปรตีนจากพืช ผักผลไม้ ธัญพืช และเลี่ยงอาหารที่มีน้ำตาลและไขมันสูง\n\n• การควบคุมน้ำหนักอย่างเข้มงวด: ลดน้ำหนักอย่างจริงจังหากมีน้ำหนักเกิน ด้วยการควบคุมอาหารและการออกกำลังกาย\n\n• การตรวจสุขภาพ: ตรวจน้ำตาลในเลือดทุก 3 เดือน และพบแพทย์เพื่อประเมินความเสี่ยงและวางแผนการดูแลสุขภาพ\n",
+    "• การดูแลภายใต้การแพทย์: เข้ารับการดูแลและคำปรึกษาจากแพทย์ผู้เชี่ยวชาญอย่างสม่ำเสมอ\n\n• การออกกำลังกายแบบเข้มข้น: ออกกำลังกายตามคำแนะนำของแพทย์ โดยอาจต้องมีการปรับเปลี่ยนกิจกรรมเพื่อลดความเสี่ยง\n\n• อาหาร: ปรับอาหารอย่างเข้มงวด หลีกเลี่ยงอาหารที่มีน้ำตาล ไขมัน และเกลือสูง รวมทั้งปรึกษานักโภชนาการเพื่อวางแผนการรับประทานอาหารที่เหมาะสม\n\n• การใช้ยา: อาจจำเป็นต้องใช้ยาควบคุมระดับน้ำตาลในเลือดตามที่แพทย์สั่ง\n\n• การตรวจสุขภาพ: ตรวจน้ำตาลในเลือดอย่างน้อยทุกเดือน และพบแพทย์ตามนัดเพื่อปรับแผนการดูแลสุขภาพ"
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -266,7 +279,7 @@ class _HomePage extends State<HomePage> {
                             ElevatedButton(
                               onPressed: () => {
                                 sendBloodSugar(),
-                                // getNewestHealthData(),
+                                getNewestHealthData(),
                                 updateRiskMeasure(),
                                 Navigator.pop(context),
                               },
@@ -380,16 +393,7 @@ class _HomePage extends State<HomePage> {
             ),
             GestureDetector(
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: const Color.fromARGB(255, 255, 191, 0),
-                      title: const Text("คำแนะนำ"),
-                      actions: [],
-                    );
-                  },
-                );
+                showAdvice(_advicePage);
               },
               child: Container(
                 width: screenSize.width * .95,
@@ -520,7 +524,7 @@ class _HomePage extends State<HomePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: PageView.builder(
                           controller: tipPage,
@@ -534,75 +538,14 @@ class _HomePage extends State<HomePage> {
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 255, 191, 0),
-                                      title:
-                                          const Text("กรุณากรอกความดันโลหิต"),
-                                      actions: [
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "SYS",
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: TextFormField(
-                                                controller: maxPressureVal,
-                                                decoration:
-                                                    const InputDecoration(
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Text(
-                                              "DIA",
-                                              style: TextStyle(fontSize: 20),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: TextFormField(
-                                                decoration:
-                                                    const InputDecoration(
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-                                                ),
-                                                controller: minPressureVal,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () => {
-                                            sentBloodPressure(),
-                                            //getNewestHealthData(),
-                                            updateRiskMeasure(),
-                                            Navigator.pop(context),
-                                          },
-                                          child: const Text("บันทึก"),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                      data: tipList[index],
+                                      key: null,
+                                    ),
+                                  ),
                                 );
                               },
                               child: Padding(
@@ -838,16 +781,74 @@ class _HomePage extends State<HomePage> {
       score += 5;
     }
     setState(() {
-      if (score < 3.65) {
+      if (score < 3) {
         _advicePage = 0;
-      } else if (score < 7.727) {
+      } else if (score < 6) {
         _advicePage = 1;
-      } else if (score < 11.82) {
+      } else if (score < 9) {
         _advicePage = 2;
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 15) * 100;
+      _sliderValue = (score / 12) * 100;
     });
+  }
+
+  void showAdvice(int _index) {
+    print("คำแนะนำที่ $_index");
+    Color titleColor;
+    switch (_index) {
+      case 0:
+        titleColor = Color.fromARGB(255, 0, 122, 4);
+        break;
+      case 1:
+        titleColor = Color.fromARGB(255, 0, 120, 70);
+        break;
+      case 2:
+        titleColor = Color.fromARGB(255, 111, 65, 0);
+        break;
+      case 3:
+        titleColor = Colors.red;
+        break;
+      default:
+        titleColor = Colors.black;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 255, 191, 0),
+          title: Text(
+            adviceTopic[_index],
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: titleColor,
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(
+                  10,
+                ),
+                child: Text(
+                  "${adviceText[_index]}",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          // actions: [],
+        );
+      },
+    );
   }
 }
