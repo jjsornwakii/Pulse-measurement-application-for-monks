@@ -112,7 +112,7 @@ class _SugarweekState extends State<Sugarweek> {
                               ),
                               SizedBox(width: 15),
                               Text(
-                                'Brown Sugar',
+                                'Blood Sugar',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 64, 63, 63),
                                   fontSize: 33,
