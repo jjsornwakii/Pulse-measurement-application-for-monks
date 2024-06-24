@@ -15,14 +15,7 @@ class ActivitiesPage extends StatefulWidget {
 class _ActivitiesPageState extends State<ActivitiesPage> {
   final GetStorage box = GetStorage();
 
-  final List<String> activities = [
-    'กินข้าว',
-    'เดินเล่น',
-    'นอน',
-    'ดูหนัง',
-    'ฟังเพลง',
-    'ดำน้ำ'
-  ];
+  final List<String> activities = ['กินข้าว', 'นอน', 'ออกกำลังกาย'];
 
   Map<String, String> riskLevels = {};
 
@@ -37,8 +30,34 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
     }
   }
 
-  void _submitData() {
-    print(riskLevels);
+  Future<void> _submitData() async {
+    final String server = dotenv.env['server'] ?? '';
+    final String port = dotenv.env['port'] ?? '';
+    final String apipath = dotenv.env['apipath'] ?? '';
+    final String url = 'http://$server:$port/$apipath/behavier.php';
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'user_id': box.read('userId'),
+        'exercise': riskLevels['ออกกำลังกาย'],
+        'rest': riskLevels['นอน'],
+        'eating': riskLevels['กินข้าว'],
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // Successfully sent data
+      print('Data sent successfully');
+      // Optionally, you can show a success message or perform other actions
+    } else {
+      // Error sending data
+      print('Error sending data: ${response.statusCode}');
+      // Optionally, you can show an error message or perform other actions
+    }
   }
 
   @override
@@ -166,7 +185,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),
                 child: Text(
-                  "ยืนยันคำตอบ",
+                  "บันทึกคำตอบ",
                   style: GoogleFonts.kanit(
                     color: Colors.white,
                     fontSize: 18,
