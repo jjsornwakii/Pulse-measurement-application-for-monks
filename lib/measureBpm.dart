@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:heart_bpm/chart.dart';
@@ -74,14 +75,23 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
               ),
             ],
           ),
-          const Text(
-            "กรุณานำนิ้วชี้ แตะที่กล้อง",
-            style: TextStyle(
-              decoration: TextDecoration.none,
-              color: Colors.black,
-              fontSize: 27,
-            ),
-          ),
+          !isBPMEnabled
+              ? Text(
+                  "กรุณานำนิ้วชี้ แตะที่กล้อง",
+                  style: TextStyle(
+                    decoration: TextDecoration.none,
+                    color: Colors.black,
+                    fontSize: 27,
+                  ),
+                )
+              : Text(
+                  "เหลือเวลาอีก $remainingTime วินาที",
+                  style: TextStyle(
+                    decoration: TextDecoration.none,
+                    color: Colors.black,
+                    fontSize: 27,
+                  ),
+                ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Stack(
@@ -102,10 +112,10 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
                           alpha: BorderSide.strokeAlignCenter,
                           onRawData: (value) {
                             setState(() {
-                              if (data.length >= 100) data.removeAt(0);
+                              if (data.length >= 20) data.removeAt(0);
                               data.add(value);
 
-                              if (bpmList.length >= 100) bpmList.removeAt(0);
+                              if (bpmList.length >= 20) bpmList.removeAt(0);
                               bpmList.add(value.value.toDouble());
 
                               double sum = bpmList.reduce((a, b) => a + b);
@@ -144,15 +154,21 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
               ],
             ),
           ),
-          isBPMEnabled && data.isNotEmpty
-              ? Container(
-                  decoration: BoxDecoration(border: Border.all()),
-                  height: 150,
-                  child: BPMChart(data),
-                )
-              : const SizedBox(
-                  height: 150,
-                ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            child: isBPMEnabled && data.isNotEmpty
+                ? Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(), color: Colors.white),
+                    height: 150,
+                    child: BPMChart(data),
+                  )
+                : Container(
+                    // decoration: BoxDecoration(
+                    //     border: Border.all(), color: Colors.white),
+                    height: 150,
+                  ),
+          ),
           // isBPMEnabled && bpmValues.isNotEmpty
           //     ? Container(
           //         decoration: BoxDecoration(border: Border.all()),
@@ -167,6 +183,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Colors.white,
             ),
             child: Text(
@@ -187,10 +204,16 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
           ),
           ElevatedButton.icon(
             style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(
-                  const Size(150, 150),
-                ),
-                iconColor: MaterialStateProperty.all(Colors.red)),
+              backgroundColor: !isBPMEnabled
+                  ? MaterialStateProperty.all(
+                      Color.fromARGB(255, 228, 228, 228))
+                  : MaterialStateProperty.all(
+                      Color.fromARGB(255, 239, 255, 63)),
+              minimumSize: MaterialStateProperty.all(
+                const Size(150, 150),
+              ),
+              iconColor: MaterialStateProperty.all(Colors.red),
+            ),
             icon: const Icon(
               Icons.favorite_rounded,
               size: 40,
