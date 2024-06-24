@@ -73,7 +73,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   TextStyle labelTextStyle = const TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 20,
+    fontSize: 16,
   );
 
   @override
@@ -118,7 +118,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
         if (data['user_height'] != null) {
           _heightController.text = data['user_height'].toString();
         }
-
         _hasChronicDisease = data['hasChronicDisease'] == "1";
       });
     } else {
@@ -135,7 +134,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+      body: jsonEncode(
+          <String, String>{'user_id': box.read('userId').toString()}),
     );
     print(apiUrl);
     if (response.statusCode == 200) {
@@ -171,6 +171,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -313,6 +314,62 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _birthdateController,
                         decoration: InputDecoration(
                           hintText: 'ว/ด/ป เกิด',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        readOnly: true,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "อายุ",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 40,
+                      child: TextFormField(
+                        controller: _ageController,
+                        decoration: InputDecoration(
+                          hintText: 'อายุ',
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -532,19 +589,22 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   SizedBox(width: 10),
-                  Text(_hasChronicDisease ? 'มี' : 'ไม่มี',
-                      style: TextStyle(fontSize: 16)),
+                  Text(_hasChronicDisease ? '' : 'ไม่มี',
+                      style: TextStyle(fontSize: 18)),
                 ],
               ),
               if (_hasChronicDisease)
-                Column(
-                  children: _diseaseList.map((disease) {
-                    return ListTile(
-                      title: Text(disease, style: TextStyle(fontSize: 16)),
-                    );
-                  }).toList(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(100, 0, 0, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: _diseaseList.map((disease) {
+                      return ListTile(
+                        title: Text(disease, style: TextStyle(fontSize: 18)),
+                      );
+                    }).toList(),
+                  ),
                 ),
-              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -555,7 +615,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         MaterialPageRoute(builder: (context) => UserPage()),
                       );
                     },
-                    child: Text('กลับ', style: TextStyle(fontSize: 16)),
+                    child: Text('กลับ', style: TextStyle(fontSize: 18)),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),

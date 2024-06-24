@@ -171,7 +171,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
 
   TextStyle labelTextStyle = const TextStyle(
     fontWeight: FontWeight.bold,
-    fontSize: 20,
+    fontSize: 16,
   );
 
   @override
