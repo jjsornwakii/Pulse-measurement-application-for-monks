@@ -10,7 +10,7 @@ class DetailPage extends StatelessWidget {
 
   String? server = dotenv.env['server'];
   String? port = dotenv.env['port'];
-
+String? apipath = dotenv.env['apipath'];
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -74,7 +74,7 @@ class DetailPage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Image.network(
-                            "http://$server:$port/api_shatu/${data['tip_image']}",
+                            "http://$server:$port/$apipath/${data['tip_image']}",
                           ),
                         ),
                         const SizedBox(

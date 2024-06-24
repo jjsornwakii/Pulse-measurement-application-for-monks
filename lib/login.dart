@@ -16,6 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String? server = dotenv.env['server'];
   String? port = dotenv.env['port'];
+  String? apipath = dotenv.env['apipath'];
 
   bool _obscureText = true;
 
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> loginUser(BuildContext context) async {
-    String apiUrl = 'http://$server:$port/api_shatu/login.php';
+    String apiUrl = 'http://$server:$port/$apipath/login.php';
     print(apiUrl);
 
     // Prepare data to send

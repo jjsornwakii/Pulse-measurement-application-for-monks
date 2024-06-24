@@ -37,7 +37,7 @@ class _SugarbloodPageState extends State<SugarbloodPage>
   }
 
   Future<void> fetchData() async {
-    final url = 'http://$server:$port/api_shatu/userinfo.php';
+    final url = 'http://$server:$port/$apipath/userinfo.php';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{

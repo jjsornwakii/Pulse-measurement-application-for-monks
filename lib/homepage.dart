@@ -573,7 +573,7 @@ class _HomePage extends State<HomePage> {
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           child: Image.network(
-                                            "http://$server:$port/api_shatu/${tipList[index]['tip_image']}",
+                                            "http://$server:$port/$apipath/${tipList[index]['tip_image']}",
                                             fit: BoxFit.fitWidth,
                                           ),
                                         ),
@@ -614,7 +614,7 @@ class _HomePage extends State<HomePage> {
   }
 
   Future<void> getNewestHealthData() async {
-    String url = "http://$server:$port/api_shatu/getHealthData.php";
+    String url = "http://$server:$port/$apipath/getHealthData.php";
 
     final response = await http.post(
       Uri.parse(url),
@@ -640,7 +640,7 @@ class _HomePage extends State<HomePage> {
   }
 
   Future<void> sentBloodPressure() async {
-    String url = "http://$server:$port/api_shatu/savebloodPressure.php";
+    String url = "http://$server:$port/$apipath/savebloodPressure.php";
 
     final response = await http.post(
       Uri.parse(url),
@@ -667,7 +667,7 @@ class _HomePage extends State<HomePage> {
   }
 
   Future<void> sendBloodSugar() async {
-    String url = "http://$server:$port/api_shatu/savebloodSugar.php";
+    String url = "http://$server:$port/$apipath/savebloodSugar.php";
 
     final response = await http.post(
       Uri.parse(url),
@@ -693,7 +693,7 @@ class _HomePage extends State<HomePage> {
   }
 
   Future<void> getTipImg() async {
-    String url = "http://$server:$port/api_shatu/getalltip.php";
+    String url = "http://$server:$port/$apipath/getalltip.php";
 
     final response = await http.get(
       Uri.parse(url),

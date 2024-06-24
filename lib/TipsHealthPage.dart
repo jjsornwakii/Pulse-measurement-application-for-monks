@@ -13,7 +13,7 @@ class TipsHealthPage extends StatefulWidget {
 class _TipsHealthPage extends State<TipsHealthPage> {
   String? server = dotenv.env['server'];
   String? port = dotenv.env['port'];
-
+  String? apipath = dotenv.env['apipath'];
   List<dynamic> data = [];
 
   @override
@@ -124,7 +124,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
                             child: Image.network(
-                              'http://$server:$port/api_shatu/${data[index]['tip_image']}',
+                              'http://$server:$port/$apipath/${data[index]['tip_image']}',
                             ),
                           ),
                           SizedBox(
@@ -160,7 +160,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
   }
 
   Future<void> getAllTips() async {
-    String url = "http://$server:$port/api_shatu/getalltip.php";
+    String url = "http://$server:$port/$apipath/getalltip.php";
 
     final response = await http.get(Uri.parse(url));
 

@@ -16,7 +16,8 @@ class MeasureBpmPage extends StatefulWidget {
 
 class _MeasureBpmPage extends State<MeasureBpmPage> {
   String? server = dotenv.env['server'];
-  String? port = dotenv.env['port'];
+  String? port = dotenv.env['port']; 
+  String? apipath = dotenv.env['apipath'];
   GetStorage box = GetStorage();
 
   List<SensorValue> data = [];
@@ -267,7 +268,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
   }
 
   Future<void> saveBPM() async {
-    String url = "http://$server:$port/api_shatu/savebpm.php";
+    String url = "http://$server:$port/$apipath/savebpm.php";
 
     final response = await http.post(
       Uri.parse(url),
