@@ -408,8 +408,19 @@ class _HomePage extends State<HomePage> {
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("ระดับความเสี่ยงเป็นโรคเบาหวาน"),
-                          Text("กดเพื่อรับคำแนะนำ"),
+                          Text(
+                            "ระดับความเสี่ยงเป็นโรคเบาหวาน",
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "กดเพื่อรับคำแนะนำ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -511,9 +522,7 @@ class _HomePage extends State<HomePage> {
                         Text(
                           "หน้า ${_currentPage + 1} / ${tipList.length}",
                           style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

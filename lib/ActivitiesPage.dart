@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class ActivitiesPage extends StatefulWidget {
-  const ActivitiesPage({Key? key}) : super(key: key);
+  const ActivitiesPage({super.key});
 
   @override
   State<ActivitiesPage> createState() => _ActivitiesPageState();
@@ -78,7 +78,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [],
               ),
@@ -95,7 +95,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                 ],
               ),
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
@@ -110,14 +110,14 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
               ...activities.map((activity) {
                 return Card(
-                  color: Color.fromARGB(255, 250, 205, 101),
-                  margin: EdgeInsets.symmetric(vertical: 10),
+                  color: const Color.fromARGB(255, 250, 205, 101),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
                   child: Stack(
                     children: [
                       ClipRRect(
@@ -133,7 +133,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             Text(
@@ -177,12 +177,12 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                   ),
                 );
               }).toList(),
-              SizedBox(height: 20), // Add some spacing before the button
+              const SizedBox(height: 20), // Add some spacing before the button
               TextButton(
                 onPressed: _submitData,
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.orange[500],
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),
                 child: Text(
                   "บันทึกคำตอบ",

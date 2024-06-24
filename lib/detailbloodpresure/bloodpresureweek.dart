@@ -84,7 +84,7 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching chart data: $e')),
+        SnackBar(content: Text('ไม่มีข้อมูลของสัปดาห์นี้กรุณาไปวัด')),
       );
     }
   }

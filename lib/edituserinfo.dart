@@ -73,31 +73,33 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      setState(() {
-        _nameController.text = data['user_fname'] ?? "";
-        _surnameController.text = data['user_lname'] ?? "";
+      setState(
+        () {
+          _nameController.text = data['user_fname'] ?? "";
+          _surnameController.text = data['user_lname'] ?? "";
 
-        if (data['user_birthday'] != null) {
-          birthday = DateTime.parse(data['user_birthday']);
-          _birthdateController.text = "${birthday?.toLocal()}".split(' ')[0];
-        }
-        // if (data['user_age'] != null) {
-        //   _ageController.text = data['user_age'].toString();
-        // }
-        if (data['user_address'] != null) {
-          _addressController.text = data['user_address'];
-        }
-        if (data['user_weight'] != null) {
-          _weightController.text = data['user_weight'].toString();
-        }
-        if (data['user_height'] != null) {
-          _heightController.text = data['user_height'].toString();
-        }
-        _hasChronicDisease = data['hasChronicDisease'] ?? false;
-        _selectedDiseases = data['diseaseDetails'] != null
-            ? List<String>.from(data['diseaseDetails'])
-            : [];
-      });
+          if (data['user_birthday'] != null) {
+            birthday = DateTime.parse(data['user_birthday']);
+            _birthdateController.text = "${birthday?.toLocal()}".split(' ')[0];
+          }
+          // if (data['user_age'] != null) {
+          //   _ageController.text = data['user_age'].toString();
+          // }
+          if (data['user_address'] != null) {
+            _addressController.text = data['user_address'];
+          }
+          if (data['user_weight'] != null) {
+            _weightController.text = data['user_weight'].toString();
+          }
+          if (data['user_height'] != null) {
+            _heightController.text = data['user_height'].toString();
+          }
+
+          _selectedDiseases = data['diseaseDetails'] != null
+              ? List<String>.from(data['diseaseDetails'])
+              : [];
+        },
+      );
     } else {
       print('Failed to load user data');
     }
