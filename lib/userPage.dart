@@ -29,7 +29,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<Map<String, dynamic>> fetchUserInfo() async {
-    final url = 'http://$server:$port/api_shatu/userinfo.php';
+    final url = 'http://$server:$port/$apipath/userinfo.php';
 
     final response = await http.post(
       Uri.parse(url),

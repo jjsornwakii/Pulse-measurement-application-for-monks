@@ -84,7 +84,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   }
 
   Future<void> _getUserData() async {
-    final url = 'http://$server:$port/api_shatu/userinfo.php';
+    final url = 'http://$server:$port/$apipath/userinfo.php';
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{
