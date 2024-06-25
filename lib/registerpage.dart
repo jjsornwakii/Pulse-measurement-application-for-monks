@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'login.dart';
 
@@ -139,18 +140,18 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text(
+                      Text(
                         'สมัครสมาชิก',
-                        style: TextStyle(
+                        style: GoogleFonts.kanit(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 40),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'ชื่อผู้ใช้',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.kanit(fontSize: 16),
                           ),
                           TextField(
                             controller: usernameController,
@@ -165,9 +166,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'รหัสผ่าน',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.kanit(fontSize: 16),
                           ),
                           TextField(
                             controller: passwordController,
@@ -195,9 +196,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'ยืนยันรหัสผ่าน',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.kanit(fontSize: 16),
                           ),
                           TextField(
                             controller: passwordCheckController,
@@ -233,9 +234,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               horizontal: 80, vertical: 12),
                           textStyle: const TextStyle(fontSize: 18),
                         ),
-                        child: const Text(
+                        child: Text(
                           'ลงทะเบียน',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: GoogleFonts.kanit(
+                              color: Colors.white, fontSize: 18),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -247,9 +249,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 builder: (context) => LoginPage()),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'มีบัญชีใช่หรือไม่? เข้าสู่ระบบ',
-                          style: TextStyle(color: Colors.orange, fontSize: 16),
+                          style: GoogleFonts.kanit(
+                              color: Colors.orange, fontSize: 16),
                         ),
                       ),
                     ],
