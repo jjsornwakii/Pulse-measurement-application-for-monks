@@ -6,15 +6,18 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:sato/login.dart';
+import 'package:flutter/services.dart';
 
 import 'package:sato/navigation.dart';
 import 'package:get_storage/get_storage.dart';
 
-
-
 void main() async {
   await dotenv.load(fileName: ".env");
   await GetStorage.init();
+
+  // ทำการตั้งค่าให้ซ่อน Navigation Bar และ Status Bar ก่อนที่แอปจะเริ่มทำงาน
+  await WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   runApp(MyApp());
 }
 
