@@ -39,26 +39,7 @@ class _MyAppState extends State<MyApp> {
     final server = dotenv.env['server'] ?? '';
     final port = dotenv.env['port'] ?? '';
     final apipath = dotenv.env['apipath'] ?? '';
-    chcekActivity();
     CheckLogin();
-  }
-
-  Future<void> chcekActivity() async {
-    final server = dotenv.env['server'] ?? '';
-    final port = dotenv.env['port'] ?? '';
-    final apipath = dotenv.env['apipath'] ?? '';
-
-    String apiUrl = 'http://$server:$port/shatu/setActiviy.php';
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8'
-      },
-      body: jsonEncode(
-          <String, String>{'user_id': box.read('userId').toString()}),
-    );
-
-    // Handle the response appropriately here
   }
 
   void CheckLogin() {
