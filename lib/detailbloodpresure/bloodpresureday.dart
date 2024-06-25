@@ -81,7 +81,13 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('ไม่มีข้อมูลของวันนี้กรุณาไปวัด')),
+        SnackBar(
+          content: Text(
+            'ไม่มีข้อมูลของวันนี้กรุณาไปวัด',
+            style: TextStyle(fontSize: 24),
+          ),
+          duration: Duration(seconds: 3),
+        ),
       );
     }
   }
@@ -96,9 +102,9 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: const Color.fromARGB(255, 244, 204, 75),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -111,17 +117,17 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(width: 15),
+                              const SizedBox(width: 15),
                               Image.asset(
                                 'assets/icon/blood_presure.png',
                                 height: 50,
                                 fit: BoxFit.cover,
                               ),
-                              SizedBox(width: 15),
+                              const SizedBox(width: 15),
                               Text(
                                 'ความดันโลหิต',
                                 style: GoogleFonts.kanit(
-                                  color: Color.fromARGB(255, 64, 63, 63),
+                                  color: const Color.fromARGB(255, 64, 63, 63),
                                   fontSize: 33,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -133,7 +139,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                               Text(
                                 'เฉลี่ย : $avgMaxValue',
                                 style: GoogleFonts.kanit(
-                                  color: Color.fromARGB(255, 56, 55, 55),
+                                  color: const Color.fromARGB(255, 56, 55, 55),
                                   fontSize: 30,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -141,7 +147,8 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                               Text(
                                 ' / $avgMinValue mmHg',
                                 style: GoogleFonts.kanit(
-                                  color: Color.fromARGB(255, 113, 112, 112),
+                                  color:
+                                      const Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -149,7 +156,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.all(5),
+                            padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),
                               color: avgMaxValue > 129
@@ -160,7 +167,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                             child: Text(
                               statusText,
                               style: GoogleFonts.kanit(
-                                color: Color.fromARGB(255, 251, 228, 228),
+                                color: const Color.fromARGB(255, 251, 228, 228),
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -179,7 +186,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 113, 112, 112),
+                          color: const Color.fromARGB(255, 113, 112, 112),
                         ),
                       ),
                     ],
@@ -192,13 +199,13 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                       borderWidth: 0,
                       plotAreaBorderWidth: 0,
                       enableSideBySideSeriesPlacement: false,
-                      primaryXAxis: CategoryAxis(
+                      primaryXAxis: const CategoryAxis(
                         axisLine: AxisLine(color: Colors.transparent),
                         isVisible: true,
                         majorGridLines: MajorGridLines(width: 0),
                         majorTickLines: MajorTickLines(width: 0),
                       ),
-                      primaryYAxis: NumericAxis(
+                      primaryYAxis: const NumericAxis(
                         isVisible: true,
                         axisLine: AxisLine(color: Colors.transparent),
                         majorGridLines: MajorGridLines(width: 0),
@@ -209,18 +216,18 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                       ),
                       series: <CartesianSeries>[
                         ColumnSeries<ChartColumnData, String>(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(5),
                             topRight: Radius.circular(5),
                           ),
                           dataSource: chartData,
                           width: 0.5,
-                          color: Color.fromARGB(255, 240, 238, 238),
+                          color: const Color.fromARGB(255, 240, 238, 238),
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
                         ),
                         ColumnSeries<ChartColumnData, String>(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(5),
                             topRight: Radius.circular(5),
                           ),
@@ -228,7 +235,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                           width: 0.5,
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromARGB(255, 225, 222, 222),
+                              const Color.fromARGB(255, 225, 222, 222),
                               Colors.deepPurple.shade300,
                             ],
                             begin: Alignment.topCenter,
@@ -248,7 +255,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Color.fromARGB(255, 113, 112, 112),
+                          color: const Color.fromARGB(255, 113, 112, 112),
                         ),
                       ),
                     ],

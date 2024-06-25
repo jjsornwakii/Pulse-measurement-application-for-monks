@@ -24,6 +24,8 @@ class _UserPageState extends State<UserPage> {
 
   @override
   void initState() {
+    print("/// userPage.dart");
+    print('**************************************');
     super.initState();
     _userInfo = fetchUserInfo();
   }

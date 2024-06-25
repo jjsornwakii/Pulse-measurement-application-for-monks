@@ -18,6 +18,8 @@ class _TipsHealthPage extends State<TipsHealthPage> {
 
   @override
   void initState() {
+    print("/// TipsHealthPage.dart");
+    print('**************************************');
     super.initState();
     getAllTips();
   }
@@ -169,7 +171,8 @@ class _TipsHealthPage extends State<TipsHealthPage> {
       if (responseData['status'] == 'success') {
         setState(() {
           data = responseData['data'];
-          print(data);
+          // print(data);
+          print("Get Tip Success");
         });
       } else {
         print("Get Tip Failed");

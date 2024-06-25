@@ -84,7 +84,13 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('ไม่มีข้อมูลของเดือนนี้กรุณาไปวัด')),
+        SnackBar(
+          content: Text(
+            'ไม่มีข้อมูลของเดือนนี้กรุณาไปวัด',
+            style: TextStyle(fontSize: 24),
+          ),
+          duration: Duration(seconds: 3),
+        ),
       );
     }
   }

@@ -22,6 +22,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final port = dotenv.env['port'] ?? '';
   final apipath = dotenv.env['apipath'] ?? '';
 
+  @override
+  void initState() {
+    print("/// registerpage.dart");
+    print('**************************************');
+    super.initState();
+  }
+
   Future<void> register(BuildContext context) async {
     // Validate form fields
     if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
@@ -46,7 +53,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     // API endpoint for user registration
     String apiUrl = 'http://$server:$port/$apipath/register.php';
-    print(apiUrl);
+    //print(apiUrl);
 
     // Prepare data to send
     final Map<String, dynamic> data = {

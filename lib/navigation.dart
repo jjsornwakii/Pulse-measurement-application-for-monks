@@ -61,6 +61,8 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
+    print("/// navigation.dart");
+    print('**************************************');
     super.initState();
     print(box.read("userId"));
     _getUserData();

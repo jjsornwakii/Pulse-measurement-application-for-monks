@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
@@ -58,22 +59,27 @@ class _HomePage extends State<HomePage> {
 
   @override
   void initState() {
+    print("/// homepage.dart");
+    print('**************************************');
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.initState();
     user_id = box.read("userId");
     _startAutoScroll();
-
     getTipImg();
     getNewestHealthData();
 
-    print('**************************************');
-    print(newestData['age']);
-    print(newestData['height']);
-    print(newestData['ChronicDisease']);
-    print(newestData['blood_sugar']);
-    print(newestData['blood_pressure_min']);
-    print(newestData['blood_pressure_max']);
-    print(newestData['heart_rate']);
-    print('**************************************');
+    // print('**************************************');
+    // print(newestData['age']);
+    // print(newestData['height']);
+    // print(newestData['ChronicDisease']);
+    // print(newestData['blood_sugar']);
+    // print(newestData['blood_pressure_min']);
+    // print(newestData['blood_pressure_max']);
+    // print(newestData['heart_rate']);
+    // print('**************************************');
   }
 
   @override
@@ -107,7 +113,7 @@ class _HomePage extends State<HomePage> {
     return SingleChildScrollView(
       child: Container(
         width: screenSize.width,
-        height: screenSize.height,
+        height: screenSize.height * .8,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 251, 138),
         ),
@@ -151,10 +157,17 @@ class _HomePage extends State<HomePage> {
                                   child: TextFormField(
                                     controller: maxPressureVal,
                                     decoration: const InputDecoration(
+                                      hintText: 'กรุณากรอกค่า',
                                       filled: true,
                                       fillColor: Colors.white,
                                     ),
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "mmHg",
                                 ),
                               ],
                             ),
@@ -173,11 +186,18 @@ class _HomePage extends State<HomePage> {
                                 Expanded(
                                   child: TextFormField(
                                     decoration: const InputDecoration(
+                                      hintText: 'กรุณากรอกค่า',
                                       filled: true,
                                       fillColor: Colors.white,
                                     ),
                                     controller: minPressureVal,
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "mmHg",
                                 ),
                               ],
                             ),
@@ -256,8 +276,8 @@ class _HomePage extends State<HomePage> {
                             Row(
                               children: [
                                 const Text(
-                                  "ระดับน้ำตาลในเลือด",
-                                  style: TextStyle(fontSize: 20),
+                                  "ระดับน้ำตาล\nในเลือด",
+                                  style: TextStyle(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -265,12 +285,17 @@ class _HomePage extends State<HomePage> {
                                 Expanded(
                                   child: TextFormField(
                                     decoration: const InputDecoration(
+                                      hintText: "กรุณากรอกค่า",
                                       filled: true,
                                       fillColor: Colors.white,
                                     ),
                                     controller: bloodSugarVal,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Mg/dL"),
                               ],
                             ),
                             const SizedBox(
@@ -380,6 +405,7 @@ class _HomePage extends State<HomePage> {
                         children: [
                           Image.asset(
                             'assets/decoration/graph.png',
+                            fit: BoxFit.fitWidth,
                           ),
                         ],
                       ),
@@ -470,17 +496,30 @@ class _HomePage extends State<HomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "|",
-                                      style: indicatorLine,
+                                    // Text(
+                                    //   "|",
+                                    //   style: indicatorLine,
+                                    // ),
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                    Text(
-                                      "|",
-                                      style: indicatorLine,
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                    Text(
-                                      "|",
-                                      style: indicatorLine,
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -488,6 +527,9 @@ class _HomePage extends State<HomePage> {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),
@@ -627,9 +669,15 @@ class _HomePage extends State<HomePage> {
     if (response.statusCode == 200) {
       setState(() {
         newestData = json.decode(response.body);
-        maxPressureVal.text = newestData['blood_pressure_max'].toString();
-        minPressureVal.text = newestData['blood_pressure_min'].toString();
-        bloodSugarVal.text = newestData['blood_sugar'].toString();
+        maxPressureVal.text = newestData['blood_pressure_max'] != null
+            ? newestData['blood_pressure_max'].toString()
+            : "";
+        minPressureVal.text = newestData['blood_pressure_min'] != null
+            ? newestData['blood_pressure_min'].toString()
+            : "";
+        bloodSugarVal.text = newestData['blood_sugar'] != null
+            ? newestData['blood_sugar'].toString()
+            : "";
       });
       print('GET NEW DATA');
       print(newestData);
@@ -860,4 +908,11 @@ class _HomePage extends State<HomePage> {
       },
     );
   }
+
+  // void _resetScreenOrientation() {
+  //   SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitDown,
+  //   ]);
+  // }
 }

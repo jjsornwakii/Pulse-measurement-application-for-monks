@@ -25,6 +25,8 @@ class _SugarbloodPageState extends State<SugarbloodPage>
 
   @override
   void initState() {
+    print("/// sugarblood.dart");
+    print('**************************************');
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     fetchData();
