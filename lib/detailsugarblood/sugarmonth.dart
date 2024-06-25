@@ -92,7 +92,7 @@ class _sugarmonthState extends State<sugarmonth> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -133,7 +133,7 @@ class _sugarmonthState extends State<sugarmonth> {
                                 ),
                               ),
                               Text(
-                                ' mmHg',
+                                ' mg/dL',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -169,7 +169,7 @@ class _sugarmonthState extends State<sugarmonth> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "มิลลิเมตรปรอท (mmHg.)",
+                        "มิลลิเมตรปรอท (mg/dL.)",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -221,6 +221,15 @@ class _sugarmonthState extends State<sugarmonth> {
                               data.monthYear,
                           yValueMapper: (ChartColumnData data, _) =>
                               data.bloodSugar,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                       ],
                     ),

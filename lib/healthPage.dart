@@ -75,7 +75,7 @@ class _HealthPageState extends State<HealthPage> {
     }
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 248, 206, 52),
+        backgroundColor: Color(0xFFFFB700),
         shadowColor: Color.fromARGB(255, 10, 10, 10),
         elevation: 5,
         maximumSize: Size(screenSize.width * 0.95, screenSize.height * .24),
@@ -181,7 +181,7 @@ class _HealthPageState extends State<HealthPage> {
         width: screenSize.width,
         height: screenSize.height,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 255, 251, 138),
+          color: Color(0xFFFFFDC8),
         ),
         child: Column(
           children: [
@@ -189,7 +189,7 @@ class _HealthPageState extends State<HealthPage> {
             if (userData.isNotEmpty) ...[
               buildInfoCard(
                 'ความดันโลหิต',
-                '${userData['blood_pressure_max']} / ${userData['blood_pressure_min']}',
+                '${userData['blood_pressure_max'] ?? "0"}  / ${userData['blood_pressure_min'] ?? "0"}',
                 'mmHg',
                 'assets/icon/blood_presure.png',
                 'assets/decoration/chartpressure.png',
@@ -198,7 +198,7 @@ class _HealthPageState extends State<HealthPage> {
               SizedBox(height: 10),
               buildInfoCard(
                 'ระดับน้ำตาลในเลือด',
-                '${userData['blood_sugar']}',
+                '${userData['blood_sugar'] ?? "0"}',
                 'mg/dL',
                 'assets/icon/blood_glucose.png',
                 'assets/decoration/chartsugar.png',
@@ -207,7 +207,7 @@ class _HealthPageState extends State<HealthPage> {
               SizedBox(height: 10),
               buildInfoCard(
                 'อัตราการเต้นของหัวใจ',
-                '${userData['heart_rate']}',
+                '${userData['heart_rate'] ?? "0"}',
                 'bpm',
                 'assets/icon/heartrate.png',
                 'assets/decoration/chartheart.png',

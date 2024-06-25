@@ -139,7 +139,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       body: jsonEncode(
           <String, String>{'user_id': box.read('userId').toString()}),
     );
-   // print(apiUrl);
+    // print(apiUrl);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List;
       setState(() {
@@ -165,9 +165,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
         toolbarHeight: 120,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: const Color(0xFFFFFDC8),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: const Color(0xFFFFFDC8),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

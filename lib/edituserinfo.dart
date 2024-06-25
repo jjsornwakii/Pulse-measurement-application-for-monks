@@ -191,9 +191,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
         toolbarHeight: 120,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: const Color(0xFFFFFDC8),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: const Color(0xFFFFFDC8),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(

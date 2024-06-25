@@ -42,49 +42,30 @@ class _DetailPageState extends State<DetailPage> {
           margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 255, 251, 138),
+            color: const Color(0xFFFFFDC8),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Column(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 217, 29),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      _resetScreenOrientation();
-                    },
-                    child: const Text(
-                      "กลับ",
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 255, 251, 138),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10), // เพิ่มระยะห่างระหว่างปุ่ม
-                  // FloatingActionButton(
-                  //   // เพิ่มปุ่ม FloatingActionButton
-                  //   onPressed: () {
-                  //     _toggleScreenOrientation(context);
-                  //   },
-                  //   child: Icon(Icons.screen_rotation), // ใช้ไอคอนแบบหมุนจอ
-                  //   backgroundColor: const Color.fromARGB(255, 255, 217, 29),
-                  // ),
-                ],
-              ),
+              SizedBox(width: 10), // เพิ่มระยะห่างระหว่างปุ่ม
+              // FloatingActionButton(
+              //   // เพิ่มปุ่ม FloatingActionButton
+              //   onPressed: () {
+              //     _toggleScreenOrientation(context);
+              //   },
+              //   child: Icon(Icons.screen_rotation), // ใช้ไอคอนแบบหมุนจอ
+              //   backgroundColor: const Color(0xFFFFB700),
+              // ),
+
               const SizedBox(
                 height: 5,
               ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
-                    width: screenSize.width * .80,
+                    width: screenSize.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20),
@@ -108,6 +89,26 @@ class _DetailPageState extends State<DetailPage> {
                         ],
                       ),
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFFB700),
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _resetScreenOrientation();
+                },
+                child: const Text(
+                  "กลับ",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    color: Color.fromARGB(255, 255, 254, 225),
                   ),
                 ),
               ),

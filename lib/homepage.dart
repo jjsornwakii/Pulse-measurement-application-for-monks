@@ -108,14 +108,14 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double fontSize = 17;
+    double fontSize = 18;
     final screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         width: screenSize.width,
         height: screenSize.height,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 255, 251, 138),
+          color: Color(0xFFFFFDC8),
         ),
         child: Column(
           children: [
@@ -123,12 +123,14 @@ class _HomePage extends State<HomePage> {
               height: 15,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                    backgroundColor: Color(0xFFFFB700),
                     minimumSize:
+                        Size(screenSize.width * .46, screenSize.height * .15),
+                    maximumSize:
                         Size(screenSize.width * .46, screenSize.height * .15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -232,7 +234,7 @@ class _HomePage extends State<HomePage> {
                             width: 2,
                           ),
                           Text(
-                            'แตะเพื่อวัด',
+                            'แตะเพื่อกรอก',
                             style: TextStyle(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
@@ -252,10 +254,15 @@ class _HomePage extends State<HomePage> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  width: 8,
+                ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                      backgroundColor: const Color(0xFFFFB700),
                       minimumSize:
+                          Size(screenSize.width * .46, screenSize.height * .15),
+                      maximumSize:
                           Size(screenSize.width * .46, screenSize.height * .15),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
@@ -327,7 +334,7 @@ class _HomePage extends State<HomePage> {
                           ),
                           const SizedBox(width: 2),
                           Text(
-                            'แตะเพื่อวัด',
+                            'แตะเพื่อกรอก',
                             style: TextStyle(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
@@ -340,7 +347,7 @@ class _HomePage extends State<HomePage> {
                         "ระดับน้ำตาลในเลือด",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: fontSize,
+                          fontSize: fontSize - 2,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -354,7 +361,7 @@ class _HomePage extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                backgroundColor: const Color(0xFFFFB700),
                 minimumSize:
                     Size(screenSize.width * .95, screenSize.height * .15),
                 maximumSize:
@@ -423,7 +430,7 @@ class _HomePage extends State<HomePage> {
               child: Container(
                 width: screenSize.width * .95,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 217, 29),
+                  color: const Color(0xFFFFB700),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -542,7 +549,7 @@ class _HomePage extends State<HomePage> {
               width: screenSize.width * .95,
               height: screenSize.height * .33,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 217, 29),
+                color: const Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -839,11 +846,11 @@ class _HomePage extends State<HomePage> {
 
     print("myscore $score");
     setState(() {
-      if (score < 3) {
+      if (score < 3.725) {
         _advicePage = 0;
-      } else if (score < 6) {
+      } else if (score < 7.745) {
         _advicePage = 1;
-      } else if (score < 9) {
+      } else if (score < 11.765) {
         _advicePage = 2;
       } else {
         _advicePage = 3;

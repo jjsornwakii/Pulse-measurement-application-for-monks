@@ -39,6 +39,11 @@ class _sugarday extends State<sugarday> {
     fetchChartData();
   }
 
+  @override
+  dispose() {
+    super.dispose();
+  }
+
   Future<void> fetchChartData() async {
     final url = 'http://$server:$port/$apipath/chartsugarday.php';
 
@@ -96,7 +101,7 @@ class _sugarday extends State<sugarday> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -137,7 +142,7 @@ class _sugarday extends State<sugarday> {
                                 ),
                               ),
                               Text(
-                                ' mmHg',
+                                ' mg/dL',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -173,7 +178,7 @@ class _sugarday extends State<sugarday> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "มิลลิเมตรปรอท (mmHg.)",
+                        "มิลลิเมตรปรอท (mg/dL.)",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -223,6 +228,15 @@ class _sugarday extends State<sugarday> {
                           ),
                           xValueMapper: (ChartColumnData data, _) => data.time,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                       ],
                     ),

@@ -107,7 +107,7 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -228,6 +228,15 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
                           xValueMapper: (ChartColumnData data, _) =>
                               data.x.substring(0, 3),
                           yValueMapper: (ChartColumnData data, _) => data.y1,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                         ColumnSeries<ChartColumnData, String>(
                           borderRadius: BorderRadius.only(
@@ -247,6 +256,15 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
                           xValueMapper: (ChartColumnData data, _) =>
                               data.x.substring(0, 3),
                           yValueMapper: (ChartColumnData data, _) => data.y,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                       ],
                     ),

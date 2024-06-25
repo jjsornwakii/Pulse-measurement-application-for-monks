@@ -32,7 +32,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
       width: screenSize.width,
       height: screenSize.height,
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 255, 251, 138),
+        color: Color(0xFFFFFDC8),
       ),
       child: Padding(
         padding: EdgeInsets.all(20),
@@ -43,7 +43,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 217, 29),
+                    backgroundColor: Color(0xFFFFB700),
                   ),
                   onPressed: () => {
                     Navigator.pushReplacement(
@@ -57,7 +57,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                     "กลับ",
                     style: TextStyle(
                       fontSize: 22,
-                      color: Color.fromARGB(255, 255, 251, 138),
+                      color: Color(0xFFFFFDC8),
                     ),
                   ),
                 ),
