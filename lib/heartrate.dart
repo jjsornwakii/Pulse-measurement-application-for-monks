@@ -71,19 +71,21 @@ class _HeartRatePageState extends State<HeartRatePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: Color(0xFFFFFDC8),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               children: [
                 Text(
-                  userData != null
+                  (userData != null &&
+                          userData!['user_fname'] != null &&
+                          userData!['user_fname'] != "null")
                       ? "นมัสการ ${userData!['user_fname']}"
-                      : 'Loading...',
+                      : 'นมัสการ ชื่อ...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),
                 Text(
@@ -140,19 +142,19 @@ class _HeartRatePageState extends State<HeartRatePage>
                 tabs: const <Widget>[
                   Tab(
                     child: Text(
-                      'Day',
+                      'วัน',
                       style: TextStyle(fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Week',
+                      'สัปดาห์',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Month',
+                      'เดือน',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),

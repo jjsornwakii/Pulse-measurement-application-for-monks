@@ -104,7 +104,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 244, 204, 75),
+                color: const Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -225,6 +225,13 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                           color: const Color.fromARGB(255, 240, 238, 238),
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
                         ),
                         ColumnSeries<ChartColumnData, String>(
                           borderRadius: const BorderRadius.only(
@@ -243,6 +250,13 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                           ),
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y,
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
                         ),
                       ],
                     ),

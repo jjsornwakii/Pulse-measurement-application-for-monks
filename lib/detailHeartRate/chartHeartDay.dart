@@ -100,7 +100,7 @@ class _ChartheartdayState extends State<Chartheartday> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -228,6 +228,15 @@ class _ChartheartdayState extends State<Chartheartday> {
                           xValueMapper: (ChartColumnData data, _) => data.time,
                           yValueMapper: (ChartColumnData data, _) =>
                               data.heartRate,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                       ],
                     ),

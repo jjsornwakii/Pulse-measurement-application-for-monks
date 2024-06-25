@@ -40,30 +40,37 @@ class _SugarbloodPageState extends State<SugarbloodPage>
 
   Future<void> fetchData() async {
     final url = 'http://$server:$port/$apipath/userinfo.php';
-    final response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+      );
 
-    if (response.statusCode == 200) {
-      setState(() {
-        userData = jsonDecode(response.body);
-      });
-    } else {
-      print('Failed to load user data');
+      if (response.statusCode == 200) {
+        if (mounted) {
+          // Check if the widget is still mounted
+          setState(() {
+            userData = jsonDecode(response.body);
+          });
+        }
+      } else {
+        print('Failed to load user data');
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: Color(0xFFFFFDC8),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -72,9 +79,11 @@ class _SugarbloodPageState extends State<SugarbloodPage>
                   CrossAxisAlignment.start, // Align text to the start
               children: [
                 Text(
-                  userData.isNotEmpty
+                  (userData.isNotEmpty &&
+                          userData['user_fname'] != "null" &&
+                          userData['user_fname']!= null)
                       ? "นมัสการ ${userData['user_fname']}"
-                      : 'Loading...',
+                      : 'นมัสการ ชื่อ...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),
                 Text(
@@ -131,19 +140,19 @@ class _SugarbloodPageState extends State<SugarbloodPage>
                 tabs: const <Widget>[
                   Tab(
                     child: Text(
-                      'Day',
+                      'วัน',
                       style: TextStyle(fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Week',
+                      'สัปดาห์',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Month',
+                      'เดือน',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),

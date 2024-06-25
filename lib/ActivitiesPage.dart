@@ -182,7 +182,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 onPressed: _submitData,
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.orange[500],
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),
                 child: Text(
                   "บันทึกคำตอบ",

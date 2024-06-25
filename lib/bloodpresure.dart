@@ -99,9 +99,11 @@ class _BloodPressurePageState extends State<BloodPressurePage>
             Column(
               children: [
                 Text(
-                  userData != null
-                      ? "นมัสการ ${userData!['user_fname']}"
-                      : 'Loading...',
+                  (userData != null &&
+                          userData!['user_fname'] != null &&
+                          userData!['user_fname'] != "null")
+                      ? "นมัสการ ${userData['user_fname']}"
+                      : 'นมัสการ ชื่อ...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),
                 Text(
@@ -158,19 +160,19 @@ class _BloodPressurePageState extends State<BloodPressurePage>
                 tabs: const <Widget>[
                   Tab(
                     child: Text(
-                      'Day',
+                      'วัน',
                       style: TextStyle(fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Week',
+                      'สัปดาห์',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Month',
+                      'เดือน',
                       style: TextStyle(fontSize: 18.0),
                     ),
                   ),

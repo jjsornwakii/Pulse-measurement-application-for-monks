@@ -16,7 +16,7 @@ class MeasureBpmPage extends StatefulWidget {
 
 class _MeasureBpmPage extends State<MeasureBpmPage> {
   String? server = dotenv.env['server'];
-  String? port = dotenv.env['port']; 
+  String? port = dotenv.env['port'];
   String? apipath = dotenv.env['apipath'];
   GetStorage box = GetStorage();
 
@@ -64,7 +64,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                  backgroundColor: const Color(0xFFFFB700),
                 ),
                 onPressed: () => {
                   Navigator.pop(context),
