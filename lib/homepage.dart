@@ -71,15 +71,15 @@ class _HomePage extends State<HomePage> {
     getTipImg();
     getNewestHealthData();
 
-    // print('**************************************');
-    // print(newestData['age']);
-    // print(newestData['height']);
-    // print(newestData['ChronicDisease']);
-    // print(newestData['blood_sugar']);
-    // print(newestData['blood_pressure_min']);
-    // print(newestData['blood_pressure_max']);
-    // print(newestData['heart_rate']);
-    // print('**************************************');
+    print('**************************************');
+    print(newestData['age']);
+    print(newestData['height']);
+    print(newestData['ChronicDisease']);
+    print(newestData['blood_sugar']);
+    print(newestData['blood_pressure_min']);
+    print(newestData['blood_pressure_max']);
+    print(newestData['heart_rate']);
+    print('**************************************');
   }
 
   @override
@@ -113,7 +113,7 @@ class _HomePage extends State<HomePage> {
     return SingleChildScrollView(
       child: Container(
         width: screenSize.width,
-        height: screenSize.height * .8,
+        height: screenSize.height,
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 255, 251, 138),
         ),
@@ -405,7 +405,6 @@ class _HomePage extends State<HomePage> {
                         children: [
                           Image.asset(
                             'assets/decoration/graph.png',
-                            fit: BoxFit.fitWidth,
                           ),
                         ],
                       ),
@@ -837,6 +836,8 @@ class _HomePage extends State<HomePage> {
     if (sugar > 100) {
       score += 5;
     }
+
+    print("myscore $score");
     setState(() {
       if (score < 3) {
         _advicePage = 0;
@@ -847,7 +848,7 @@ class _HomePage extends State<HomePage> {
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 12) * 100;
+      _sliderValue = (score / 15) * 100;
     });
   }
 
