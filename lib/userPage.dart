@@ -57,7 +57,11 @@ class _UserPageState extends State<UserPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.orange),
           tooltip: 'Go Back',
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NavigationPage(),
+                ));
           },
         ),
       ),
