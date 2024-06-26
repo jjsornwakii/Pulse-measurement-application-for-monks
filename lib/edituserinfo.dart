@@ -49,6 +49,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _wcController = TextEditingController();
   late DateTime birthday = DateTime.now();
   bool _hasChronicDisease = false;
   List<String> _diseaseList = [];
@@ -94,6 +95,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
           if (data['user_height'] != null) {
             _heightController.text = data['user_height'].toString();
           }
+          if (data['wc'] != null) {
+            _wcController.text = data['wc'].toString();
+          }
 
           _selectedDiseases = data['diseaseDetails'] != null
               ? List<String>.from(data['diseaseDetails'])
@@ -136,6 +140,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
         'user_address': _addressController.text,
         'user_weight': _weightController.text,
         'user_height': _heightController.text,
+        'wc': _wcController.text,
         'hasChronicDisease': _hasChronicDisease,
         'diseaseDetails': _selectedDiseases,
       }),
@@ -144,7 +149,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
     if (response.statusCode == 200) {
       print('User data updated successfully');
     } else {
-      print(response.body);
+      print('Failed to update user data: ${response.body}');
     }
   }
 
@@ -566,6 +571,61 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                       ),
                     ),
                     const Text("ซม."),
+                  ],
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "เส้นรอบเอว",
+                            style: labelTextStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    SizedBox(
+                      height: 40,
+                      width: 100,
+                      child: TextFormField(
+                        controller: _wcController,
+                        decoration: InputDecoration(
+                          hintText: 'ที่อยู่/ชื่อวัด',
+                          fillColor: Colors.white,
+                          filled: true,
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.grey, width: 1.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.red, width: 2.0),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    const Text("นิ้ว."),
                   ],
                 ),
                 Row(
