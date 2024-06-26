@@ -740,9 +740,8 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _updateUserData();
-                          Navigator.push(
+                          Navigator.pop(
                             context,
-                            MaterialPageRoute(builder: (context) => UserPage()),
                           );
                         }
                       },
