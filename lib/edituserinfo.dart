@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -154,7 +155,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   }
 
   InputDecoration textboxDecoration = InputDecoration(
-    hintText: 'กรอกชื่อของคุณ',
+    hintText: '',
     fillColor: Colors.white,
     filled: true,
     contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -176,7 +177,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
     ),
   );
 
-  TextStyle labelTextStyle = const TextStyle(
+  TextStyle labelTextStyle = GoogleFonts.kanit(
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
@@ -185,9 +186,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "ข้อมูลส่วนตัว",
-          style: TextStyle(
+          style: GoogleFonts.kanit(
             color: Color.fromARGB(255, 250, 196, 0),
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -231,6 +232,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           controller: _nameController,
                           decoration: InputDecoration(
                             hintText: 'กรอกชื่อของคุณ',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -287,7 +289,8 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         child: TextFormField(
                           controller: _surnameController,
                           decoration: InputDecoration(
-                            hintText: 'กรอกชื่อของคุณ',
+                            hintText: 'กรอกนามสกุลของคุณ',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -346,6 +349,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           decoration: InputDecoration(
                             suffixIcon: const Icon(Icons.calendar_today),
                             hintText: 'ว/ด/ป เกิด',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -427,6 +431,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           controller: _addressController,
                           decoration: InputDecoration(
                             hintText: 'ที่อยู่/ชื่อวัด',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -484,6 +489,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         controller: _weightController,
                         decoration: InputDecoration(
                           hintText: 'ที่อยู่/ชื่อวัด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -512,7 +518,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const Text("กก."),
+                    Text(
+                      "   กก.",
+                      style: GoogleFonts.kanit(),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -542,6 +551,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         controller: _heightController,
                         decoration: InputDecoration(
                           hintText: 'ที่อยู่/ชื่อวัด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -570,7 +580,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const Text("ซม."),
+                    Text(
+                      "   ซม.",
+                      style: GoogleFonts.kanit(),
+                    ),
                   ],
                 ),
                 Row(
@@ -652,7 +665,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                               });
                             },
                           ),
-                          const Text('มี'),
+                          Text(
+                            'มี',
+                            style: GoogleFonts.kanit(),
+                          ),
                         ],
                       ),
                     ),
@@ -669,7 +685,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                               });
                             },
                           ),
-                          const Text('ไม่มี'),
+                          Text(
+                            'ไม่มี',
+                            style: GoogleFonts.kanit(),
+                          ),
                         ],
                       ),
                     ),
@@ -704,7 +723,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           MaterialPageRoute(builder: (context) => UserPage()),
                         );
                       },
-                      child: const Text('ยกเลิก'),
+                      child: Text('ยกเลิก',
+                          style: GoogleFonts.kanit(
+                              fontSize: 18, color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -725,7 +746,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           );
                         }
                       },
-                      child: const Text('ยืนยัน'),
+                      child: Text('ยืนยัน',
+                          style: GoogleFonts.kanit(
+                              fontSize: 18, color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),

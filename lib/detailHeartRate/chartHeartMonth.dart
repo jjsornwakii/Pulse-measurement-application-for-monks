@@ -221,9 +221,9 @@ class _ChartheartmonthState extends State<Chartheartmonth> {
                           yValueMapper: (ChartColumnData data, _) =>
                               data.heartRate,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),

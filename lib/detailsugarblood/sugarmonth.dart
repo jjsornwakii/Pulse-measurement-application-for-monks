@@ -222,9 +222,9 @@ class _sugarmonthState extends State<sugarmonth> {
                           yValueMapper: (ChartColumnData data, _) =>
                               data.bloodSugar,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),

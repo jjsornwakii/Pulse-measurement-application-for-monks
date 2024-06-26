@@ -79,6 +79,7 @@ class _HeartRatePageState extends State<HeartRatePage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   (userData != null &&
@@ -139,23 +140,24 @@ class _HeartRatePageState extends State<HeartRatePage>
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
                 controller: _tabController,
-                tabs: const <Widget>[
+                tabs: <Widget>[
                   Tab(
                     child: Text(
                       'วัน',
-                      style: TextStyle(fontSize: 18.0), // Increased font size
+                      style: GoogleFonts.kanit(
+                          fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
                       'สัปดาห์',
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'เดือน',
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                 ],

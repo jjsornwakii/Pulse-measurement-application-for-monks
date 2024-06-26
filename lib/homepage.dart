@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/measureBpm.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/tipdetailPage.dart';
@@ -39,7 +41,7 @@ class _HomePage extends State<HomePage> {
   String user_id = '';
   double _sliderValue = 0.5;
 
-  TextStyle indicatorLine = TextStyle(
+  TextStyle indicatorLine = GoogleFonts.kanit(
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
@@ -113,7 +115,7 @@ class _HomePage extends State<HomePage> {
     return SingleChildScrollView(
       child: Container(
         width: screenSize.width,
-        height: screenSize.height,
+        height: screenSize.height * .8,
         decoration: const BoxDecoration(
           color: Color(0xFFFFFDC8),
         ),
@@ -148,9 +150,9 @@ class _HomePage extends State<HomePage> {
                           actions: [
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "SYS",
-                                  style: TextStyle(fontSize: 20),
+                                  style: GoogleFonts.kanit(fontSize: 20),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -178,9 +180,9 @@ class _HomePage extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "DIA",
-                                  style: TextStyle(fontSize: 20),
+                                  style: GoogleFonts.kanit(fontSize: 20),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -235,7 +237,7 @@ class _HomePage extends State<HomePage> {
                           ),
                           Text(
                             'แตะเพื่อกรอก',
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
                               color: const Color.fromARGB(255, 50, 52, 62),
@@ -245,7 +247,7 @@ class _HomePage extends State<HomePage> {
                       ),
                       Text(
                         "ความดันโลหิต",
-                        style: TextStyle(
+                        style: GoogleFonts.kanit(
                           color: Colors.white,
                           fontSize: fontSize,
                           fontWeight: FontWeight.bold,
@@ -282,9 +284,9 @@ class _HomePage extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "ระดับน้ำตาล\nในเลือด",
-                                  style: TextStyle(fontSize: 18),
+                                  style: GoogleFonts.kanit(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -335,7 +337,7 @@ class _HomePage extends State<HomePage> {
                           const SizedBox(width: 2),
                           Text(
                             'แตะเพื่อกรอก',
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
                               color: const Color.fromARGB(255, 50, 52, 62),
@@ -345,7 +347,7 @@ class _HomePage extends State<HomePage> {
                       ),
                       Text(
                         "ระดับน้ำตาลในเลือด",
-                        style: TextStyle(
+                        style: GoogleFonts.kanit(
                           color: Colors.white,
                           fontSize: fontSize - 2,
                           fontWeight: FontWeight.bold,
@@ -377,7 +379,7 @@ class _HomePage extends State<HomePage> {
                 children: [
                   Text(
                     'แตะเพื่อวัด',
-                    style: TextStyle(
+                    style: GoogleFonts.kanit(
                       fontSize: fontSize,
                       fontWeight: FontWeight.bold,
                       color: const Color.fromARGB(255, 50, 52, 62),
@@ -397,7 +399,7 @@ class _HomePage extends State<HomePage> {
                           ),
                           Text(
                             "ชีพจร",
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontSize: fontSize,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -437,19 +439,19 @@ class _HomePage extends State<HomePage> {
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "ระดับความเสี่ยงเป็นโรคเบาหวาน",
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             "กดเพื่อรับคำแนะนำ",
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -560,16 +562,16 @@ class _HomePage extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                         Text(
                           "สาระน่ารู้",
-                          style: TextStyle(
+                          style: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "หน้า ${_currentPage + 1} / ${tipList.length}",
-                          style: const TextStyle(
+                          style:  GoogleFonts.kanit(
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -869,6 +871,7 @@ class _HomePage extends State<HomePage> {
         _advicePage = 3;
       }
       _sliderValue = (score / 18) * 100;
+
     });
   }
 
@@ -898,7 +901,7 @@ class _HomePage extends State<HomePage> {
           backgroundColor: const Color.fromARGB(255, 255, 191, 0),
           title: Text(
             adviceTopic[_index],
-            style: TextStyle(
+            style: GoogleFonts.kanit(
               fontWeight: FontWeight.bold,
               fontSize: 30,
               color: titleColor,
@@ -916,7 +919,7 @@ class _HomePage extends State<HomePage> {
                 ),
                 child: Text(
                   "${adviceText[_index]}",
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
