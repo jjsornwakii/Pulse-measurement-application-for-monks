@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -71,7 +72,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
     ),
   );
 
-  TextStyle labelTextStyle = const TextStyle(
+  TextStyle labelTextStyle = GoogleFonts.kanit(
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
@@ -154,9 +155,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "ข้อมูลส่วนตัว",
-          style: TextStyle(
+          style: GoogleFonts.kanit(
             color: Color.fromARGB(255, 250, 196, 0),
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -622,7 +623,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         MaterialPageRoute(builder: (context) => UserPage()),
                       );
                     },
-                    child: Text('กลับ', style: TextStyle(fontSize: 18)),
+                    child: Text('กลับ',
+                        style: GoogleFonts.kanit(
+                            fontSize: 18, color: Colors.black)),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),

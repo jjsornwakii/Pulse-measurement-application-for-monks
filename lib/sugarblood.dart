@@ -76,12 +76,12 @@ class _SugarbloodPageState extends State<SugarbloodPage>
           children: [
             Column(
               crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align text to the start
+                  CrossAxisAlignment.start, 
               children: [
                 Text(
                   (userData.isNotEmpty &&
                           userData['user_fname'] != "null" &&
-                          userData['user_fname']!= null)
+                          userData['user_fname'] != null)
                       ? "นมัสการ ${userData['user_fname']}"
                       : 'นมัสการ ชื่อ...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
@@ -137,23 +137,24 @@ class _SugarbloodPageState extends State<SugarbloodPage>
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
                 controller: _tabController,
-                tabs: const <Widget>[
+                tabs:  <Widget>[
                   Tab(
                     child: Text(
                       'วัน',
-                      style: TextStyle(fontSize: 18.0), // Increased font size
+                      style: GoogleFonts.kanit(
+                          fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
                       'สัปดาห์',
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'เดือน',
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                 ],

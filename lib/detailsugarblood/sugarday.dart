@@ -229,9 +229,9 @@ class _sugarday extends State<sugarday> {
                           xValueMapper: (ChartColumnData data, _) => data.time,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),

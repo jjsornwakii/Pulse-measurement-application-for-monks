@@ -84,7 +84,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
         SnackBar(
           content: Text(
             'ไม่มีข้อมูลของวันนี้กรุณาไปวัด',
-            style: TextStyle(fontSize: 24),
+            style: GoogleFonts.kanit(fontSize: 24),
           ),
           duration: Duration(seconds: 3),
         ),
@@ -225,9 +225,9 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                           color: const Color.fromARGB(255, 240, 238, 238),
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings: DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),
@@ -250,9 +250,9 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
                           ),
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y,
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings: DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),

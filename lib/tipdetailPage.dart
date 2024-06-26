@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
   final dynamic data;
@@ -95,6 +96,7 @@ class _DetailPageState extends State<DetailPage> {
                       ),
                     ),
                   ),
+
                   SizedBox(
                     width: 10,
                   ),
@@ -127,6 +129,7 @@ class _DetailPageState extends State<DetailPage> {
                         backgroundColor: const Color(0xFFFFB700),
                       ),
                     ],
+
                   ),
                 ],
               ),
