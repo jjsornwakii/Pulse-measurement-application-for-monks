@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'login.dart';
 
@@ -146,24 +147,48 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text(
+                      Text(
                         'สมัครสมาชิก',
-                        style: TextStyle(
+                        style: GoogleFonts.kanit(
                             fontSize: 28, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 40),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'ชื่อผู้ใช้',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.kanit(fontSize: 16),
                           ),
                           TextField(
                             controller: usernameController,
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              prefixIcon:
+                                  Icon(Icons.person, color: Colors.black),
+                              hintText: ' | ชื่อผู้ใช้ ',
+                              hintStyle: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
                             ),
                           ),
                         ],
@@ -172,26 +197,51 @@ class _RegisterPageState extends State<RegisterPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'รหัสผ่าน',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.kanit(fontSize: 16),
                           ),
                           TextField(
                             controller: passwordController,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock),
-                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.lock, color: Colors.black),
+                              hintText: ' | รหัสผ่าน',
+                              hintStyle: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
                                       ? Icons.visibility
                                       : Icons.visibility_off,
+                                  color: Colors.orange,
                                 ),
                                 onPressed: () {
                                   setState(() {
                                     _obscureText = !_obscureText;
                                   });
                                 },
+                                color: Colors.grey,
                               ),
                             ),
                             obscureText: _obscureText,
@@ -202,26 +252,51 @@ class _RegisterPageState extends State<RegisterPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'ยืนยันรหัสผ่าน',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.kanit(fontSize: 16),
                           ),
                           TextField(
                             controller: passwordCheckController,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock),
-                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.lock, color: Colors.black),
+                              hintText: ' | ยืนยันรหัสผ่าน',
+                              hintStyle: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
                                       ? Icons.visibility
                                       : Icons.visibility_off,
+                                  color: Colors.orange,
                                 ),
                                 onPressed: () {
                                   setState(() {
                                     _obscureText = !_obscureText;
                                   });
                                 },
+                                color: Colors.grey,
                               ),
                             ),
                             obscureText: _obscureText,
@@ -236,13 +311,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 80, vertical: 12),
-                          textStyle: const TextStyle(fontSize: 18),
                         ),
-                        child: const Text(
+                        child: Text(
                           'ลงทะเบียน',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: GoogleFonts.kanit(
+                              color: Colors.white, fontSize: 18),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -254,9 +329,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 builder: (context) => LoginPage()),
                           );
                         },
-                        child: const Text(
+                        child: Text(
                           'มีบัญชีใช่หรือไม่? เข้าสู่ระบบ',
-                          style: TextStyle(color: Colors.orange, fontSize: 16),
+                          style: GoogleFonts.kanit(
+                              color: Colors.orange, fontSize: 16),
                         ),
                       ),
                     ],

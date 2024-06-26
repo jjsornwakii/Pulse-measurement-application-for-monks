@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DetailPage extends StatefulWidget {
   final dynamic data;
@@ -103,9 +104,9 @@ class _DetailPageState extends State<DetailPage> {
                   Navigator.pop(context);
                   _resetScreenOrientation();
                 },
-                child: const Text(
+                child:  Text(
                   "กลับ",
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
                     color: Color.fromARGB(255, 255, 254, 225),

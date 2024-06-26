@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/navigation.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/tipdetailPage.dart';
@@ -53,9 +54,9 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                       ),
                     ),
                   },
-                  child: const Text(
+                  child:  Text(
                     "กลับ",
-                    style: TextStyle(
+                    style: GoogleFonts.kanit(
                       fontSize: 22,
                       color: Color(0xFFFFFDC8),
                     ),
@@ -71,9 +72,9 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
+                 Text(
                   "เกร็ดน่ารู้คู่สุขภาพ",
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
@@ -82,12 +83,12 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 ),
               ],
             ),
-            const Row(
+             Row(
               children: [
                 Expanded(
                   child: Text(
                     "การให้ความรู้และคำแนะนำด้านการดูแลสุขภาพ",
-                    style: TextStyle(
+                    style: GoogleFonts.kanit(
                       fontSize: 17,
                       color: Colors.black,
                       decoration: TextDecoration.none, // Ensure no decoration
@@ -136,13 +137,12 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                             children: [
                               Text(
                                 data[index]['tip_topic'],
-                                style: const TextStyle(
+                                style:  GoogleFonts.kanit(
                                   color: Colors.black,
                                   fontSize: 20,
                                   decoration: TextDecoration
                                       .none, // Ensure no decoration
-                                  overflow:
-                                      TextOverflow.ellipsis, // Handle overflow
+                                   // Handle overflow
                                 ),
                                 softWrap: true,
                               ),

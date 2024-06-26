@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/edituserinfo.dart';
 import 'package:sato/login.dart';
@@ -108,7 +109,7 @@ class _UserPageState extends State<UserPage> {
                         const SizedBox(width: 16),
                         Text(
                           '${userInfo['user_fname'] != null ? userInfo['user_fname'] : 'ชื่อ...'}   ${userInfo['user_lname'] != null ? userInfo['user_lname'] : 'สกุล...'}',
-                          style: const TextStyle(
+                          style: GoogleFonts.kanit(
                               fontSize: 20, color: Colors.white),
                         ),
                       ],
@@ -135,7 +136,10 @@ class _UserPageState extends State<UserPage> {
                       children: [
                         ListTile(
                           leading: const Icon(Icons.person_outline),
-                          title: const Text('ข้อมูลส่วนตัว'),
+                          title: Text(
+                            'ข้อมูลส่วนตัว',
+                            style: GoogleFonts.kanit(fontSize: 18),
+                          ),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.orange,
@@ -151,7 +155,8 @@ class _UserPageState extends State<UserPage> {
                         const Divider(),
                         ListTile(
                           leading: const Icon(Icons.edit),
-                          title: const Text('แก้ไขข้อมูลส่วนตัว'),
+                          title: Text('แก้ไขข้อมูลส่วนตัว',
+                              style: GoogleFonts.kanit(fontSize: 18)),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.orange,
@@ -167,7 +172,8 @@ class _UserPageState extends State<UserPage> {
                         const Divider(),
                         ListTile(
                           leading: const Icon(Icons.calendar_today),
-                          title: const Text('กิจวัตรประจำวัน'),
+                          title: Text('กิจวัตรประจำวัน',
+                              style: GoogleFonts.kanit(fontSize: 18)),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.orange,
@@ -201,13 +207,13 @@ class _UserPageState extends State<UserPage> {
                                   builder: (context) => LoginPage()),
                             );
                           },
-                          child: const Row(
+                          child: Row(
                             children: [
                               Icon(Icons.logout),
                               SizedBox(width: 8),
                               Text(
                                 'ออกจากระบบ',
-                                style: TextStyle(
+                                style: GoogleFonts.kanit(
                                     fontSize: 20, color: Colors.black),
                               ),
                             ],

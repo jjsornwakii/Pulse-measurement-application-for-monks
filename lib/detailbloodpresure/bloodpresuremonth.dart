@@ -87,7 +87,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
         SnackBar(
           content: Text(
             'ไม่มีข้อมูลของเดือนนี้กรุณาไปวัด',
-            style: TextStyle(fontSize: 24),
+            style: GoogleFonts.kanit(fontSize: 24),
           ),
           duration: Duration(seconds: 3),
         ),
@@ -228,9 +228,9 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                           textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),
@@ -255,9 +255,9 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) =>
                               data.y, ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),
