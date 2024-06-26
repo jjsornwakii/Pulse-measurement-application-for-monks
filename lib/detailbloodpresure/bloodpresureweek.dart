@@ -87,7 +87,7 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
         SnackBar(
           content: Text(
             'ไม่มีข้อมูลของสัปดาห์นี้กรุณาไปวัด',
-            style: TextStyle(fontSize: 24),
+            style: GoogleFonts.kanit(fontSize: 24),
           ),
           duration: Duration(seconds: 3),
         ),
@@ -229,9 +229,9 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
                               data.x.substring(0, 3),
                           yValueMapper: (ChartColumnData data, _) => data.y1,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                           textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),
@@ -257,9 +257,9 @@ class _Bloodpresureweek extends State<Bloodpresureweek> {
                               data.x.substring(0, 3),
                           yValueMapper: (ChartColumnData data, _) => data.y,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings: const DataLabelSettings(
+                          dataLabelSettings:  DataLabelSettings(
                             isVisible: true,
-                            textStyle: TextStyle(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),

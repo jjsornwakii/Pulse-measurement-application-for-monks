@@ -89,14 +89,15 @@ class _BloodPressurePageState extends State<BloodPressurePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: Color(0xFFFFFDC8),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   (userData != null &&
@@ -157,23 +158,24 @@ class _BloodPressurePageState extends State<BloodPressurePage>
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
                 controller: _tabController,
-                tabs: const <Widget>[
+                tabs: <Widget>[
                   Tab(
                     child: Text(
                       'วัน',
-                      style: TextStyle(fontSize: 18.0), // Increased font size
+                      style: GoogleFonts.kanit(
+                          fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
                       'สัปดาห์',
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
                       'เดือน',
-                      style: TextStyle(fontSize: 18.0),
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                 ],

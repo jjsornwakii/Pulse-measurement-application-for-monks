@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -171,7 +172,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
     ),
   );
 
-  TextStyle labelTextStyle = const TextStyle(
+  TextStyle labelTextStyle = GoogleFonts.kanit(
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
@@ -180,9 +181,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "ข้อมูลส่วนตัว",
-          style: TextStyle(
+          style: GoogleFonts.kanit(
             color: Color.fromARGB(255, 250, 196, 0),
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -644,7 +645,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           MaterialPageRoute(builder: (context) => UserPage()),
                         );
                       },
-                      child: const Text('ยกเลิก'),
+                      child: Text('ยกเลิก',
+                          style: GoogleFonts.kanit(
+                              fontSize: 18, color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
@@ -665,7 +668,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           );
                         }
                       },
-                      child: const Text('ยืนยัน'),
+                      child: Text('ยืนยัน',
+                          style: GoogleFonts.kanit(
+                              fontSize: 18, color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
