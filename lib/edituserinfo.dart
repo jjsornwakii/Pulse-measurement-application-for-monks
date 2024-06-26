@@ -52,7 +52,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _wcController = TextEditingController();
   late DateTime birthday = DateTime.now();
-  bool _hasChronicDisease = false;
+  bool _hasChronicDisease = true;
   List<String> _diseaseList = [];
   List<String> _selectedDiseases = [];
 
@@ -61,6 +61,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
     super.initState();
     _getUserData();
     _getDisease();
+    _getUserDisease();
   }
 
   Future<void> _getUserData() async {
@@ -100,9 +101,23 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
             _wcController.text = data['wc'].toString();
           }
 
+          if (data['hasChronicDisease'] == "1" ||
+              data['hasChronicDisease'] == 1) {
+            print(data['hasChronicDisease']);
+            _hasChronicDisease = true;
+          } else {
+            print(data['hasChronicDisease']);
+            _hasChronicDisease = false;
+          }
+
           _selectedDiseases = data['diseaseDetails'] != null
               ? List<String>.from(data['diseaseDetails'])
               : [];
+
+          print(_selectedDiseases);
+          // _selectedDiseases = data['diseaseDetails'] != null
+          //     ? List<String>.from(data['diseaseDetails'])
+          //     : [];
         },
       );
     } else {
@@ -123,6 +138,34 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
       });
     } else {
       print('Failed to load disease data');
+    }
+  }
+
+  Future<void> _getUserDisease() async {
+    final url = 'http://$server:$port/$apipath/getuserDisease.php';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List;
+      setState(() {
+        _selectedDiseases.clear();
+        for (var item in data) {
+          final diseaseName = item['disease_name'];
+          if (_diseaseList.contains(diseaseName)) {
+            _selectedDiseases.add(diseaseName);
+          }
+        }
+      });
+      print(data);
+      print('Success to load user disease data');
+    } else {
+      print('Failed to load user disease data');
     }
   }
 
@@ -669,12 +712,6 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                             'มี',
                             style: GoogleFonts.kanit(),
                           ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        children: <Widget>[
                           Radio(
                             value: false,
                             groupValue: _hasChronicDisease,
@@ -692,6 +729,26 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         ],
                       ),
                     ),
+                    // Expanded(
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Radio(
+                    //         value: false,
+                    //         groupValue: _hasChronicDisease,
+                    //         onChanged: (value) {
+                    //           setState(() {
+                    //             _hasChronicDisease = value!;
+                    //             _selectedDiseases.clear();
+                    //           });
+                    //         },
+                    //       ),
+                    //       Text(
+                    //         'ไม่มี',
+                    //         style: GoogleFonts.kanit(),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
                 if (_hasChronicDisease)
@@ -712,6 +769,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                       );
                     }).toList(),
                   ),
+
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
