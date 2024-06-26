@@ -115,7 +115,7 @@ class _HomePage extends State<HomePage> {
     return SingleChildScrollView(
       child: Container(
         width: screenSize.width,
-        height: screenSize.height,
+        height: screenSize.height * .8,
         decoration: const BoxDecoration(
           color: Color(0xFFFFFDC8),
         ),
@@ -857,7 +857,7 @@ class _HomePage extends State<HomePage> {
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 15) * 100;
+      _sliderValue = (score / 13) * 100;
     });
   }
 

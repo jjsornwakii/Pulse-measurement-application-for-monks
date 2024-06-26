@@ -456,6 +456,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        readOnly: true,
                       ),
                     ),
                   ),
@@ -513,6 +514,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
+                      readOnly: true,
                     ),
                   ),
                   const SizedBox(
@@ -576,6 +578,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
+                      readOnly: true,
                     ),
                   ),
                   const SizedBox(
