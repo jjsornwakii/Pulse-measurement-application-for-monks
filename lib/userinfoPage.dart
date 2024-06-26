@@ -51,6 +51,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   InputDecoration textboxDecoration = InputDecoration(
     hintText: 'กรอกชื่อของคุณ',
+    hintStyle: GoogleFonts.kanit(),
     fillColor: Colors.white,
     filled: true,
     contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -202,6 +203,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _nameController,
                         decoration: InputDecoration(
                           hintText: 'กรอกชื่อของคุณ',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -259,7 +261,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         readOnly: true,
                         controller: _surnameController,
                         decoration: InputDecoration(
-                          hintText: 'กรอกชื่อของคุณ',
+                          hintText: 'กรอกนามสกุลของคุณ',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -317,6 +320,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _birthdateController,
                         decoration: InputDecoration(
                           hintText: 'ว/ด/ป เกิด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -376,6 +380,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _ageController,
                         decoration: InputDecoration(
                           hintText: 'อายุ',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -431,6 +436,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _addressController,
                         decoration: InputDecoration(
                           hintText: 'ที่อยู่/ชื่อวัด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -489,6 +495,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       controller: _weightController,
                       decoration: InputDecoration(
                         hintText: 'ที่อยู่/ชื่อวัด',
+                        hintStyle: GoogleFonts.kanit(),
                         fillColor: Colors.white,
                         filled: true,
                         contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
@@ -553,6 +560,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       controller: _heightController,
                       decoration: InputDecoration(
                         hintText: 'ที่อยู่/ชื่อวัด',
+                        hintStyle: GoogleFonts.kanit(),
                         fillColor: Colors.white,
                         filled: true,
                         contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
@@ -594,11 +602,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
               Row(
                 children: <Widget>[
                   Text('โรคประจำตัว:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      style: GoogleFonts.kanit(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                   SizedBox(width: 10),
                   Text(_hasChronicDisease ? '' : 'ไม่มี',
-                      style: TextStyle(fontSize: 18)),
+                      style: GoogleFonts.kanit(fontSize: 18)),
                 ],
               ),
               if (_hasChronicDisease)
