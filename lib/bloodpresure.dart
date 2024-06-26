@@ -93,6 +93,13 @@ class _BloodPressurePageState extends State<BloodPressurePage>
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: Color(0xFFFFFDC8),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
+          tooltip: 'Go Back',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -103,9 +110,12 @@ class _BloodPressurePageState extends State<BloodPressurePage>
                   (userData != null &&
                           userData!['user_fname'] != null &&
                           userData!['user_fname'] != "null")
-                      ? "นมัสการ ${userData['user_fname']}"
-                      : 'นมัสการ ชื่อ...',
-                  style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
+                      ? "นมัสการ, ${userData['user_fname']}"
+                      : 'นมัสการ, ชื่อ...',
+                  style: GoogleFonts.kanit(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
                 ),
                 Text(
                   "ภาพรวมสุขภาพ",
