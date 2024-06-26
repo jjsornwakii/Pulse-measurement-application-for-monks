@@ -55,12 +55,13 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   bool _hasChronicDisease = true;
   List<String> _diseaseList = [];
   List<String> _selectedDiseases = [];
-
+  bool readyToFetch = true;
   @override
   void initState() {
     super.initState();
     _getUserData();
     _getDisease();
+
     _getUserDisease();
   }
 
@@ -699,6 +700,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                             groupValue: _hasChronicDisease,
                             onChanged: (value) {
                               setState(() {
+                                readyToFetch = true;
                                 _hasChronicDisease = value!;
                                 if (_hasChronicDisease) {
                                   _getDisease();
@@ -717,6 +719,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                             groupValue: _hasChronicDisease,
                             onChanged: (value) {
                               setState(() {
+                                readyToFetch = false;
                                 _hasChronicDisease = value!;
                                 _selectedDiseases.clear();
                               });
@@ -754,6 +757,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                 if (_hasChronicDisease)
                   Column(
                     children: _diseaseList.map((disease) {
+                      if (readyToFetch) {
+                        _getUserDisease();
+                        readyToFetch = !readyToFetch;
+                      }
                       return CheckboxListTile(
                         title: Text(disease),
                         value: _selectedDiseases.contains(disease),
