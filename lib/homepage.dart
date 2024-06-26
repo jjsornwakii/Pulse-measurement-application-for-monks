@@ -781,6 +781,7 @@ class _HomePage extends State<HomePage> {
       newestData['age'] ?? 0,
       double.parse((newestData['user_height'] ?? '0').toString()),
       double.parse((newestData['user_weight'] ?? '0').toString()),
+      double.parse((newestData['WC'] ?? '0').toString()) * 2.54,
       int.parse((newestData['ChronicDisease'] ?? '0').toString()),
       int.parse((newestData['blood_sugar'] ?? '0').toString()),
       int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
@@ -793,6 +794,7 @@ class _HomePage extends State<HomePage> {
       int age,
       double height,
       double weight,
+      double wc,
       int ChronicDisease,
       int sugar,
       int blood_pressure_min,
@@ -800,15 +802,18 @@ class _HomePage extends State<HomePage> {
       int heart_rate) {
     int score = 0;
 
-    print(age);
-    print(height);
-    print(weight);
-    print(ChronicDisease);
-    print(sugar);
-    print(blood_pressure_min);
-    print(blood_pressure_max);
-    print(heart_rate);
+    print("age = $age");
+    print("height = $height");
+    print("weight = $weight");
+    print("WC = $wc");
+    print("Disease $ChronicDisease");
+    print("sugar $sugar");
+    print("blood_min = $blood_pressure_min");
+    print("blood_max = $blood_pressure_max");
+    print("H_rate = $heart_rate");
 
+    double w_h = wc / height;
+    print("WC/Height = $w_h");
     /////////////////
     if (age < 45) {
       score += 0;
@@ -818,6 +823,14 @@ class _HomePage extends State<HomePage> {
       score += 2;
     } else {
       score += 3;
+    }
+
+    if (w_h < 0.5) {
+      score += 0;
+    } else if (w_h < 0.6) {
+      score += 3;
+    } else {
+      score += 5;
     }
     /////////////////
 
@@ -857,7 +870,8 @@ class _HomePage extends State<HomePage> {
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 13) * 100;
+      _sliderValue = (score / 18) * 100;
+
     });
   }
 
