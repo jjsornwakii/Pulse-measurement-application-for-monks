@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/ActivitiesPage.dart';
 import 'package:sato/edituserinfo.dart';
 import 'package:sato/login.dart';
@@ -54,18 +53,15 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFDC8),
-        leading: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            tooltip: 'Go Back',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NavigationPage()),
-              );
-            },
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          tooltip: 'Go Back',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NavigationPage()),
+            );
+          },
         ),
       ),
       backgroundColor: Color(0xFFFFFDC8),
@@ -113,7 +109,7 @@ class _UserPageState extends State<UserPage> {
                         const SizedBox(width: 16),
                         Text(
                           '${userInfo['user_fname'] != null ? userInfo['user_fname'] : 'ชื่อ...'}   ${userInfo['user_lname'] != null ? userInfo['user_lname'] : 'สกุล...'}',
-                          style: GoogleFonts.kanit(
+                          style: const TextStyle(
                               fontSize: 20, color: Colors.white),
                         ),
                       ],
@@ -140,10 +136,7 @@ class _UserPageState extends State<UserPage> {
                       children: [
                         ListTile(
                           leading: const Icon(Icons.person_outline),
-                          title: Text(
-                            'ข้อมูลส่วนตัว',
-                            style: GoogleFonts.kanit(fontSize: 18),
-                          ),
+                          title: const Text('ข้อมูลส่วนตัว'),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.orange,
@@ -159,8 +152,7 @@ class _UserPageState extends State<UserPage> {
                         const Divider(),
                         ListTile(
                           leading: const Icon(Icons.edit),
-                          title: Text('แก้ไขข้อมูลส่วนตัว',
-                              style: GoogleFonts.kanit(fontSize: 18)),
+                          title: const Text('แก้ไขข้อมูลส่วนตัว'),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.orange,
@@ -176,8 +168,7 @@ class _UserPageState extends State<UserPage> {
                         const Divider(),
                         ListTile(
                           leading: const Icon(Icons.calendar_today),
-                          title: Text('กิจวัตรประจำวัน',
-                              style: GoogleFonts.kanit(fontSize: 18)),
+                          title: const Text('กิจวัตรประจำวัน'),
                           trailing: const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.orange,
@@ -219,13 +210,13 @@ class _UserPageState extends State<UserPage> {
                                   builder: (context) => LoginPage()),
                             );
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               Icon(Icons.logout),
                               SizedBox(width: 8),
                               Text(
                                 'ออกจากระบบ',
-                                style: GoogleFonts.kanit(
+                                style: TextStyle(
                                     fontSize: 20, color: Colors.black),
                               ),
                             ],
