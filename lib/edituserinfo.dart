@@ -150,7 +150,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   }
 
   InputDecoration textboxDecoration = InputDecoration(
-    hintText: 'กรอกชื่อของคุณ',
+    hintText: '',
     fillColor: Colors.white,
     filled: true,
     contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -227,6 +227,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           controller: _nameController,
                           decoration: InputDecoration(
                             hintText: 'กรอกชื่อของคุณ',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -283,7 +284,8 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         child: TextFormField(
                           controller: _surnameController,
                           decoration: InputDecoration(
-                            hintText: 'กรอกชื่อของคุณ',
+                            hintText: 'กรอกนามสกุลของคุณ',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -342,6 +344,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           decoration: InputDecoration(
                             suffixIcon: const Icon(Icons.calendar_today),
                             hintText: 'ว/ด/ป เกิด',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -423,6 +426,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           controller: _addressController,
                           decoration: InputDecoration(
                             hintText: 'ที่อยู่/ชื่อวัด',
+                            hintStyle: GoogleFonts.kanit(),
                             fillColor: Colors.white,
                             filled: true,
                             contentPadding:
@@ -480,6 +484,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         controller: _weightController,
                         decoration: InputDecoration(
                           hintText: 'ที่อยู่/ชื่อวัด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -508,7 +513,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const Text("กก."),
+                    Text(
+                      "   กก.",
+                      style: GoogleFonts.kanit(),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -538,6 +546,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         controller: _heightController,
                         decoration: InputDecoration(
                           hintText: 'ที่อยู่/ชื่อวัด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -566,7 +575,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const Text("ซม."),
+                    Text(
+                      "   ซม.",
+                      style: GoogleFonts.kanit(),
+                    ),
                   ],
                 ),
                 Row(
@@ -593,7 +605,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                               });
                             },
                           ),
-                          const Text('มี'),
+                          Text(
+                            'มี',
+                            style: GoogleFonts.kanit(),
+                          ),
                         ],
                       ),
                     ),
@@ -610,7 +625,10 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                               });
                             },
                           ),
-                          const Text('ไม่มี'),
+                          Text(
+                            'ไม่มี',
+                            style: GoogleFonts.kanit(),
+                          ),
                         ],
                       ),
                     ),
