@@ -24,6 +24,8 @@ class _UserPageState extends State<UserPage> {
 
   @override
   void initState() {
+    print("/// userPage.dart");
+    print('**************************************');
     super.initState();
     _userInfo = fetchUserInfo();
   }
@@ -50,18 +52,20 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: Color(0xFFFFFDC8),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
+          tooltip: 'Go Back',
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NavigationPage()),
-            );
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NavigationPage(),
+                ));
           },
         ),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       body: FutureBuilder<Map<String, dynamic>>(
         future: _userInfo,
         builder: (context, snapshot) {
@@ -81,7 +85,16 @@ class _UserPageState extends State<UserPage> {
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.orange,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 173, 173, 173)
+                              .withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: Offset(0, 2), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: Row(
                       children: [
@@ -96,7 +109,7 @@ class _UserPageState extends State<UserPage> {
                         ),
                         const SizedBox(width: 16),
                         Text(
-                          '${userInfo['user_fname']}   ${userInfo['user_lname']}',
+                          '${userInfo['user_fname'] != null ? userInfo['user_fname'] : 'ชื่อ...'}   ${userInfo['user_lname'] != null ? userInfo['user_lname'] : 'สกุล...'}',
                           style: const TextStyle(
                               fontSize: 20, color: Colors.white),
                         ),
@@ -104,42 +117,81 @@ class _UserPageState extends State<UserPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ListTile(
-                    leading: const Icon(Icons.person_outline),
-                    title: const Text('ข้อมูลส่วนตัว'),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => UserInfoApp()),
-                      );
-                    },
+                  Container(
+                    margin: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white, // สี background ของ box
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color.fromARGB(255, 175, 175, 175)
+                              .withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.person_outline),
+                          title: const Text('ข้อมูลส่วนตัว'),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.orange,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UserInfoApp()),
+                            );
+                          },
+                        ),
+                        const Divider(),
+                        ListTile(
+                          leading: const Icon(Icons.edit),
+                          title: const Text('แก้ไขข้อมูลส่วนตัว'),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.orange,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EdituserinfoPage()),
+                            );
+                          },
+                        ),
+                        const Divider(),
+                        ListTile(
+                          leading: const Icon(Icons.calendar_today),
+                          title: const Text('กิจวัตรประจำวัน'),
+                          trailing: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.orange,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ActivitiesPage()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  const Divider(),
-                  ListTile(
-                    leading: const Icon(Icons.edit),
-                    title: const Text('แก้ไขข้อมูลส่วนตัว'),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EdituserinfoPage()),
-                      );
-                    },
+                  SizedBox(
+                    height: 10,
                   ),
-                  const Divider(),
-                  ListTile(
-                    leading: const Icon(Icons.calendar_today),
-                    title: const Text('กิจวัตรประจำวัน'),
-                    trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ActivitiesPage()),
-                      );
-                    },
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    height: 1,
+                    color: const Color.fromARGB(255, 46, 46, 46),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

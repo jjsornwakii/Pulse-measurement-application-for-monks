@@ -25,6 +25,8 @@ class _SugarbloodPageState extends State<SugarbloodPage>
 
   @override
   void initState() {
+    print("/// sugarblood.dart");
+    print('**************************************');
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     fetchData();
@@ -38,41 +40,56 @@ class _SugarbloodPageState extends State<SugarbloodPage>
 
   Future<void> fetchData() async {
     final url = 'http://$server:$port/$apipath/userinfo.php';
-    final response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
-    );
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'user_id': box.read('userId')}),
+      );
 
-    if (response.statusCode == 200) {
-      setState(() {
-        userData = jsonDecode(response.body);
-      });
-    } else {
-      print('Failed to load user data');
+      if (response.statusCode == 200) {
+        if (mounted) {
+          // Check if the widget is still mounted
+          setState(() {
+            userData = jsonDecode(response.body);
+          });
+        }
+      } else {
+        print('Failed to load user data');
+      }
+    } catch (e) {
+      print('Error fetching user data: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: Color(0xFFFFFDC8),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
+          tooltip: 'Go Back',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align text to the start
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userData.isNotEmpty
-                      ? "นมัสการ ${userData['user_fname']}"
-                      : 'Loading...',
+                  (userData.isNotEmpty &&
+                          userData['user_fname'] != "null" &&
+                          userData['user_fname'] != null)
+                      ? "นมัสการ, ${userData['user_fname']}"
+                      : 'นมัสการ, ชื่อ...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),
                 Text(
@@ -126,23 +143,24 @@ class _SugarbloodPageState extends State<SugarbloodPage>
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
                 controller: _tabController,
-                tabs: const <Widget>[
+                tabs: <Widget>[
                   Tab(
                     child: Text(
-                      'Day',
-                      style: TextStyle(fontSize: 18.0), // Increased font size
+                      'วัน',
+                      style: GoogleFonts.kanit(
+                          fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Week',
-                      style: TextStyle(fontSize: 18.0),
+                      'สัปดาห์',
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Month',
-                      style: TextStyle(fontSize: 18.0),
+                      'เดือน',
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                 ],

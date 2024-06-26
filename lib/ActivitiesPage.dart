@@ -52,6 +52,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
     if (response.statusCode == 200) {
       // Successfully sent data
       print('Data sent successfully');
+      Navigator.pop(context);
       // Optionally, you can show a success message or perform other actions
     } else {
       // Error sending data
@@ -182,7 +183,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 onPressed: _submitData,
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.orange[500],
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
                 ),
                 child: Text(
                   "บันทึกคำตอบ",

@@ -23,6 +23,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final port = dotenv.env['port'] ?? '';
   final apipath = dotenv.env['apipath'] ?? '';
 
+  @override
+  void initState() {
+    print("/// registerpage.dart");
+    print('**************************************');
+    super.initState();
+  }
+
   Future<void> register(BuildContext context) async {
     // Validate form fields
     if (usernameController.text.isEmpty || passwordController.text.isEmpty) {
@@ -47,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     // API endpoint for user registration
     String apiUrl = 'http://$server:$port/$apipath/register.php';
-    print(apiUrl);
+    //print(apiUrl);
 
     // Prepare data to send
     final Map<String, dynamic> data = {
@@ -155,9 +162,33 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           TextField(
                             controller: usernameController,
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.person),
-                              border: OutlineInputBorder(),
+                            decoration: InputDecoration(
+                              prefixIcon:
+                                  Icon(Icons.person, color: Colors.black),
+                              hintText: ' | ชื่อผู้ใช้ ',
+                              hintStyle: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
                             ),
                           ),
                         ],
@@ -173,19 +204,44 @@ class _RegisterPageState extends State<RegisterPage> {
                           TextField(
                             controller: passwordController,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock),
-                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.lock, color: Colors.black),
+                              hintText: ' | รหัสผ่าน',
+                              hintStyle: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
                                       ? Icons.visibility
                                       : Icons.visibility_off,
+                                  color: Colors.orange,
                                 ),
                                 onPressed: () {
                                   setState(() {
                                     _obscureText = !_obscureText;
                                   });
                                 },
+                                color: Colors.grey,
                               ),
                             ),
                             obscureText: _obscureText,
@@ -203,19 +259,44 @@ class _RegisterPageState extends State<RegisterPage> {
                           TextField(
                             controller: passwordCheckController,
                             decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.lock),
-                              border: const OutlineInputBorder(),
+                              prefixIcon: Icon(Icons.lock, color: Colors.black),
+                              hintText: ' | ยืนยันรหัสผ่าน',
+                              hintStyle: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey[600],
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                borderSide: BorderSide(
+                                  color: Colors.orange,
+                                  width: 2,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 20),
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   _obscureText
                                       ? Icons.visibility
                                       : Icons.visibility_off,
+                                  color: Colors.orange,
                                 ),
                                 onPressed: () {
                                   setState(() {
                                     _obscureText = !_obscureText;
                                   });
                                 },
+                                color: Colors.grey,
                               ),
                             ),
                             obscureText: _obscureText,
@@ -230,9 +311,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 80, vertical: 12),
-                          textStyle: const TextStyle(fontSize: 18),
                         ),
                         child: Text(
                           'ลงทะเบียน',

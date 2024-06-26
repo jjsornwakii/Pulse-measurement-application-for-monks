@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
@@ -19,10 +18,12 @@ void main() async {
   // Initialize GetStorage
   await GetStorage.init();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,12 +31,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BloodPressurePage(),
+      home: const BloodPressurePage(),
     );
   }
 }
 
 class BloodPressurePage extends StatefulWidget {
+  const BloodPressurePage({super.key});
+
   @override
   _BloodPressurePageState createState() => _BloodPressurePageState();
 }
@@ -86,20 +89,33 @@ class _BloodPressurePageState extends State<BloodPressurePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       appBar: AppBar(
         toolbarHeight: 80,
-        backgroundColor: Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: Color(0xFFFFFDC8),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
+          tooltip: 'Go Back',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userData != null
-                      ? "นมัสการ ${userData!['user_fname']}"
-                      : 'Loading...',
-                  style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
+                  (userData != null &&
+                          userData!['user_fname'] != null &&
+                          userData!['user_fname'] != "null")
+                      ? "นมัสการ, ${userData['user_fname']}"
+                      : 'นมัสการ, ชื่อ...',
+                  style: GoogleFonts.kanit(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ),
                 ),
                 Text(
                   "ภาพรวมสุขภาพ",
@@ -123,7 +139,7 @@ class _BloodPressurePageState extends State<BloodPressurePage>
                       width: 2.0,
                     ),
                   ),
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     backgroundColor: Colors.transparent,
                     child: Icon(
                       Icons.person,
@@ -138,37 +154,38 @@ class _BloodPressurePageState extends State<BloodPressurePage>
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             color: Colors.white),
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(),
-              margin: EdgeInsets.symmetric(horizontal: 35),
+              decoration: const BoxDecoration(),
+              margin: const EdgeInsets.symmetric(horizontal: 35),
               child: TabBar(
                 dividerColor: Colors.transparent,
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
                 controller: _tabController,
-                tabs: const <Widget>[
+                tabs: <Widget>[
                   Tab(
                     child: Text(
-                      'Day',
-                      style: TextStyle(fontSize: 18.0), // Increased font size
+                      'วัน',
+                      style: GoogleFonts.kanit(
+                          fontSize: 18.0), // Increased font size
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Week',
-                      style: TextStyle(fontSize: 18.0),
+                      'สัปดาห์',
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Month',
-                      style: TextStyle(fontSize: 18.0),
+                      'เดือน',
+                      style: GoogleFonts.kanit(fontSize: 18.0),
                     ),
                   ),
                 ],

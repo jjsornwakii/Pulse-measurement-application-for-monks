@@ -61,6 +61,8 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
+    print("/// navigation.dart");
+    print('**************************************');
     super.initState();
     print(box.read("userId"));
     _getUserData();
@@ -111,7 +113,7 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: Color(0xFFFFFDC8),
       key: _scaffoldKey,
       drawer: Container(
         margin: const EdgeInsets.fromLTRB(0, 130, 0, 0),
@@ -222,7 +224,7 @@ class _NavigationPageState extends State<NavigationPage> {
         children: [
           Container(
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 255, 251, 138),
+              color: Color(0xFFFFFDC8),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -232,12 +234,39 @@ class _NavigationPageState extends State<NavigationPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 40),
-                    Text(
-                      userData != null
-                          ? "นมัสการ ${userData!['user_fname']}"
-                          : 'Loading...',
-                      style:
-                          GoogleFonts.kanit(color: Colors.black, fontSize: 30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Text(
+                        //   (userData?['user_age'] != null &&
+                        //           int.parse(userData?['user_age']) < 20)
+                        //       ? " สามเณร"
+                        //       : " พระภิกษุ",
+                        //   style: GoogleFonts.kanit(
+                        //       color: Colors.black, fontSize: 20),
+                        // ),
+                        // Text(
+                        //   (userData != null &&
+                        //           userData!['user_fname'] != null &&
+                        //           userData!['user_fname'] != "null")
+                        //       ? " ${userData?['user_fname']}"
+                        //       : 'ชื่อ...',
+                        //   style: GoogleFonts.kanit(
+                        //       color: Colors.black, fontSize: 30),
+                        // ),
+                        Text(
+                          userData != null &&
+                                  userData?['user_fname'] != "null" &&
+                                  userData?['user_fname'] != null
+                              ? "นมัสการ, ${userData?['user_fname']}"
+                              : 'นมัสการ, ชื่อ...',
+                          style: GoogleFonts.kanit(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       "ภาพรวมสุขภาพ",

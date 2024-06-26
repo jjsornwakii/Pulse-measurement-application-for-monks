@@ -91,7 +91,7 @@ class _ChartheartweekState extends State<Chartheartweek> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -217,9 +217,18 @@ class _ChartheartweekState extends State<Chartheartweek> {
                             end: Alignment.center,
                           ),
                           xValueMapper: (ChartColumnData data, _) =>
-                              data.dayName,
+                              data.dayName.substring(0, 3),
                           yValueMapper: (ChartColumnData data, _) =>
                               data.heartRate,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings:  DataLabelSettings(
+                            isVisible: true,
+                            textStyle: GoogleFonts.kanit(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                       ],
                     ),

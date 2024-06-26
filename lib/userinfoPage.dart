@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -44,12 +45,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _wcController = TextEditingController();
   late DateTime? birthday;
   bool _hasChronicDisease = false;
   List<String> _diseaseList = [];
 
   InputDecoration textboxDecoration = InputDecoration(
     hintText: 'กรอกชื่อของคุณ',
+    hintStyle: GoogleFonts.kanit(),
     fillColor: Colors.white,
     filled: true,
     contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -71,13 +74,15 @@ class _UserInfoPageState extends State<UserInfoPage> {
     ),
   );
 
-  TextStyle labelTextStyle = const TextStyle(
+  TextStyle labelTextStyle = GoogleFonts.kanit(
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
 
   @override
   void initState() {
+    print("/// userinfoPage.dart");
+    print('**************************************');
     super.initState();
     _getUserData();
     _getdisease();
@@ -118,6 +123,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
         if (data['user_height'] != null) {
           _heightController.text = data['user_height'].toString();
         }
+        if (data['wc'] != null) {
+          _wcController.text = data['wc'].toString();
+        }
         _hasChronicDisease = data['hasChronicDisease'] == "1";
       });
     } else {
@@ -137,7 +145,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
       body: jsonEncode(
           <String, String>{'user_id': box.read('userId').toString()}),
     );
-    print(apiUrl);
+    // print(apiUrl);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List;
       setState(() {
@@ -152,9 +160,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "ข้อมูลส่วนตัว",
-          style: TextStyle(
+          style: GoogleFonts.kanit(
             color: Color.fromARGB(255, 250, 196, 0),
             fontSize: 40,
             fontWeight: FontWeight.bold,
@@ -163,9 +171,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
         toolbarHeight: 120,
         automaticallyImplyLeading: false,
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+        backgroundColor: const Color(0xFFFFFDC8),
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 251, 138),
+      backgroundColor: const Color(0xFFFFFDC8),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -199,6 +207,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _nameController,
                         decoration: InputDecoration(
                           hintText: 'กรอกชื่อของคุณ',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -256,7 +265,8 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         readOnly: true,
                         controller: _surnameController,
                         decoration: InputDecoration(
-                          hintText: 'กรอกชื่อของคุณ',
+                          hintText: 'กรอกนามสกุลของคุณ',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -314,6 +324,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _birthdateController,
                         decoration: InputDecoration(
                           hintText: 'ว/ด/ป เกิด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -370,66 +381,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       height: 40,
                       child: TextFormField(
                         readOnly: true,
-                        controller: _ageController,
-                        decoration: InputDecoration(
-                          hintText: 'กรอกชื่อของคุณ',
-                          fillColor: Colors.white,
-                          filled: true,
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(20, 5, 0, 0),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1.0),
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.blue, width: 2.0),
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 2.0),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide:
-                                const BorderSide(color: Colors.red, width: 2.0),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 100,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "อายุ",
-                          style: labelTextStyle,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 40,
-                      child: TextFormField(
                         controller: _ageController,
                         decoration: InputDecoration(
                           hintText: 'อายุ',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -455,7 +410,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
-                        readOnly: true,
                       ),
                     ),
                   ),
@@ -486,6 +440,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         controller: _addressController,
                         decoration: InputDecoration(
                           hintText: 'ที่อยู่/ชื่อวัด',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -511,6 +466,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
+                        readOnly: true,
                       ),
                     ),
                   ),
@@ -543,6 +499,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       controller: _weightController,
                       decoration: InputDecoration(
                         hintText: 'ที่อยู่/ชื่อวัด',
+                        hintStyle: GoogleFonts.kanit(),
                         fillColor: Colors.white,
                         filled: true,
                         contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
@@ -568,6 +525,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
+                      readOnly: true,
                     ),
                   ),
                   const SizedBox(
@@ -606,6 +564,69 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       controller: _heightController,
                       decoration: InputDecoration(
                         hintText: 'ที่อยู่/ชื่อวัด',
+                        hintStyle: GoogleFonts.kanit(),
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.blue, width: 2.0),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.red, width: 2.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      readOnly: true,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "ซม.",
+                    style: labelTextStyle,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          "เส้นรอบเอว",
+                          style: labelTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  SizedBox(
+                    height: 40,
+                    width: 100,
+                    child: TextFormField(
+                      controller: _wcController,
+                      decoration: InputDecoration(
+                        hintText: 'ที่อยู่/ชื่อวัด',
                         fillColor: Colors.white,
                         filled: true,
                         contentPadding: const EdgeInsets.fromLTRB(20, 5, 0, 0),
@@ -637,7 +658,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                     width: 10,
                   ),
                   Text(
-                    "ซม.",
+                    "นิ้ว.",
                     style: labelTextStyle,
                   ),
                 ],
@@ -646,11 +667,11 @@ class _UserInfoPageState extends State<UserInfoPage> {
               Row(
                 children: <Widget>[
                   Text('โรคประจำตัว:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      style: GoogleFonts.kanit(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
                   SizedBox(width: 10),
                   Text(_hasChronicDisease ? '' : 'ไม่มี',
-                      style: TextStyle(fontSize: 18)),
+                      style: GoogleFonts.kanit(fontSize: 18)),
                 ],
               ),
               if (_hasChronicDisease)
@@ -675,7 +696,9 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         MaterialPageRoute(builder: (context) => UserPage()),
                       );
                     },
-                    child: Text('กลับ', style: TextStyle(fontSize: 18)),
+                    child: Text('กลับ',
+                        style: GoogleFonts.kanit(
+                            fontSize: 18, color: Colors.black)),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),

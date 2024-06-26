@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/measureBpm.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/tipdetailPage.dart';
@@ -38,7 +41,7 @@ class _HomePage extends State<HomePage> {
   String user_id = '';
   double _sliderValue = 0.5;
 
-  TextStyle indicatorLine = TextStyle(
+  TextStyle indicatorLine = GoogleFonts.kanit(
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
@@ -58,10 +61,15 @@ class _HomePage extends State<HomePage> {
 
   @override
   void initState() {
+    print("/// homepage.dart");
+    print('**************************************');
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     super.initState();
     user_id = box.read("userId");
     _startAutoScroll();
-
     getTipImg();
     getNewestHealthData();
 
@@ -102,14 +110,14 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double fontSize = 17;
+    double fontSize = 18;
     final screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         width: screenSize.width,
-        height: screenSize.height,
+        height: screenSize.height * .8,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 255, 251, 138),
+          color: Color(0xFFFFFDC8),
         ),
         child: Column(
           children: [
@@ -117,12 +125,14 @@ class _HomePage extends State<HomePage> {
               height: 15,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                    backgroundColor: Color(0xFFFFB700),
                     minimumSize:
+                        Size(screenSize.width * .46, screenSize.height * .15),
+                    maximumSize:
                         Size(screenSize.width * .46, screenSize.height * .15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -140,9 +150,9 @@ class _HomePage extends State<HomePage> {
                           actions: [
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "SYS",
-                                  style: TextStyle(fontSize: 20),
+                                  style: GoogleFonts.kanit(fontSize: 20),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -151,10 +161,17 @@ class _HomePage extends State<HomePage> {
                                   child: TextFormField(
                                     controller: maxPressureVal,
                                     decoration: const InputDecoration(
+                                      hintText: 'กรุณากรอกค่า',
                                       filled: true,
                                       fillColor: Colors.white,
                                     ),
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "mmHg",
                                 ),
                               ],
                             ),
@@ -163,9 +180,9 @@ class _HomePage extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                const Text(
+                                 Text(
                                   "DIA",
-                                  style: TextStyle(fontSize: 20),
+                                  style: GoogleFonts.kanit(fontSize: 20),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -173,11 +190,18 @@ class _HomePage extends State<HomePage> {
                                 Expanded(
                                   child: TextFormField(
                                     decoration: const InputDecoration(
+                                      hintText: 'กรุณากรอกค่า',
                                       filled: true,
                                       fillColor: Colors.white,
                                     ),
                                     controller: minPressureVal,
                                   ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "mmHg",
                                 ),
                               ],
                             ),
@@ -212,8 +236,8 @@ class _HomePage extends State<HomePage> {
                             width: 2,
                           ),
                           Text(
-                            'แตะเพื่อวัด',
-                            style: TextStyle(
+                            'แตะเพื่อกรอก',
+                            style: GoogleFonts.kanit(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
                               color: const Color.fromARGB(255, 50, 52, 62),
@@ -223,7 +247,7 @@ class _HomePage extends State<HomePage> {
                       ),
                       Text(
                         "ความดันโลหิต",
-                        style: TextStyle(
+                        style: GoogleFonts.kanit(
                           color: Colors.white,
                           fontSize: fontSize,
                           fontWeight: FontWeight.bold,
@@ -232,10 +256,15 @@ class _HomePage extends State<HomePage> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  width: 8,
+                ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                      backgroundColor: const Color(0xFFFFB700),
                       minimumSize:
+                          Size(screenSize.width * .46, screenSize.height * .15),
+                      maximumSize:
                           Size(screenSize.width * .46, screenSize.height * .15),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20))),
@@ -255,9 +284,9 @@ class _HomePage extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                const Text(
-                                  "ระดับน้ำตาลในเลือด",
-                                  style: TextStyle(fontSize: 20),
+                                 Text(
+                                  "ระดับน้ำตาล\nในเลือด",
+                                  style: GoogleFonts.kanit(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -265,12 +294,17 @@ class _HomePage extends State<HomePage> {
                                 Expanded(
                                   child: TextFormField(
                                     decoration: const InputDecoration(
+                                      hintText: "กรุณากรอกค่า",
                                       filled: true,
                                       fillColor: Colors.white,
                                     ),
                                     controller: bloodSugarVal,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Mg/dL"),
                               ],
                             ),
                             const SizedBox(
@@ -302,8 +336,8 @@ class _HomePage extends State<HomePage> {
                           ),
                           const SizedBox(width: 2),
                           Text(
-                            'แตะเพื่อวัด',
-                            style: TextStyle(
+                            'แตะเพื่อกรอก',
+                            style: GoogleFonts.kanit(
                               fontSize: fontSize,
                               fontWeight: FontWeight.bold,
                               color: const Color.fromARGB(255, 50, 52, 62),
@@ -313,9 +347,9 @@ class _HomePage extends State<HomePage> {
                       ),
                       Text(
                         "ระดับน้ำตาลในเลือด",
-                        style: TextStyle(
+                        style: GoogleFonts.kanit(
                           color: Colors.white,
-                          fontSize: fontSize,
+                          fontSize: fontSize - 2,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -329,7 +363,7 @@ class _HomePage extends State<HomePage> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                backgroundColor: const Color(0xFFFFB700),
                 minimumSize:
                     Size(screenSize.width * .95, screenSize.height * .15),
                 maximumSize:
@@ -345,7 +379,7 @@ class _HomePage extends State<HomePage> {
                 children: [
                   Text(
                     'แตะเพื่อวัด',
-                    style: TextStyle(
+                    style: GoogleFonts.kanit(
                       fontSize: fontSize,
                       fontWeight: FontWeight.bold,
                       color: const Color.fromARGB(255, 50, 52, 62),
@@ -365,7 +399,7 @@ class _HomePage extends State<HomePage> {
                           ),
                           Text(
                             "ชีพจร",
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontSize: fontSize,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -398,26 +432,26 @@ class _HomePage extends State<HomePage> {
               child: Container(
                 width: screenSize.width * .95,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 255, 217, 29),
+                  color: const Color(0xFFFFB700),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "ระดับความเสี่ยงเป็นโรคเบาหวาน",
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             "กดเพื่อรับคำแนะนำ",
-                            style: TextStyle(
+                            style: GoogleFonts.kanit(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -470,17 +504,30 @@ class _HomePage extends State<HomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text(
-                                      "|",
-                                      style: indicatorLine,
+                                    // Text(
+                                    //   "|",
+                                    //   style: indicatorLine,
+                                    // ),
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                    Text(
-                                      "|",
-                                      style: indicatorLine,
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
                                     ),
-                                    Text(
-                                      "|",
-                                      style: indicatorLine,
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -488,6 +535,9 @@ class _HomePage extends State<HomePage> {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                     ],
                   ),
@@ -501,7 +551,7 @@ class _HomePage extends State<HomePage> {
               width: screenSize.width * .95,
               height: screenSize.height * .33,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 217, 29),
+                color: const Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
@@ -512,16 +562,16 @@ class _HomePage extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                         Text(
                           "สาระน่ารู้",
-                          style: TextStyle(
+                          style: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "หน้า ${_currentPage + 1} / ${tipList.length}",
-                          style: const TextStyle(
+                          style:  GoogleFonts.kanit(
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -627,9 +677,15 @@ class _HomePage extends State<HomePage> {
     if (response.statusCode == 200) {
       setState(() {
         newestData = json.decode(response.body);
-        maxPressureVal.text = newestData['blood_pressure_max'].toString();
-        minPressureVal.text = newestData['blood_pressure_min'].toString();
-        bloodSugarVal.text = newestData['blood_sugar'].toString();
+        maxPressureVal.text = newestData['blood_pressure_max'] != null
+            ? newestData['blood_pressure_max'].toString()
+            : "";
+        minPressureVal.text = newestData['blood_pressure_min'] != null
+            ? newestData['blood_pressure_min'].toString()
+            : "";
+        bloodSugarVal.text = newestData['blood_sugar'] != null
+            ? newestData['blood_sugar'].toString()
+            : "";
       });
       print('GET NEW DATA');
       print(newestData);
@@ -725,6 +781,7 @@ class _HomePage extends State<HomePage> {
       newestData['age'] ?? 0,
       double.parse((newestData['user_height'] ?? '0').toString()),
       double.parse((newestData['user_weight'] ?? '0').toString()),
+      double.parse((newestData['WC'] ?? '0').toString()) * 2.54,
       int.parse((newestData['ChronicDisease'] ?? '0').toString()),
       int.parse((newestData['blood_sugar'] ?? '0').toString()),
       int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
@@ -737,6 +794,7 @@ class _HomePage extends State<HomePage> {
       int age,
       double height,
       double weight,
+      double wc,
       int ChronicDisease,
       int sugar,
       int blood_pressure_min,
@@ -744,15 +802,18 @@ class _HomePage extends State<HomePage> {
       int heart_rate) {
     int score = 0;
 
-    print(age);
-    print(height);
-    print(weight);
-    print(ChronicDisease);
-    print(sugar);
-    print(blood_pressure_min);
-    print(blood_pressure_max);
-    print(heart_rate);
+    print("age = $age");
+    print("height = $height");
+    print("weight = $weight");
+    print("WC = $wc");
+    print("Disease $ChronicDisease");
+    print("sugar $sugar");
+    print("blood_min = $blood_pressure_min");
+    print("blood_max = $blood_pressure_max");
+    print("H_rate = $heart_rate");
 
+    double w_h = wc / height;
+    print("WC/Height = $w_h");
     /////////////////
     if (age < 45) {
       score += 0;
@@ -762,6 +823,14 @@ class _HomePage extends State<HomePage> {
       score += 2;
     } else {
       score += 3;
+    }
+
+    if (w_h < 0.5) {
+      score += 0;
+    } else if (w_h < 0.6) {
+      score += 3;
+    } else {
+      score += 5;
     }
     /////////////////
 
@@ -789,17 +858,20 @@ class _HomePage extends State<HomePage> {
     if (sugar > 100) {
       score += 5;
     }
+
+    print("myscore $score");
     setState(() {
-      if (score < 3) {
+      if (score < 3.725) {
         _advicePage = 0;
-      } else if (score < 6) {
+      } else if (score < 7.745) {
         _advicePage = 1;
-      } else if (score < 9) {
+      } else if (score < 11.765) {
         _advicePage = 2;
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 12) * 100;
+      _sliderValue = (score / 18) * 100;
+
     });
   }
 
@@ -829,7 +901,7 @@ class _HomePage extends State<HomePage> {
           backgroundColor: const Color.fromARGB(255, 255, 191, 0),
           title: Text(
             adviceTopic[_index],
-            style: TextStyle(
+            style: GoogleFonts.kanit(
               fontWeight: FontWeight.bold,
               fontSize: 30,
               color: titleColor,
@@ -847,7 +919,7 @@ class _HomePage extends State<HomePage> {
                 ),
                 child: Text(
                   "${adviceText[_index]}",
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -860,4 +932,11 @@ class _HomePage extends State<HomePage> {
       },
     );
   }
+
+  // void _resetScreenOrientation() {
+  //   SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitDown,
+  //   ]);
+  // }
 }

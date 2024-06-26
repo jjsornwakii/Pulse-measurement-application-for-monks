@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:heart_bpm/chart.dart';
 import 'package:heart_bpm/heart_bpm.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class MeasureBpmPage extends StatefulWidget {
 
 class _MeasureBpmPage extends State<MeasureBpmPage> {
   String? server = dotenv.env['server'];
-  String? port = dotenv.env['port']; 
+  String? port = dotenv.env['port'];
   String? apipath = dotenv.env['apipath'];
   GetStorage box = GetStorage();
 
@@ -64,14 +65,14 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 255, 217, 29),
+                  backgroundColor: const Color(0xFFFFB700),
                 ),
                 onPressed: () => {
                   Navigator.pop(context),
                 },
-                child: const Text(
+                child:  Text(
                   'กลับ',
-                  style: TextStyle(fontSize: 22, color: Colors.black),
+                  style: GoogleFonts.kanit(fontSize: 22, color: Colors.black),
                 ),
               ),
             ],
@@ -79,7 +80,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
           !isBPMEnabled
               ? Text(
                   "กรุณานำนิ้วชี้ แตะที่กล้อง",
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     decoration: TextDecoration.none,
                     color: Colors.black,
                     fontSize: 27,
@@ -87,7 +88,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
                 )
               : Text(
                   "เหลือเวลาอีก $remainingTime วินาที",
-                  style: TextStyle(
+                  style: GoogleFonts.kanit(
                     decoration: TextDecoration.none,
                     color: Colors.black,
                     fontSize: 27,
@@ -189,7 +190,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             ),
             child: Text(
               "$bpm bpm.",
-              style: TextStyle(
+              style: GoogleFonts.kanit(
                 decoration: TextDecoration.none,
                 color: bpm > 120
                     ? Colors.red
@@ -221,7 +222,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
             ),
             label: Text(
               isBPMEnabled ? "ยกเลิก" : "เริ่มวัด",
-              style: const TextStyle(
+              style:  GoogleFonts.kanit(
                 fontSize: 35,
               ),
             ),

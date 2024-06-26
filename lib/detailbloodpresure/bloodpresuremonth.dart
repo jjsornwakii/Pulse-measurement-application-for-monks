@@ -84,7 +84,13 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
       // Handle any errors that might occur
       print('Error fetching chart data: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('ไม่มีข้อมูลของเดือนนี้กรุณาไปวัด')),
+        SnackBar(
+          content: Text(
+            'ไม่มีข้อมูลของเดือนนี้กรุณาไปวัด',
+            style: GoogleFonts.kanit(fontSize: 24),
+          ),
+          duration: Duration(seconds: 3),
+        ),
       );
     }
   }
@@ -101,7 +107,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
             child: Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 244, 204, 75),
+                color: Color(0xFFFFB700),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -142,7 +148,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMinValue mmHg',
+                                ' / $avgMinValue mg/dL',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -178,7 +184,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "มิลลิเมตรปรอท (mmHg.)",
+                        "มิลลิเมตรปรอท (mg/dL.)",
                         style: GoogleFonts.kanit(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -221,6 +227,15 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           color: Color.fromARGB(255, 240, 238, 238),
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
+                          ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings:  DataLabelSettings(
+                            isVisible: true,
+                           textStyle: GoogleFonts.kanit(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                         ColumnSeries<ChartColumnData, String>(
                           borderRadius: BorderRadius.only(
@@ -238,7 +253,16 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                             end: Alignment.center,
                           ),
                           xValueMapper: (ChartColumnData data, _) => data.x,
-                          yValueMapper: (ChartColumnData data, _) => data.y,
+                          yValueMapper: (ChartColumnData data, _) =>
+                              data.y, ////////////////////// แสดงค่า บนกราฟ
+                          dataLabelSettings:  DataLabelSettings(
+                            isVisible: true,
+                            textStyle: GoogleFonts.kanit(
+                              color: Colors.black,
+                              fontSize: 10,
+                            ),
+                          ),
+                          ///////////////////////
                         ),
                       ],
                     ),

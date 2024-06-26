@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sato/navigation.dart';
 import 'package:http/http.dart' as http;
 import 'package:sato/tipdetailPage.dart';
@@ -18,6 +19,8 @@ class _TipsHealthPage extends State<TipsHealthPage> {
 
   @override
   void initState() {
+    print("/// TipsHealthPage.dart");
+    print('**************************************');
     super.initState();
     getAllTips();
   }
@@ -30,10 +33,10 @@ class _TipsHealthPage extends State<TipsHealthPage> {
       width: screenSize.width,
       height: screenSize.height,
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 255, 251, 138),
+        color: Color(0xFFFFFDC8),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Row(
@@ -41,7 +44,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 217, 29),
+                    backgroundColor: const Color(0xFFFFB700),
                   ),
                   onPressed: () => {
                     Navigator.pushReplacement(
@@ -51,11 +54,11 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                       ),
                     ),
                   },
-                  child: const Text(
+                  child: Text(
                     "กลับ",
-                    style: TextStyle(
+                    style: GoogleFonts.kanit(
                       fontSize: 22,
-                      color: Color.fromARGB(255, 255, 251, 138),
+                      color: const Color(0xFFFFFDC8),
                     ),
                   ),
                 ),
@@ -69,10 +72,10 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
+                Text(
                   "เกร็ดน่ารู้คู่สุขภาพ",
-                  style: TextStyle(
-                    fontSize: 20,
+                  style: GoogleFonts.kanit(
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                     decoration: TextDecoration.none, // Ensure no decoration
@@ -80,12 +83,12 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 ),
               ],
             ),
-            const Row(
+            Row(
               children: [
                 Expanded(
                   child: Text(
                     "การให้ความรู้และคำแนะนำด้านการดูแลสุขภาพ",
-                    style: TextStyle(
+                    style: GoogleFonts.kanit(
                       fontSize: 17,
                       color: Colors.black,
                       decoration: TextDecoration.none, // Ensure no decoration
@@ -95,6 +98,9 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             Expanded(
               child: ListView.builder(
@@ -113,10 +119,10 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      padding: EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 234, 234, 234),
+                        color: const Color.fromARGB(255, 249, 249, 249),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -127,20 +133,19 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                               'http://$server:$port/$apipath/${data[index]['tip_image']}',
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
                               Text(
                                 data[index]['tip_topic'],
-                                style: const TextStyle(
+                                style: GoogleFonts.kanit(
                                   color: Colors.black,
                                   fontSize: 20,
                                   decoration: TextDecoration
                                       .none, // Ensure no decoration
-                                  overflow:
-                                      TextOverflow.ellipsis, // Handle overflow
+                                  // Handle overflow
                                 ),
                                 softWrap: true,
                               ),
@@ -169,7 +174,8 @@ class _TipsHealthPage extends State<TipsHealthPage> {
       if (responseData['status'] == 'success') {
         setState(() {
           data = responseData['data'];
-          print(data);
+          // print(data);
+          print("Get Tip Success");
         });
       } else {
         print("Get Tip Failed");
