@@ -258,10 +258,13 @@ class _NavigationPageState extends State<NavigationPage> {
                           userData != null &&
                                   userData?['user_fname'] != "null" &&
                                   userData?['user_fname'] != null
-                              ? "นมัสการ ${userData?['user_fname']}"
-                              : 'นมัสการ ชื่อ...',
+                              ? "นมัสการ, ${userData?['user_fname']}"
+                              : 'นมัสการ, ชื่อ...',
                           style: GoogleFonts.kanit(
-                              color: Colors.black, fontSize: 30),
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),

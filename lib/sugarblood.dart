@@ -71,19 +71,25 @@ class _SugarbloodPageState extends State<SugarbloodPage>
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: Color(0xFFFFFDC8),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
+          tooltip: 'Go Back',
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, 
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   (userData.isNotEmpty &&
                           userData['user_fname'] != "null" &&
                           userData['user_fname'] != null)
-                      ? "นมัสการ ${userData['user_fname']}"
-                      : 'นมัสการ ชื่อ...',
+                      ? "นมัสการ, ${userData['user_fname']}"
+                      : 'นมัสการ, ชื่อ...',
                   style: GoogleFonts.kanit(color: Colors.black, fontSize: 30),
                 ),
                 Text(
@@ -137,7 +143,7 @@ class _SugarbloodPageState extends State<SugarbloodPage>
                 labelColor: Colors.orange,
                 unselectedLabelColor: Colors.black,
                 controller: _tabController,
-                tabs:  <Widget>[
+                tabs: <Widget>[
                   Tab(
                     child: Text(
                       'วัน',

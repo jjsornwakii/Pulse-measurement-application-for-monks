@@ -54,13 +54,10 @@ class _UserPageState extends State<UserPage> {
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFDC8),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.orange),
           tooltip: 'Go Back',
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NavigationPage()),
-            );
+            Navigator.pop(context);
           },
         ),
       ),
