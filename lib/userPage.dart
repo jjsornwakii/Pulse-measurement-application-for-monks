@@ -53,14 +53,18 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFDC8),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NavigationPage()),
-            );
-          },
+        leading: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            tooltip: 'Go Back',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NavigationPage()),
+              );
+            },
+          ),
         ),
       ),
       backgroundColor: Color(0xFFFFFDC8),
@@ -182,6 +186,14 @@ class _UserPageState extends State<UserPage> {
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    height: 1,
+                    color: const Color.fromARGB(255, 46, 46, 46),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

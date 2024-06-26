@@ -234,14 +234,36 @@ class _NavigationPageState extends State<NavigationPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 40),
-                    Text(
-                      (userData != null &&
-                              userData!['user_fname'] != null &&
-                              userData!['user_fname'] != "null")
-                          ? "นมัสการ  ${userData?['user_fname']}"
-                          : 'นมัสการ ชื่อ...',
-                      style:
-                          GoogleFonts.kanit(color: Colors.black, fontSize: 30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Text(
+                        //   (userData?['user_age'] != null &&
+                        //           int.parse(userData?['user_age']) < 20)
+                        //       ? " สามเณร"
+                        //       : " พระภิกษุ",
+                        //   style: GoogleFonts.kanit(
+                        //       color: Colors.black, fontSize: 20),
+                        // ),
+                        // Text(
+                        //   (userData != null &&
+                        //           userData!['user_fname'] != null &&
+                        //           userData!['user_fname'] != "null")
+                        //       ? " ${userData?['user_fname']}"
+                        //       : 'ชื่อ...',
+                        //   style: GoogleFonts.kanit(
+                        //       color: Colors.black, fontSize: 30),
+                        // ),
+                        Text(
+                          userData != null &&
+                                  userData?['user_fname'] != "null" &&
+                                  userData?['user_fname'] != null
+                              ? "นมัสการ ${userData?['user_fname']}"
+                              : 'นมัสการ ชื่อ...',
+                          style: GoogleFonts.kanit(
+                              color: Colors.black, fontSize: 30),
+                        ),
+                      ],
                     ),
                     Text(
                       "ภาพรวมสุขภาพ",
