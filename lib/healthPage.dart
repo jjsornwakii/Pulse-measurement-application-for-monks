@@ -176,47 +176,52 @@ class _HealthPageState extends State<HealthPage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        width: screenSize.width,
-        height: screenSize.height,
-        decoration: BoxDecoration(
-          color: Color(0xFFFFFDC8),
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: 15),
-            if (userData.isNotEmpty) ...[
-              buildInfoCard(
-                'ความดันโลหิต',
-                '${userData['blood_pressure_max'] ?? "0"}  / ${userData['blood_pressure_min'] ?? "0"}',
-                'mmHg',
-                'assets/icon/blood_presure.png',
-                'assets/decoration/chartpressure.png',
-                BloodPressurePage(),
-              ),
-              SizedBox(height: 10),
-              buildInfoCard(
-                'ระดับน้ำตาลในเลือด',
-                '${userData['blood_sugar'] ?? "0"}',
-                'mg/dL',
-                'assets/icon/blood_glucose.png',
-                'assets/decoration/chartsugar.png',
-                SugarbloodPage(),
-              ),
-              SizedBox(height: 10),
-              buildInfoCard(
-                'อัตราการเต้นของหัวใจ',
-                '${userData['heart_rate'] ?? "0"}',
-                'bpm',
-                'assets/icon/heartrate.png',
-                'assets/decoration/chartheart.png',
-                HeartRatePage(),
-              ),
-            ] else ...[
-              CircularProgressIndicator(),
+    return RefreshIndicator(
+      onRefresh: _getUserData, // No need for the () => _getUserData() syntax
+      child: SingleChildScrollView(
+        physics:
+            AlwaysScrollableScrollPhysics(), // Ensure the scroll view is always scrollable
+        child: Container(
+          width: screenSize.width,
+          height: screenSize.height,
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFDC8),
+          ),
+          child: Column(
+            children: [
+              SizedBox(height: 15),
+              if (userData.isNotEmpty) ...[
+                buildInfoCard(
+                  'ความดันโลหิต',
+                  '${userData['blood_pressure_max'] ?? "0"}  / ${userData['blood_pressure_min'] ?? "0"}',
+                  'mmHg',
+                  'assets/icon/blood_presure.png',
+                  'assets/decoration/chartpressure.png',
+                  BloodPressurePage(),
+                ),
+                SizedBox(height: 10),
+                buildInfoCard(
+                  'ระดับน้ำตาลในเลือด',
+                  '${userData['blood_sugar'] ?? "0"}',
+                  'mg/dL',
+                  'assets/icon/blood_glucose.png',
+                  'assets/decoration/chartsugar.png',
+                  SugarbloodPage(),
+                ),
+                SizedBox(height: 10),
+                buildInfoCard(
+                  'อัตราการเต้นของหัวใจ',
+                  '${userData['heart_rate'] ?? "0"}',
+                  'bpm',
+                  'assets/icon/heartrate.png',
+                  'assets/decoration/chartheart.png',
+                  HeartRatePage(),
+                ),
+              ] else ...[
+                CircularProgressIndicator(),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

@@ -630,6 +630,9 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Row(
                   children: [
                     SizedBox(
@@ -682,7 +685,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const Text("นิ้ว."),
+                    const Text("   นิ้ว."),
                   ],
                 ),
                 Row(
