@@ -150,7 +150,7 @@ class _HomePage extends State<HomePage> {
                           actions: [
                             Row(
                               children: [
-                                 Text(
+                                Text(
                                   "SYS",
                                   style: GoogleFonts.kanit(fontSize: 20),
                                 ),
@@ -180,7 +180,7 @@ class _HomePage extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                 Text(
+                                Text(
                                   "DIA",
                                   style: GoogleFonts.kanit(fontSize: 20),
                                 ),
@@ -284,7 +284,7 @@ class _HomePage extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                 Text(
+                                Text(
                                   "ระดับน้ำตาล\nในเลือด",
                                   style: GoogleFonts.kanit(fontSize: 18),
                                 ),
@@ -439,7 +439,7 @@ class _HomePage extends State<HomePage> {
                   padding: const EdgeInsets.all(10),
                   child: Column(
                     children: [
-                       Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -562,7 +562,7 @@ class _HomePage extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                         Text(
+                        Text(
                           "สาระน่ารู้",
                           style: GoogleFonts.kanit(
                               color: Colors.black,
@@ -571,7 +571,7 @@ class _HomePage extends State<HomePage> {
                         ),
                         Text(
                           "หน้า ${_currentPage + 1} / ${tipList.length}",
-                          style:  GoogleFonts.kanit(
+                          style: GoogleFonts.kanit(
                               fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -861,17 +861,16 @@ class _HomePage extends State<HomePage> {
 
     print("myscore $score");
     setState(() {
-      if (score < 3.725) {
+      if (score < 5.0) {
         _advicePage = 0;
-      } else if (score < 7.745) {
+      } else if (score < 10.35) {
         _advicePage = 1;
-      } else if (score < 11.765) {
+      } else if (score < 15.7) {
         _advicePage = 2;
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 18) * 100;
-
+      _sliderValue = (score / 20) * 100;
     });
   }
 
