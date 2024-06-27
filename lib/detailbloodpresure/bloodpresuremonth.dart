@@ -148,7 +148,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                                 ),
                               ),
                               Text(
-                                ' / $avgMinValue mg/dL',
+                                ' / $avgMinValue mmhg',
                                 style: GoogleFonts.kanit(
                                   color: Color.fromARGB(255, 113, 112, 112),
                                   fontSize: 20,
@@ -228,9 +228,9 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) => data.y1,
                           ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings:  DataLabelSettings(
+                          dataLabelSettings: DataLabelSettings(
                             isVisible: true,
-                           textStyle: GoogleFonts.kanit(
+                            textStyle: GoogleFonts.kanit(
                               color: Colors.black,
                               fontSize: 10,
                             ),
@@ -255,7 +255,7 @@ class _Bloodpresuremonth extends State<Bloodpresuremonth> {
                           xValueMapper: (ChartColumnData data, _) => data.x,
                           yValueMapper: (ChartColumnData data, _) =>
                               data.y, ////////////////////// แสดงค่า บนกราฟ
-                          dataLabelSettings:  DataLabelSettings(
+                          dataLabelSettings: DataLabelSettings(
                             isVisible: true,
                             textStyle: GoogleFonts.kanit(
                               color: Colors.black,
