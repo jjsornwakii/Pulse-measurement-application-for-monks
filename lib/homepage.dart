@@ -304,7 +304,7 @@ class _HomePage extends State<HomePage> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Mg/dL"),
+                                Text("mg/dL"),
                               ],
                             ),
                             const SizedBox(
