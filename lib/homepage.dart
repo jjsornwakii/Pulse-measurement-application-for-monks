@@ -861,16 +861,16 @@ class _HomePage extends State<HomePage> {
 
     print("myscore $score");
     setState(() {
-      if (score < 3.725) {
+      if (score < 5.0) {
         _advicePage = 0;
-      } else if (score < 7.745) {
+      } else if (score < 10.35) {
         _advicePage = 1;
-      } else if (score < 11.765) {
+      } else if (score < 15.7) {
         _advicePage = 2;
       } else {
         _advicePage = 3;
       }
-      _sliderValue = (score / 18) * 100;
+      _sliderValue = (score / 20) * 100;
     });
   }
 
