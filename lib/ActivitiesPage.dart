@@ -148,9 +148,9 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSection('Activities', activities),
-              _buildSection('Eating', eating),
-              _buildSection('Relax', relax),
+              _buildSection('การออกกำลังกาย', activities),
+              _buildSection('การฉันภัตตาหาร', eating),
+              _buildSection('การจัดการความเครียด', relax),
               const SizedBox(height: 20), // Add some spacing before the button
               Center(
                 child: TextButton(
