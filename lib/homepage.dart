@@ -40,6 +40,7 @@ class _HomePage extends State<HomePage> {
 
   String user_id = '';
   double _sliderValue = 0.5;
+  double maxScore = 17;
 
   TextStyle indicatorLine = GoogleFonts.kanit(
     fontSize: 20,
@@ -47,16 +48,18 @@ class _HomePage extends State<HomePage> {
   );
 
   List<String> adviceTopic = [
-    "ความเสี่ยงต่ำ",
-    "ความเสี่ยงปานกลาง",
-    "ความเสี่ยงมาก",
-    "ความเสี่ยงระดับอันตราย"
+    "ความเสี่ยงน้อย",
+    "ความเสี่ยงน้อยถึงปานกลาง",
+    "ความเสี่ยงปานกลางถึงสูง",
+    "ความเสี่ยงสูง",
+    "ความเสี่ยงสูงมาก"
   ];
   List<String> adviceText = [
-    "• การออกกำลังกาย: ออกกำลังกายอย่างสม่ำเสมอ เช่น เดินเร็ว ว่ายน้ำ หรือขี่จักรยาน อย่างน้อย 150 นาทีต่อสัปดาห์\n\n• อาหาร: รับประทานอาหารที่มีประโยชน์ เช่น ผักผลไม้ ธัญพืช และโปรตีนไม่มัน หลีกเลี่ยงอาหารที่มีน้ำตาลสูงและไขมันทรานส์\n\n• น้ำหนัก: รักษาน้ำหนักตัวให้อยู่ในเกณฑ์ปกติ โดยเฉพาะหากมีน้ำหนักเกินหรือเป็นโรคอ้วน\n\n• การตรวจสุขภาพ: ตรวจสุขภาพประจำปีและตรวจน้ำตาลในเลือดตามคำแนะนำของแพทย์\n",
-    "• เพิ่มความถี่ในการออกกำลังกาย: ออกกำลังกายเพิ่มขึ้นเป็น 30 นาทีต่อวันอย่างน้อย 5 วันต่อสัปดาห์\n\n• อาหาร: ปรับอาหารให้มีไฟเบอร์สูงและคาร์โบไฮเดรตที่มีค่าดัชนีน้ำตาลต่ำ เช่น ข้าวกล้อง โฮลเกรน และหลีกเลี่ยงน้ำตาลและขนมหวาน\n\n• การควบคุมน้ำหนัก: ลดน้ำหนักหากมีน้ำหนักเกิน โดยควรปรึกษานักโภชนาการหากต้องการคำแนะนำเพิ่มเติม\n\n• การตรวจสุขภาพ: ตรวจน้ำตาลในเลือดทุก 6 เดือน และปรึกษาแพทย์หากมีอาการผิดปกติ\n",
-    "• ออกกำลังกายสม่ำเสมอ: ออกกำลังกายอย่างน้อย 30-60 นาทีต่อวัน รวมทั้งการยกน้ำหนักเพื่อเพิ่มมวลกล้ามเนื้อ\n\n• อาหาร: เลือกรับประทานอาหารที่มีโภชนาการสูง เช่น โปรตีนจากพืช ผักผลไม้ ธัญพืช และเลี่ยงอาหารที่มีน้ำตาลและไขมันสูง\n\n• การควบคุมน้ำหนักอย่างเข้มงวด: ลดน้ำหนักอย่างจริงจังหากมีน้ำหนักเกิน ด้วยการควบคุมอาหารและการออกกำลังกาย\n\n• การตรวจสุขภาพ: ตรวจน้ำตาลในเลือดทุก 3 เดือน และพบแพทย์เพื่อประเมินความเสี่ยงและวางแผนการดูแลสุขภาพ\n",
-    "• การดูแลภายใต้การแพทย์: เข้ารับการดูแลและคำปรึกษาจากแพทย์ผู้เชี่ยวชาญอย่างสม่ำเสมอ\n\n• การออกกำลังกายแบบเข้มข้น: ออกกำลังกายตามคำแนะนำของแพทย์ โดยอาจต้องมีการปรับเปลี่ยนกิจกรรมเพื่อลดความเสี่ยง\n\n• อาหาร: ปรับอาหารอย่างเข้มงวด หลีกเลี่ยงอาหารที่มีน้ำตาล ไขมัน และเกลือสูง รวมทั้งปรึกษานักโภชนาการเพื่อวางแผนการรับประทานอาหารที่เหมาะสม\n\n• การใช้ยา: อาจจำเป็นต้องใช้ยาควบคุมระดับน้ำตาลในเลือดตามที่แพทย์สั่ง\n\n• การตรวจสุขภาพ: ตรวจน้ำตาลในเลือดอย่างน้อยทุกเดือน และพบแพทย์ตามนัดเพื่อปรับแผนการดูแลสุขภาพ"
+    "• ควรตรวจเช็คสุขภาพประจำทุกปี ลดอาหาร หวาน มัน เค็ม \n\n• ออกกำลังกายสม่ำเสมอ ลด ละ เลิก การสูบบุหรี่ ",
+    "• ควรตรวจเช็คสุขภาพประจำทุกปี ลดอาหาร หวาน มัน เค็ม \n\n• การออกกำลังกายสม่ำเสมอ ลด ละ เลิก การสูบบุหรี่ ",
+    "• แนะนำให้ตรวจเช็คระดับน้ำตาลในเลือด และความดันโลหิต \n\n• ลดอาหาร หวาน มัน เค็ม \n\n• ออกกำลังกายสม่ำเสมอ \n\n• ลด ละ เลิก การสูบบุหรี่",
+    "• แนะนำให้ตรวจเช็คระดับน้ำตาลในเลือดปรับเปลี่ยนพฤติกรรมเพื่อลดปัจจัยเสี่ยงของตัวคุณเอง ได้แก่ \n\n1. ควรควบคุมอาหาร น้ำหนัก ความดันโลหิต \n\n2. ออกกำลังกายสม่ำเสมอ \n\n3. ลด ละ เลิก การสูบบุหรี่ \n\n4.รับคำแนะนำปรึกษากับแพทย์หรือเจ้าหน้าที่สาธารณสุขใกล้บ้าน",
+    "• แนะนำให้ตรวจเช็คระดับน้ำตาลในเลือดปรับเปลี่ยนพฤติกรรมเพื่อลดปัจจัยเสี่ยงของตัวคุณเอง ได้แก่ \n\n1. ควรควบคุมอาหาร น้ำหนัก ความดันโลหิต \n\n2. ออกกำลังกายสม่ำเสมอ \n\n3. ลด ละ เลิก การสูบบุหรี่ \n\n4.รับคำแนะนำปรึกษากับแพทย์หรือเจ้าหน้าที่สาธารณสุขใกล้บ้าน"
   ];
 
   @override
@@ -81,6 +84,7 @@ class _HomePage extends State<HomePage> {
     print(newestData['blood_pressure_min']);
     print(newestData['blood_pressure_max']);
     print(newestData['heart_rate']);
+    print(newestData['familyhasChronicDisease']);
     print('**************************************');
   }
 
@@ -129,7 +133,7 @@ class _HomePage extends State<HomePage> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFB700),
+                    backgroundColor: const Color(0xFFFFB700),
                     minimumSize:
                         Size(screenSize.width * .46, screenSize.height * .15),
                     maximumSize:
@@ -146,7 +150,13 @@ class _HomePage extends State<HomePage> {
                         return AlertDialog(
                           backgroundColor:
                               const Color.fromARGB(255, 255, 191, 0),
-                          title: const Text("กรุณากรอกความดันโลหิต"),
+                          title: Text(
+                            "กรุณากรอกความดันโลหิต",
+                            style: GoogleFonts.kanit(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           actions: [
                             Row(
                               children: [
@@ -167,10 +177,10 @@ class _HomePage extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "mmHg",
                                 ),
                               ],
@@ -197,10 +207,10 @@ class _HomePage extends State<HomePage> {
                                     controller: minPressureVal,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "mmHg",
                                 ),
                               ],
@@ -256,7 +266,7 @@ class _HomePage extends State<HomePage> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
                 ElevatedButton(
@@ -276,7 +286,13 @@ class _HomePage extends State<HomePage> {
                         return AlertDialog(
                           backgroundColor:
                               const Color.fromARGB(255, 255, 191, 0),
-                          title: const Text("กรุณากรอกระดับน้ำตาลในเลือด"),
+                          title: Text(
+                            "กรุณากรอกระดับน้ำตาลในเลือด",
+                            style: GoogleFonts.kanit(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           actions: [
                             const Row(),
                             const SizedBox(
@@ -301,10 +317,10 @@ class _HomePage extends State<HomePage> {
                                     controller: bloodSugarVal,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
-                                Text("Mg/dL"),
+                                const Text("mg/dL"),
                               ],
                             ),
                             const SizedBox(
@@ -482,7 +498,7 @@ class _HomePage extends State<HomePage> {
                             child: Stack(
                               children: [
                                 Positioned(
-                                  left: (_sliderValue / 100) *
+                                  left: (_sliderValue) *
                                       ((screenSize.width * .80) -
                                           (24)), // Adjust the left position
                                   top: 0,
@@ -511,21 +527,28 @@ class _HomePage extends State<HomePage> {
                                     Container(
                                       height: double.maxFinite,
                                       width: 2,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         color: Colors.black,
                                       ),
                                     ),
                                     Container(
                                       height: double.maxFinite,
                                       width: 2,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
                                         color: Colors.black,
                                       ),
                                     ),
                                     Container(
                                       height: double.maxFinite,
                                       width: 2,
-                                      decoration: BoxDecoration(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: double.maxFinite,
+                                      width: 2,
+                                      decoration: const BoxDecoration(
                                         color: Colors.black,
                                       ),
                                     ),
@@ -778,99 +801,119 @@ class _HomePage extends State<HomePage> {
   void updateRiskMeasure() {
     print("UPDATE RISK MEASURE");
     riskMeasure(
-      newestData['age'] ?? 0,
-      double.parse((newestData['user_height'] ?? '0').toString()),
-      double.parse((newestData['user_weight'] ?? '0').toString()),
-      double.parse((newestData['WC'] ?? '0').toString()) * 2.54,
-      int.parse((newestData['ChronicDisease'] ?? '0').toString()),
-      int.parse((newestData['blood_sugar'] ?? '0').toString()),
-      int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
-      int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
-      int.parse((newestData['heart_rate'] ?? '0').toString()),
-    );
+        newestData['age'] ?? 0,
+        double.parse((newestData['user_height'] ?? '0').toString()),
+        double.parse((newestData['user_weight'] ?? '0').toString()),
+        double.parse((newestData['WC'] ?? '0').toString()) * 2.54,
+        int.parse((newestData['ChronicDisease'] ?? '0').toString()),
+        int.parse((newestData['blood_sugar'] ?? '0').toString()),
+        int.parse((newestData['blood_pressure_min'] ?? '0').toString()),
+        int.parse((newestData['blood_pressure_max'] ?? '0').toString()),
+        int.parse((newestData['heart_rate'] ?? '0').toString()),
+        int.parse((newestData['familyhasChronicDisease'] ?? '0').toString()));
   }
 
   void riskMeasure(
-      int age,
-      double height,
-      double weight,
-      double wc,
-      int ChronicDisease,
-      int sugar,
-      int blood_pressure_min,
-      int blood_pressure_max,
-      int heart_rate) {
-    int score = 0;
-
-    print("age = $age");
-    print("height = $height");
-    print("weight = $weight");
-    print("WC = $wc");
-    print("Disease $ChronicDisease");
-    print("sugar $sugar");
-    print("blood_min = $blood_pressure_min");
-    print("blood_max = $blood_pressure_max");
-    print("H_rate = $heart_rate");
-
-    double w_h = wc / height;
-    print("WC/Height = $w_h");
-    /////////////////
-    if (age < 45) {
-      score += 0;
-    } else if (age < 50) {
-      score += 1;
-    } else if (age < 60) {
-      score += 2;
-    } else {
-      score += 3;
-    }
-
-    if (w_h < 0.5) {
-      score += 0;
-    } else if (w_h < 0.6) {
-      score += 3;
-    } else {
-      score += 5;
-    }
-    /////////////////
-
-    double ibm = (weight) / (height * height);
-    if (ibm < 23) {
-      score += 0;
-    } else if (ibm < 27.49) {
-      score += 1;
-    } else {
-      score += 2;
-    }
-    ///////////////////
-    if (blood_pressure_max < 120) {
-      score += 0;
-    } else if (blood_pressure_max < 140) {
-      score += 1;
-    } else {
-      score += 3;
-    }
-    ////////////////
-    if (ChronicDisease == 1) {
-      score += 2;
-    }
-    ///////////////
-    if (sugar > 100) {
-      score += 5;
-    }
-
-    print("myscore $score");
+    int age,
+    double height,
+    double weight,
+    double wc,
+    int ChronicDisease,
+    int sugar,
+    int blood_pressure_min,
+    int blood_pressure_max,
+    int heart_rate,
+    int familyChronicDisease,
+  ) {
     setState(() {
-      if (score < 5.0) {
-        _advicePage = 0;
-      } else if (score < 10.35) {
-        _advicePage = 1;
-      } else if (score < 15.7) {
-        _advicePage = 2;
+      double score = 0;
+
+      print("age = $age");
+      print("height = $height");
+      print("weight = $weight");
+      print("WC = $wc");
+      print("Disease $ChronicDisease");
+      print("sugar $sugar");
+      print("blood_min = $blood_pressure_min");
+      print("blood_max = $blood_pressure_max");
+      print("H_rate = $heart_rate");
+      print("fem  = $familyChronicDisease");
+
+      double w_h = wc / height;
+      print("WC/Height = $w_h");
+      /////////////////
+      if (sugar >= 100) {
+        score += 5;
+
+        maxScore = 25;
       } else {
-        _advicePage = 3;
+        maxScore = 20;
       }
-      _sliderValue = (score / 20) * 100;
+
+      if (age < 45) {
+        score += 1;
+      } else if (age < 50) {
+        score += 2;
+      } else if (age < 60) {
+        score += 3;
+      } else {
+        score += 4;
+      }
+
+      if (w_h < 0.5) {
+        score += 0;
+      } else if (w_h < 0.6) {
+        score += 3;
+      } else {
+        score += 5;
+      }
+      /////////////////
+
+      double bmi = (weight) / (height * height * 0.0001);
+      print("BMI = $bmi");
+      if (bmi < 23) {
+        score += 0;
+      } else if (bmi < 27.50) {
+        score += 1;
+      } else {
+        score += 3;
+      }
+      ///////////////////
+      if (blood_pressure_max >= 140) {
+        score += 4;
+      } else if (blood_pressure_max >= 120) {
+        score += 2;
+      } else {
+        score += 0;
+      }
+
+      ////////////////
+      if (familyChronicDisease == 1) {
+        score += 2;
+      }
+
+      ////////////////
+      if (ChronicDisease == 1) {
+        score += 2;
+      }
+      ///////////////
+      // score = ((maxScore / 5) * 2) + 1;
+      if (score <= maxScore / 5) {
+        _advicePage = 0;
+      } else if (score <= (maxScore / 5) * 2) {
+        _advicePage = 1;
+      } else if (score <= (maxScore / 5) * 3) {
+        _advicePage = 2;
+      } else if (score <= (maxScore / 5) * 4) {
+        _advicePage = 3;
+      } else {
+        _advicePage = 4;
+      }
+
+      print("myscore $score");
+
+      print("คำแนะนำที่ $_advicePage");
+      _sliderValue = (score / (maxScore - 0.7));
     });
   }
 
@@ -879,20 +922,25 @@ class _HomePage extends State<HomePage> {
     Color titleColor;
     switch (_index) {
       case 0:
-        titleColor = Color.fromARGB(255, 0, 122, 4);
+        titleColor = const Color.fromARGB(255, 0, 122, 4);
         break;
       case 1:
-        titleColor = Color.fromARGB(255, 0, 120, 70);
+        titleColor = const Color.fromARGB(255, 0, 120, 70);
         break;
       case 2:
-        titleColor = Color.fromARGB(255, 111, 65, 0);
+        titleColor = Color.fromARGB(255, 86, 60, 0);
         break;
       case 3:
+        titleColor = const Color.fromARGB(255, 189, 124, 60);
+        break;
+      case 4:
         titleColor = Colors.red;
         break;
       default:
         titleColor = Colors.black;
+        break;
     }
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -913,7 +961,7 @@ class _HomePage extends State<HomePage> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Padding(
-                padding: EdgeInsets.all(
+                padding: const EdgeInsets.all(
                   10,
                 ),
                 child: Text(

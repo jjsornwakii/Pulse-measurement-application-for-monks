@@ -36,7 +36,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
         color: Color(0xFFFFFDC8),
       ),
       child: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Row(
@@ -44,7 +44,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFFFB700),
+                    backgroundColor: const Color(0xFFFFB700),
                   ),
                   onPressed: () => {
                     Navigator.pushReplacement(
@@ -54,11 +54,11 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                       ),
                     ),
                   },
-                  child:  Text(
+                  child: Text(
                     "กลับ",
                     style: GoogleFonts.kanit(
                       fontSize: 22,
-                      color: Color(0xFFFFFDC8),
+                      color: const Color(0xFFFFFDC8),
                     ),
                   ),
                 ),
@@ -72,10 +72,10 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 const SizedBox(
                   width: 10,
                 ),
-                 Text(
+                Text(
                   "เกร็ดน่ารู้คู่สุขภาพ",
                   style: GoogleFonts.kanit(
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                     decoration: TextDecoration.none, // Ensure no decoration
@@ -83,7 +83,7 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                 ),
               ],
             ),
-             Row(
+            Row(
               children: [
                 Expanded(
                   child: Text(
@@ -98,6 +98,9 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 20,
             ),
             Expanded(
               child: ListView.builder(
@@ -116,10 +119,10 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                       );
                     },
                     child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      padding: EdgeInsets.all(10),
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 234, 234, 234),
+                        color: const Color.fromARGB(255, 249, 249, 249),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -130,19 +133,19 @@ class _TipsHealthPage extends State<TipsHealthPage> {
                               'http://$server:$port/$apipath/${data[index]['tip_image']}',
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: [
                               Text(
                                 data[index]['tip_topic'],
-                                style:  GoogleFonts.kanit(
+                                style: GoogleFonts.kanit(
                                   color: Colors.black,
                                   fontSize: 20,
                                   decoration: TextDecoration
                                       .none, // Ensure no decoration
-                                   // Handle overflow
+                                  // Handle overflow
                                 ),
                                 softWrap: true,
                               ),

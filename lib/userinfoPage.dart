@@ -47,6 +47,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _wcController = TextEditingController();
   late DateTime? birthday;
+  bool _familyhasChronicDisease = false;
   bool _hasChronicDisease = false;
   List<String> _diseaseList = [];
 
@@ -126,6 +127,12 @@ class _UserInfoPageState extends State<UserInfoPage> {
         if (data['wc'] != null) {
           _wcController.text = data['wc'].toString();
         }
+
+        if (data['familyhasChronicDisease'] == 1 ||
+            data['familyhasChronicDisease'] == "1") {
+          _familyhasChronicDisease = true;
+        }
+
         _hasChronicDisease = data['hasChronicDisease'] == "1";
       });
     } else {
@@ -660,6 +667,37 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   Text(
                     "นิ้ว.",
                     style: labelTextStyle,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "ประวัติบิดา มารดา หรือพี่",
+                            style: labelTextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          _familyhasChronicDisease == true ? 'มี' : 'ไม่มี',
+                          style: GoogleFonts.kanit(fontSize: 20),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
