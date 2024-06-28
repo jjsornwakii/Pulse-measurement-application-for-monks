@@ -125,7 +125,6 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
       print('Failed to load disease data');
     }
   }
-
   Future<void> _updateUserData() async {
     final url = 'http://$server:$port/$apipath/update_userinfo.php';
     final response = await http.post(
