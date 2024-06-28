@@ -15,17 +15,40 @@ class ActivitiesPage extends StatefulWidget {
 class _ActivitiesPageState extends State<ActivitiesPage> {
   final GetStorage box = GetStorage();
 
-  final List<String> activities = ['กินข้าว', 'นอน', 'ออกกำลังกาย'];
+  final List<String> activities = [
+    'ออกกำลังกาย โดยการบริหารร่างกาย ในท่าต่างๆ ',
+    'การใช้เวลาว่าง เช่นกวาดลานวัด'
+  ];
+  final List<String> eating = [
+    'เลือกฉันอาหารที่มีกากใย เช่น ข้าวกล้อง ธัญพืช ผัก',
+    'เลือกฉันไขมันที่ดีต่อสุขภาพ เช่น ปลาทู ถั่วลิสง',
+    'ฉันเครื่องดื่มที่มีน้ำตาล เช่น เครื่องดื่มชูกำลัง',
+    'อาหารรสหวาน เช่น ขนมหวาน น้ำปานะ ที่มีน้ำตาลสูง'
+  ];
+  final List<String> relax = [
+    'ท่านจัดการความเครียดด้วยการสูบบุหรี่',
+    'สามารถจัดการกับความเครียดของท่านได้',
+    'จัดการความเครียด เช่น นั่งสมาธิ เดินจงกลม และสนทนาธรรมกับญาติ'
+  ];
 
   Map<String, String> riskLevels = {};
 
-  final List<String> riskOptions = ['ไม่เคย', 'บางครั้ง', 'ทำเป็นประจำ'];
+  final List<String> riskOptions = [
+    'ไม่เคย',
+    'ปฏิบัติบางครั้ง',
+    'ปฏิบัติประจำ'
+  ];
+  final Map<String, int> riskScores = {
+    'ไม่เคย': 0,
+    'ปฏิบัติบางครั้ง': 1,
+    'ปฏิบัติประจำ': 2
+  };
 
   @override
   void initState() {
     super.initState();
 
-    for (var activity in activities) {
+    for (var activity in activities + eating + relax) {
       riskLevels[activity] = '';
     }
   }
@@ -43,21 +66,30 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
       },
       body: jsonEncode({
         'user_id': box.read('userId'),
-        'exercise': riskLevels['ออกกำลังกาย'],
-        'rest': riskLevels['นอน'],
-        'eating': riskLevels['กินข้าว'],
+        'item_1': riskScores[
+            riskLevels['ออกกำลังกาย โดยการบริหารร่างกาย ในท่าต่างๆ ']],
+        'item_2': riskScores[riskLevels['การใช้เวลาว่าง เช่นกวาดลานวัด']],
+        'item_3': riskScores[
+            riskLevels['เลือกฉันอาหารที่มีกากใย เช่น ข้าวกล้อง ธัญพืช ผัก']],
+        'item_4': riskScores[
+            riskLevels['เลือกฉันไขมันที่ดีต่อสุขภาพ เช่น ปลาทู ถั่วลิสง']],
+        'item_5': riskScores[
+            riskLevels['ฉันเครื่องดื่มที่มีน้ำตาล เช่น เครื่องดื่มชูกำลัง']],
+        'item_6': riskScores[
+            riskLevels['อาหารรสหวาน เช่น ขนมหวาน น้ำปานะ ที่มีน้ำตาลสูง']],
+        'item_7':
+            riskScores[riskLevels['ท่านจัดการความเครียดด้วยการสูบบุหรี่']],
+        'item_8': riskScores[riskLevels['สามารถจัดการกับความเครียดของท่านได้']],
+        'item_9': riskScores[riskLevels[
+            'จัดการความเครียด เช่น นั่งสมาธิ เดินจงกลม และสนทนาธรรมกับญาติ']],
       }),
     );
 
     if (response.statusCode == 200) {
-      // Successfully sent data
       print('Data sent successfully');
       Navigator.pop(context);
-      // Optionally, you can show a success message or perform other actions
     } else {
-      // Error sending data
       print('Error sending data: ${response.statusCode}');
-      // Optionally, you can show an error message or perform other actions
     }
   }
 
@@ -111,94 +143,116 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ...activities.map((activity) {
-                return Card(
-                  color: const Color.fromARGB(255, 250, 205, 101),
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(40),
-                        child: Image.asset(
-                          'assets/background/bkkakak.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              activity,
-                              style: GoogleFonts.kanit(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: riskOptions.map((String value) {
-                                return Row(
-                                  children: [
-                                    Radio<String>(
-                                      value: value,
-                                      groupValue: riskLevels[activity],
-                                      onChanged: (String? newValue) {
-                                        setState(() {
-                                          riskLevels[activity] = newValue!;
-                                        });
-                                      },
-                                    ),
-                                    Text(
-                                      value,
-                                      style: GoogleFonts.kanit(
-                                        color: const Color.fromARGB(
-                                            255, 20, 19, 18),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
+              _buildSection('Activities', activities),
+              _buildSection('Eating', eating),
+              _buildSection('Relax', relax),
               const SizedBox(height: 20), // Add some spacing before the button
-              TextButton(
-                onPressed: _submitData,
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.orange[500],
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                ),
-                child: Text(
-                  "บันทึกคำตอบ",
-                  style: GoogleFonts.kanit(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+              Center(
+                child: TextButton(
+                  onPressed: _submitData,
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.orange[500],
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 30),
+                  ),
+                  child: Text(
+                    "บันทึกคำตอบ",
+                    style: GoogleFonts.kanit(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildSection(String title, List<String> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        Text(
+          title,
+          style: GoogleFonts.kanit(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.orange[700],
+          ),
+        ),
+        const SizedBox(height: 10),
+        ...items.map((item) {
+          return Card(
+            color: Color.fromARGB(255, 250, 205, 101),
+            shadowColor: Colors.black,
+            elevation: 5,
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        item,
+                        style: GoogleFonts.kanit(
+                          fontSize: 23,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: riskOptions.map((String value) {
+                          return Row(
+                            children: [
+                              Radio<String>(
+                                value: value,
+                                groupValue: riskLevels[item],
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    riskLevels[item] = newValue!;
+                                  });
+                                },
+                              ),
+                              Text(
+                                value,
+                                style: GoogleFonts.kanit(
+                                  color: const Color.fromARGB(255, 20, 19, 18),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ],
     );
   }
 }
