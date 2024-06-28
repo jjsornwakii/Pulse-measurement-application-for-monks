@@ -78,6 +78,59 @@ class _DetailPageState extends State<DetailPage> {
                           padding: const EdgeInsets.all(8),
                           child: Column(
                             children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      widget.data['tip_topic'],
+                                      style: GoogleFonts.kanit(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFFFFB700),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _resetScreenOrientation();
+                                        },
+                                        child: const Text(
+                                          "กลับ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 22,
+                                            color: Color.fromARGB(
+                                                255, 255, 254, 225),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          width:
+                                              10), // เพิ่มระยะห่างระหว่างปุ่ม
+                                      FloatingActionButton(
+                                        // เพิ่มปุ่ม FloatingActionButton
+                                        onPressed: () {
+                                          _toggleScreenOrientation(context);
+                                        },
+                                        child: Icon(Icons
+                                            .screen_rotation), // ใช้ไอคอนแบบหมุนจอ
+                                        backgroundColor:
+                                            const Color(0xFFFFB700),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 25,
+                              ),
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: InteractiveViewer(
@@ -90,6 +143,13 @@ class _DetailPageState extends State<DetailPage> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Text(
+                                widget.data['tip_text'],
+                                style: GoogleFonts.kanit(fontSize: 20),
+                              ),
                             ],
                           ),
                         ),
@@ -100,37 +160,36 @@ class _DetailPageState extends State<DetailPage> {
                   SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFB700),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _resetScreenOrientation();
-                        },
-                        child: const Text(
-                          "กลับ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                            color: Color.fromARGB(255, 255, 254, 225),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10), // เพิ่มระยะห่างระหว่างปุ่ม
-                      FloatingActionButton(
-                        // เพิ่มปุ่ม FloatingActionButton
-                        onPressed: () {
-                          _toggleScreenOrientation(context);
-                        },
-                        child: Icon(Icons.screen_rotation), // ใช้ไอคอนแบบหมุนจอ
-                        backgroundColor: const Color(0xFFFFB700),
-                      ),
-                    ],
-
-                  ),
+                  // Column(
+                  //   children: [
+                  //     ElevatedButton(
+                  //       style: ElevatedButton.styleFrom(
+                  //         backgroundColor: const Color(0xFFFFB700),
+                  //       ),
+                  //       onPressed: () {
+                  //         Navigator.pop(context);
+                  //         _resetScreenOrientation();
+                  //       },
+                  //       child: const Text(
+                  //         "กลับ",
+                  //         style: TextStyle(
+                  //           fontWeight: FontWeight.bold,
+                  //           fontSize: 22,
+                  //           color: Color.fromARGB(255, 255, 254, 225),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 10), // เพิ่มระยะห่างระหว่างปุ่ม
+                  //     FloatingActionButton(
+                  //       // เพิ่มปุ่ม FloatingActionButton
+                  //       onPressed: () {
+                  //         _toggleScreenOrientation(context);
+                  //       },
+                  //       child: Icon(Icons.screen_rotation), // ใช้ไอคอนแบบหมุนจอ
+                  //       backgroundColor: const Color(0xFFFFB700),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

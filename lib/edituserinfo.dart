@@ -52,6 +52,8 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _wcController = TextEditingController();
   late DateTime birthday = DateTime.now();
+
+  bool _familyhasChronicDisease = true;
   bool _hasChronicDisease = true;
   List<String> _diseaseList = [];
   List<String> _selectedDiseases = [];
@@ -102,6 +104,15 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
             _wcController.text = data['wc'].toString();
           }
 
+          if (data['familyhasChronicDisease'] == "1" ||
+              data['familyhasChronicDisease'] == 1) {
+            print("******** ${data['familyhasChronicDisease']}");
+            _familyhasChronicDisease = true;
+          } else {
+            print("******** ${data['familyhasChronicDisease']}");
+            _familyhasChronicDisease = false;
+          }
+
           if (data['hasChronicDisease'] == "1" ||
               data['hasChronicDisease'] == 1) {
             print(data['hasChronicDisease']);
@@ -115,10 +126,11 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
               ? List<String>.from(data['diseaseDetails'])
               : [];
 
-          print(_selectedDiseases);
+          //print(_selectedDiseases);
           // _selectedDiseases = data['diseaseDetails'] != null
           //     ? List<String>.from(data['diseaseDetails'])
           //     : [];
+          print("Success to load user data555");
         },
       );
     } else {
@@ -186,6 +198,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
         'user_weight': _weightController.text,
         'user_height': _heightController.text,
         'wc': _wcController.text,
+        'familyhasChronicDisease': _familyhasChronicDisease,
         'hasChronicDisease': _hasChronicDisease,
         'diseaseDetails': _selectedDiseases,
       }),
@@ -233,7 +246,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
         title: Text(
           "ข้อมูลส่วนตัว",
           style: GoogleFonts.kanit(
-            color: Color.fromARGB(255, 250, 196, 0),
+            color: const Color.fromARGB(255, 250, 196, 0),
             fontSize: 40,
             fontWeight: FontWeight.bold,
           ),
@@ -532,7 +545,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                       child: TextFormField(
                         controller: _weightController,
                         decoration: InputDecoration(
-                          hintText: 'ที่อยู่/ชื่อวัด',
+                          hintText: 'กรอกน้ำหนัก',
                           hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
@@ -594,7 +607,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                       child: TextFormField(
                         controller: _heightController,
                         decoration: InputDecoration(
-                          hintText: 'ที่อยู่/ชื่อวัด',
+                          hintText: 'กรอกส่วนสูง',
                           hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
@@ -630,7 +643,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Row(
@@ -656,7 +669,8 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                       child: TextFormField(
                         controller: _wcController,
                         decoration: InputDecoration(
-                          hintText: 'ที่อยู่/ชื่อวัด',
+                          hintText: 'กรอกเส้นรอบเอว',
+                          hintStyle: GoogleFonts.kanit(),
                           fillColor: Colors.white,
                           filled: true,
                           contentPadding:
@@ -685,7 +699,66 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-                    const Text("   นิ้ว."),
+                    Text(
+                      "   นิ้ว",
+                      style: GoogleFonts.kanit(),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "ประวัติบิดา มารดา หรือพี่",
+                              style: labelTextStyle,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: <Widget>[
+                          Radio(
+                            value: true,
+                            groupValue: _familyhasChronicDisease,
+                            onChanged: (value) {
+                              setState(
+                                () {
+                                  _familyhasChronicDisease = value!;
+                                },
+                              );
+                            },
+                          ),
+                          Text(
+                            'มี',
+                            style: GoogleFonts.kanit(),
+                          ),
+                          Radio(
+                            value: false,
+                            groupValue: _familyhasChronicDisease,
+                            onChanged: (value) {
+                              setState(() {
+                                _familyhasChronicDisease = value!;
+                              });
+                            },
+                          ),
+                          Text(
+                            'ไม่มี',
+                            style: GoogleFonts.kanit(),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -791,18 +864,18 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           MaterialPageRoute(builder: (context) => UserPage()),
                         );
                       },
-                      child: Text('ยกเลิก',
-                          style: GoogleFonts.kanit(
-                              fontSize: 18, color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        side: BorderSide(
-                            color: const Color.fromARGB(255, 168, 153, 25)),
+                        side: const BorderSide(
+                            color: Color.fromARGB(255, 168, 153, 25)),
                         backgroundColor: Colors.white,
-                        minimumSize: Size(150, 40),
+                        minimumSize: const Size(150, 40),
                       ),
+                      child: Text('ยกเลิก',
+                          style: GoogleFonts.kanit(
+                              fontSize: 18, color: Colors.black)),
                     ),
                     OutlinedButton(
                       onPressed: () {
@@ -813,18 +886,18 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                           );
                         }
                       },
-                      child: Text('ยืนยัน',
-                          style: GoogleFonts.kanit(
-                              fontSize: 18, color: Colors.black)),
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0),
                         ),
-                        side: BorderSide(
-                            color: const Color.fromARGB(255, 168, 153, 25)),
+                        side: const BorderSide(
+                            color: Color.fromARGB(255, 168, 153, 25)),
                         backgroundColor: Colors.yellow,
-                        minimumSize: Size(150, 40),
+                        minimumSize: const Size(150, 40),
                       ),
+                      child: Text('ยืนยัน',
+                          style: GoogleFonts.kanit(
+                              fontSize: 18, color: Colors.black)),
                     ),
                   ],
                 ),
