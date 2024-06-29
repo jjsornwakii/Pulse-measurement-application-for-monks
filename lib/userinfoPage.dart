@@ -679,7 +679,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "ประวัติบิดา มารดา หรือพี่",
+                            "บิดา มารดา หรือพี่ เป็นโรคเบาหวาน",
                             style: labelTextStyle,
                           ),
                         ),

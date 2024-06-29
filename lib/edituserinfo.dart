@@ -718,7 +718,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
                         children: [
                           Expanded(
                             child: Text(
-                              "ประวัติบิดา มารดา หรือพี่",
+                              "บิดา มารดา หรือพี่ เป็นโรคเบาหวาน",
                               style: labelTextStyle,
                             ),
                           ),
