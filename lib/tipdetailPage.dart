@@ -26,8 +26,8 @@ class _DetailPageState extends State<DetailPage> {
     port = dotenv.env['port'];
     apipath = dotenv.env['apipath'];
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+      // DeviceOrientation.landscapeLeft,
+      // DeviceOrientation.landscapeRight,
     ]);
   }
 
