@@ -154,6 +154,7 @@ class _EdituserinfoPageState extends State<EdituserinfoPage> {
     }
   }
 
+
   Future<void> _getUserDisease() async {
     final url = 'http://$server:$port/$apipath/getuserDisease.php';
     final response = await http.post(
