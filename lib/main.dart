@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 
 import 'package:sato/navigation.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sato/pinAuthen.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: userId == null || userId == '' ? LoginPage() : NavigationPage(),
+      home: userId == null || userId == '' ? LoginPage() :NavigationPage() //Pinauthen(),
     );
   }
 }

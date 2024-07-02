@@ -16,6 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordCheckController = TextEditingController();
+  final TextEditingController PinCheckController = TextEditingController();
   final GetStorage box = GetStorage();
   bool _obscureText = true;
 
@@ -60,6 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final Map<String, dynamic> data = {
       'username': usernameController.text,
       'password': passwordController.text,
+      'pinId': PinCheckController.text
     };
 
     try {
@@ -303,6 +305,66 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ],
                       ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Column(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   children: [
+                      //     Text(
+                      //       'PIN',
+                      //       style: GoogleFonts.kanit(fontSize: 16),
+                      //     ),
+                      //     TextField(
+                      //       controller: PinCheckController,
+                      //       keyboardType: TextInputType.number,
+                      //       maxLength: 6,
+                            
+                      //       decoration: InputDecoration(
+                      //         prefixIcon: Icon(Icons.lock, color: Colors.black),
+                      //         hintText: ' | Enter PIN',
+                      //         hintStyle: GoogleFonts.kanit(
+                      //           fontSize: 18,
+                      //           fontWeight: FontWeight.w400,
+                      //           color: Colors.grey[600],
+                      //         ),
+                      //         filled: true,
+                      //         fillColor: Colors.grey[200],
+                      //         enabledBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20),
+                      //           borderSide: BorderSide(
+                      //             color: Colors.transparent,
+                      //             width: 1,
+                      //           ),
+                      //         ),
+                      //         focusedBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20),
+                      //           borderSide: BorderSide(
+                      //             color: Colors.orange,
+                      //             width: 2,
+                      //           ),
+                      //         ),
+                      //         contentPadding: EdgeInsets.symmetric(
+                      //             vertical: 16, horizontal: 20),
+                      //         suffixIcon: IconButton(
+                      //           icon: Icon(
+                      //             _obscureText
+                      //                 ? Icons.visibility
+                      //                 : Icons.visibility_off,
+                      //             color: Colors.orange,
+                      //           ),
+                      //           onPressed: () {
+                      //             setState(() {
+                      //               _obscureText = !_obscureText;
+                      //             });
+                      //           },
+                      //           color: Colors.grey,
+                      //         ),
+                      //       ),
+                      //       obscureText: _obscureText,
+                      //     ),
+                      //   ],
+                      // ),
                       const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () => register(context),
