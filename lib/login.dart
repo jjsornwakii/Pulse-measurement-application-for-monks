@@ -110,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Image.asset(
                         'assets/logo/sathu.png',
                         scale: 0.1,
-                        height: 140,
+                        height: 150,
                       ),
                     ),
                   ),

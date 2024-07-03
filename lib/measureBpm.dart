@@ -79,7 +79,7 @@ class _MeasureBpmPage extends State<MeasureBpmPage> {
           ),
           !isBPMEnabled
               ? Text(
-                  "กรุณานำนิ้วชี้ แตะที่กล้อง",
+                  "กรุณานำนิ้วชี้ แตะที่กล้องหลัง",
                   style: GoogleFonts.kanit(
                     decoration: TextDecoration.none,
                     color: Colors.black,
