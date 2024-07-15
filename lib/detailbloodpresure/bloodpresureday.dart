@@ -56,7 +56,7 @@ class _BloodpresuredayState extends State<Bloodpresureday> {
         final dailyStats = data['daily_stats'] as List<dynamic>?;
         final overallAvg = data['overall_avg'];
 
-        if (dailyStats != null) {
+        if (dailyStats != null ) {
           setState(() {
             maxvalue = 0;
             avgMinValue = double.parse(overallAvg['avg_blood_pressure_min']);
